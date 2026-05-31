@@ -17,7 +17,7 @@ montar um pedido visualmente.
 - Seção "Como funciona" com três passos.
 - Cards de sabores em destaque.
 - Cards de combos com imagens.
-- Seção "Sobre" com história fictícia da ShakeUp Área 51.
+- Seção "Sobre" com história fictícia da ShakeUp Área 51 criada por um jovem casal em 2010.
 - Montador visual de pedido com sabores, adicionais, quantidade, resumo e total.
 - Layout responsivo para desktop e dispositivos móveis.
 
