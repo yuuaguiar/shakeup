@@ -84,6 +84,21 @@ a {
   box-shadow: none;
 }
 
+.logo-mark svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 4;
+}
+
+.logo-mark circle {
+  fill: currentColor;
+  stroke: none;
+}
+
 .nav-links {
   display: flex;
   align-items: center;
