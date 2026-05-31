@@ -1,22 +1,23 @@
-# ShakeUp
+# ShakeUp Área 51
 
-ShakeUp é uma landing page fictícia para uma marca de milk-shakes personalizados.
+ShakeUp Área 51 é uma landing page fictícia para uma marca de milk-shakes personalizados
+com identidade visual inspirada em um tema galáctico.
 O projeto foi desenvolvido como uma interface inicial de aplicação web, usando
 HTML, CSS e JavaScript.
 
 ## Objetivo
 
 Apresentar uma loja de milk-shakes artesanais com identidade visual própria,
-cards de produtos, combos, história da marca e uma área interativa para montar
-um pedido visualmente.
+cards de produtos temáticos, combos, história da marca e uma área interativa para
+montar um pedido visualmente.
 
 ## Funcionalidades desta etapa
 
-- Página inicial com chamada principal da marca.
+- Página inicial com chamada principal da marca ShakeUp Área 51.
 - Seção "Como funciona" com três passos.
 - Cards de sabores em destaque.
 - Cards de combos com imagens.
-- Seção "Sobre" com história fictícia da ShakeUp.
+- Seção "Sobre" com história fictícia da ShakeUp Área 51.
 - Montador visual de pedido com sabores, adicionais, quantidade, resumo e total.
 - Layout responsivo para desktop e dispositivos móveis.
 
