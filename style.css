@@ -534,10 +534,23 @@ p {
 }
 
 .flavor-panel .order-option strong,
-.flavor-panel .order-option span,
+.flavor-panel .order-option span {
+  color: #03120a;
+}
+
+.flavor-panel .quantity-control {
+  background: #eafff2;
+  border: 1px solid rgba(3, 18, 10, 0.14);
+  box-shadow: none;
+}
+
 .flavor-panel .quantity-control span,
 .flavor-panel .qty-btn {
   color: #03120a;
+}
+
+.flavor-panel .qty-btn:hover {
+  background: #39ff88;
 }
 
 .toppings-panel {
