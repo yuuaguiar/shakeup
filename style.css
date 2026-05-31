@@ -159,7 +159,7 @@ a {
 .hero {
   min-height: calc(100vh - 78px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.92fr);
+  grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.78fr);
   align-items: center;
   gap: 52px;
   padding-top: 36px;
@@ -231,7 +231,7 @@ p {
 }
 
 .hero-image {
-  width: min(500px, 100%);
+  width: min(410px, 100%);
   margin: 0 auto;
   border-radius: 36px;
   filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.42));
@@ -796,7 +796,7 @@ p {
   }
 
   .hero-image {
-    width: min(440px, 100%);
+    width: min(360px, 100%);
   }
 
   .steps-grid,
