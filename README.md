@@ -64,12 +64,3 @@ na landing page e no montador de pedido.
 | `PUT` | `/api/products/:id` | Atualizar |
 | `DELETE` | `/api/products/:id` | Excluir |
 
-## Sugestão para o vídeo
-
-1. Apresente a landing page e o cardápio carregado do banco.
-2. Abra o painel e mostre a listagem dos produtos.
-3. Cadastre um novo milk-shake e confira sua aparição na landing.
-4. Edite o preço ou a descrição e recarregue a landing.
-5. Marque o produto como indisponível para demonstrar a regra de negócio.
-6. Exclua o produto e mostre que ele saiu do banco e das interfaces.
-7. Explique rapidamente a tabela SQLite e as rotas em `server.js`.
