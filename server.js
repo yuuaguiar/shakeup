@@ -308,9 +308,11 @@ function servirArquivoEstatico(resposta, nomeRota) {
       return;
     }
 
+    const arquivoDaInterface = [".html", ".css", ".js"].includes(extensao);
+
     resposta.writeHead(200, {
       "Content-Type": tiposMime[extensao],
-      "Cache-Control": extensao === ".html" ? "no-cache" : "public, max-age=3600",
+      "Cache-Control": arquivoDaInterface ? "no-cache" : "public, max-age=3600",
     });
     resposta.end(conteudo);
   });

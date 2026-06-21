@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ShakeUp Área 51 | Milk-shakes personalizados</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
   <!-- ETAPA 1: Cabeçalho com identidade visual e navegação entre seções. -->
@@ -174,7 +174,7 @@
         <p class="eyebrow">Monte seu pedido</p>
         <h2>Escolha, adicione e ajuste</h2>
         <p>
-          Selecione os sabores e adicionais disponíveis na ShakeUp Área 51. Use os botões
+          Selecione sabores, combos e adicionais disponíveis na ShakeUp Área 51. Use os botões
           para adicionar ou remover itens e visualizar seu pedido.
         </p>
       </div>
@@ -240,6 +240,36 @@
           </div>
         </div>
 
+        <!-- Combos fixos também podem ser adicionados ao pedido. -->
+        <div class="builder-group order-combos-panel">
+          <h3>Combos</h3>
+          <div class="order-combos-grid">
+            <article class="order-option" data-id="combo-orbita-nebulosa" data-price="34.90" data-kind="combo">
+              <div>
+                <strong>Combo Órbita e Nebulosa</strong>
+                <span>2 milk-shakes + 2 toppings extras</span>
+              </div>
+              <div class="quantity-control">
+                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Combo Órbita e Nebulosa">-</button>
+                <span data-qty>0</span>
+                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Combo Órbita e Nebulosa">+</button>
+              </div>
+            </article>
+
+            <article class="order-option" data-id="combo-galaxia-completa" data-price="59.90" data-kind="combo">
+              <div>
+                <strong>Combo Galáxia Completa</strong>
+                <span>4 milk-shakes + caldas especiais</span>
+              </div>
+              <div class="quantity-control">
+                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Combo Galáxia Completa">-</button>
+                <span data-qty>0</span>
+                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Combo Galáxia Completa">+</button>
+              </div>
+            </article>
+          </div>
+        </div>
+
         <aside class="order-summary">
           <span class="combo-tag">Resumo</span>
           <h3>Seu pedido</h3>
@@ -283,6 +313,6 @@
   </footer>
 
   <!-- ETAPA 9: Carregamento da integração com a API e das interações. -->
-  <script src="script.js"></script>
+  <script src="script.js?v=2"></script>
 </body>
 </html>

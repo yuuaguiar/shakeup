@@ -187,15 +187,17 @@ document.querySelector(".order-builder").addEventListener("click", (evento) => {
   atualizarResumo();
 });
 
-// O pedido só pode ser finalizado quando existe pelo menos um sabor.
+// O pedido pode ser finalizado com pelo menos um sabor individual ou um combo.
 botaoFinalizar.addEventListener("click", () => {
-  const possuiSabor = obterOpcoesPedido().some((opcao) => {
-    return opcao.dataset.kind === "flavor" && Number(opcao.dataset.qty || 0) > 0;
+  const possuiItemPrincipal = obterOpcoesPedido().some((opcao) => {
+    const tipoItem = opcao.dataset.kind;
+    const itemPrincipal = tipoItem === "flavor" || tipoItem === "combo";
+    return itemPrincipal && Number(opcao.dataset.qty || 0) > 0;
   });
 
-  mensagemPedido.textContent = possuiSabor
+  mensagemPedido.textContent = possuiItemPrincipal
     ? `Pedido finalizado com sucesso! Total: ${totalResumo.textContent}.`
-    : "Adicione pelo menos um sabor para finalizar seu pedido.";
+    : "Adicione pelo menos um sabor ou combo para finalizar seu pedido.";
 });
 
 // ETAPA 9: READ da API para alimentar as duas áreas da landing.
@@ -220,6 +222,11 @@ async function carregarProdutos() {
 document.querySelectorAll(".toppings-panel .order-option").forEach((opcao) => {
   opcao.dataset.qty = "0";
   opcao.dataset.kind = "topping";
+});
+
+document.querySelectorAll(".order-combos-panel .order-option").forEach((opcao) => {
+  opcao.dataset.qty = "0";
+  opcao.dataset.kind = "combo";
 });
 
 atualizarResumo();
