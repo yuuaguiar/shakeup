@@ -350,7 +350,22 @@ p {
 }
 
 .product-grid {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+}
+
+.loading-state {
+  grid-column: 1 / -1;
+  margin: 0;
+  border: 1px dashed rgba(0, 217, 255, 0.28);
+  border-radius: 8px;
+  padding: 26px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.error-state {
+  border-color: rgba(255, 111, 125, 0.4);
+  color: #ff9da7;
 }
 
 .product-card {

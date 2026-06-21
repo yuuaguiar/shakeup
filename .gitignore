@@ -1,0 +1,5 @@
+shakeup.db
+shakeup.db-shm
+shakeup.db-wal
+node_modules/
+npm-debug.log*

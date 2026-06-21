@@ -1,0 +1,13 @@
+{
+  "name": "shakeup-area-51",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Landing page e CRUD de produtos da ShakeUp Área 51",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

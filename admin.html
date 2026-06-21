@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel administrativo | ShakeUp Área 51</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+  <header class="admin-header">
+    <a class="admin-brand" href="/" aria-label="Voltar para a landing page">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" focusable="false">
+          <path d="M20 34c3-10 21-10 24 0"></path>
+          <path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z"></path>
+          <path d="M19 42c6 5 20 5 26 0"></path>
+          <circle cx="22" cy="35" r="2"></circle>
+          <circle cx="32" cy="37" r="2"></circle>
+          <circle cx="42" cy="35" r="2"></circle>
+        </svg>
+      </span>
+      <span>ShakeUp <strong>Área 51</strong></span>
+    </a>
+    <a class="view-store" href="/">Ver landing page</a>
+  </header>
+
+  <main class="admin-shell">
+    <section class="page-heading">
+      <div>
+        <p class="eyebrow">Painel administrativo</p>
+        <h1>Gerenciar cardápio</h1>
+        <p>Cadastre, edite e organize os milk-shakes exibidos na landing page.</p>
+      </div>
+      <button class="primary-button" type="button" id="new-product">Novo produto</button>
+    </section>
+
+    <section class="stats-grid" aria-label="Resumo do cardápio">
+      <article class="stat-item">
+        <span>Total de produtos</span>
+        <strong id="stat-total">0</strong>
+      </article>
+      <article class="stat-item">
+        <span>Disponíveis</span>
+        <strong id="stat-available">0</strong>
+      </article>
+      <article class="stat-item">
+        <span>Indisponíveis</span>
+        <strong id="stat-unavailable">0</strong>
+      </article>
+    </section>
+
+    <section class="workspace-grid">
+      <article class="form-panel" id="form-panel">
+        <div class="panel-heading">
+          <div>
+            <p class="panel-kicker" id="form-kicker">Novo cadastro</p>
+            <h2 id="form-title">Adicionar produto</h2>
+          </div>
+          <button class="icon-button" type="button" id="cancel-edit" aria-label="Cancelar edição" title="Cancelar edição">×</button>
+        </div>
+
+        <form id="product-form">
+          <input type="hidden" id="product-id">
+
+          <label for="product-name">Nome</label>
+          <input id="product-name" name="name" type="text" minlength="3" maxlength="80" placeholder="Ex.: Eclipse de Pistache" required>
+
+          <label for="product-category">Categoria</label>
+          <input id="product-category" name="category" type="text" maxlength="40" placeholder="Ex.: Pistache" required>
+
+          <label for="product-price">Preço</label>
+          <div class="price-input">
+            <span>R$</span>
+            <input id="product-price" name="price" type="number" min="0" step="0.01" placeholder="19,90" required>
+          </div>
+
+          <label for="product-description">Descrição</label>
+          <textarea id="product-description" name="description" minlength="10" maxlength="240" rows="4" placeholder="Descreva ingredientes e coberturas." required></textarea>
+
+          <label for="product-image">Imagem</label>
+          <input id="product-image" name="image" type="text" placeholder="img/nome-da-imagem.jpg ou https://..." required>
+          <p class="field-hint">Use uma imagem da pasta <code>img/</code> ou uma URL pública.</p>
+
+          <div class="image-preview" id="image-preview">
+            <span>A prévia da imagem aparecerá aqui.</span>
+          </div>
+
+          <label class="availability-control" for="product-available">
+            <input id="product-available" name="available" type="checkbox" checked>
+            <span>
+              <strong>Produto disponível</strong>
+              <small>Exibir na landing e no montador de pedido</small>
+            </span>
+          </label>
+
+          <button class="primary-button submit-button" type="submit" id="submit-product">Cadastrar produto</button>
+        </form>
+      </article>
+
+      <section class="list-panel">
+        <div class="list-toolbar">
+          <div>
+            <p class="panel-kicker">Produtos cadastrados</p>
+            <h2>Cardápio</h2>
+          </div>
+          <label class="search-field" for="product-search">
+            <span>Buscar</span>
+            <input id="product-search" type="search" placeholder="Nome ou categoria">
+          </label>
+        </div>
+
+        <div class="product-list" id="admin-product-list" aria-live="polite">
+          <p class="empty-state">Carregando produtos...</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <dialog class="confirm-dialog" id="delete-dialog">
+    <form method="dialog">
+      <p class="panel-kicker">Confirmar exclusão</p>
+      <h2>Excluir este produto?</h2>
+      <p id="delete-message">Essa ação removerá o item do banco de dados e da landing page.</p>
+      <div class="dialog-actions">
+        <button class="secondary-button" value="cancel">Cancelar</button>
+        <button class="danger-button" id="confirm-delete" value="confirm">Excluir produto</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="admin.js"></script>
+</body>
+</html>

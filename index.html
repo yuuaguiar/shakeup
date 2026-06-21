@@ -36,6 +36,7 @@
         <a href="#combos">Combos</a>
         <a href="#sobre">Sobre</a>
         <a href="#contato">Contato</a>
+        <a href="admin.html">Admin</a>
       </div>
 
       <a class="btn btn-small" href="#pedido">Pedir agora</a>
@@ -101,39 +102,8 @@
         <h2>Combinações que parecem de outro planeta</h2>
       </div>
 
-      <div class="product-grid">
-        <article class="product-card">
-          <img src="img/choco-power.jpg" alt="Milk-shake Órbita de Chocolate com brownie e cobertura azul de hortelã">
-          <div class="product-info">
-            <h3>Órbita de Chocolate</h3>
-            <p>Milk-shake de chocolate com calda cremosa, brownie e cobertura azul de hortelã.</p>
-            <strong>R$ 18,90</strong>
-          </div>
-        </article>
-        <article class="product-card">
-          <img src="img/morango-dream.jpg" alt="Milk-shake Nebulosa de Morango com chantilly e frutas">
-          <div class="product-info">
-            <h3>Nebulosa de Morango</h3>
-            <p>Milk-shake de morango com chantilly, frutas vermelhas e confeitos estelares.</p>
-            <strong>R$ 17,90</strong>
-          </div>
-        </article>
-        <article class="product-card">
-          <img src="img/cookies-blast.jpg" alt="Milk-shake Cookies Alien com cookies crocantes">
-          <div class="product-info">
-            <h3>Cookies Alien</h3>
-            <p>Milk-shake de baunilha com cookies crocantes e cobertura verde de limão.</p>
-            <strong>R$ 19,90</strong>
-          </div>
-        </article>
-        <article class="product-card">
-          <img src="img/doce-caramelo.jpg" alt="Milk-shake Cometa Caramelo com calda de caramelo">
-          <div class="product-info">
-            <h3>Cometa Caramelo</h3>
-            <p>Milk-shake de doce de leite com caramelo, chantilly e brilho galáctico.</p>
-            <strong>R$ 18,90</strong>
-          </div>
-        </article>
+      <div class="product-grid" id="product-grid" aria-live="polite">
+        <p class="loading-state">Carregando sabores...</p>
       </div>
     </section>
 
@@ -205,54 +175,8 @@
       <div class="order-builder" aria-label="Montador visual de pedidos">
         <div class="builder-group flavor-panel">
           <h3>Sabores</h3>
-          <div class="choice-grid">
-            <article class="order-option" data-id="choco-power" data-price="18.90">
-              <div>
-                <strong>Órbita de Chocolate</strong>
-                <span>Chocolate com brownie</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Órbita de Chocolate">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Órbita de Chocolate">+</button>
-              </div>
-            </article>
-
-            <article class="order-option" data-id="morango-dream" data-price="17.90">
-              <div>
-                <strong>Nebulosa de Morango</strong>
-                <span>Morango com frutas vermelhas</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Nebulosa de Morango">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Nebulosa de Morango">+</button>
-              </div>
-            </article>
-
-            <article class="order-option" data-id="cookies-blast" data-price="19.90">
-              <div>
-                <strong>Cookies Alien</strong>
-                <span>Baunilha com cookies</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Cookies Alien">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Cookies Alien">+</button>
-              </div>
-            </article>
-
-            <article class="order-option" data-id="doce-caramelo" data-price="18.90">
-              <div>
-                <strong>Cometa Caramelo</strong>
-                <span>Doce de leite com caramelo</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Cometa Caramelo">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Cometa Caramelo">+</button>
-              </div>
-            </article>
+          <div class="choice-grid" id="flavor-options" aria-live="polite">
+            <p class="loading-state">Carregando sabores...</p>
           </div>
         </div>
 
