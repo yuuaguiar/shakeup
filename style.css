@@ -18,6 +18,10 @@
   box-sizing: border-box;
 }
 
+.hidden {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -534,7 +538,7 @@ p {
 
 .order-builder {
   display: grid;
-  grid-template-columns: minmax(300px, 1.06fr) minmax(300px, 1fr) minmax(245px, 0.76fr);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.38fr);
   align-items: stretch;
   gap: 20px;
 }
@@ -553,10 +557,14 @@ p {
   z-index: 2;
   grid-column: 1;
   grid-row: 1;
-  margin-right: -42px;
+  margin-right: 0;
   background: var(--pink);
   border-color: rgba(57, 255, 136, 0.42);
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.3);
+}
+
+#flavor-options {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .flavor-panel h3 {
@@ -593,16 +601,8 @@ p {
   background: #39ff88;
 }
 
-.toppings-panel {
-  position: relative;
-  z-index: 1;
-  grid-column: 2;
-  grid-row: 1;
-  padding-left: 54px;
-}
-
 .order-combos-panel {
-  grid-column: 1 / 3;
+  grid-column: 1;
   grid-row: 2;
   border-color: rgba(0, 217, 255, 0.24);
   background: #07140f;
@@ -616,6 +616,61 @@ p {
 
 .order-combos-panel .order-option {
   background: #0d1f17;
+}
+
+.product-order-option {
+  display: block;
+  min-height: 0;
+}
+
+.order-product-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.linked-extras {
+  display: none;
+  margin-top: 14px;
+  border-top: 1px solid rgba(3, 18, 10, 0.16);
+  padding-top: 12px;
+}
+
+.product-order-option.is-selected .linked-extras {
+  display: grid;
+  gap: 8px;
+}
+
+.linked-extras > strong {
+  color: #03120a;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.extra-toggle {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  cursor: pointer;
+}
+
+.extra-toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: #03120a;
+}
+
+.extra-toggle span,
+.extra-toggle small {
+  margin: 0;
+  color: #03120a;
+  font-size: 0.82rem;
+}
+
+.extra-toggle small {
+  font-weight: 800;
 }
 
 .builder-group h3,
@@ -699,7 +754,7 @@ p {
 .order-summary {
   position: sticky;
   top: 102px;
-  grid-column: 3;
+  grid-column: 2;
   grid-row: 1 / span 2;
   align-self: start;
   background: var(--white);
@@ -730,6 +785,14 @@ p {
 
 .summary-item span:last-child {
   color: var(--pink-dark);
+}
+
+.summary-item span:first-child small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 400;
 }
 
 .summary-total {
@@ -789,6 +852,189 @@ p {
 
 .footer-contact strong {
   color: var(--chocolate);
+}
+
+.employee-link {
+  margin-top: 6px;
+  color: #6f8d79;
+  font-size: 0.75rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ETAPA 10: Modal de identificação e conclusão do pedido. */
+.checkout-dialog {
+  width: min(720px, calc(100% - 28px));
+  max-height: calc(100vh - 28px);
+  overflow-y: auto;
+  border: 1px solid rgba(57, 255, 136, 0.24);
+  border-radius: 8px;
+  padding: 30px;
+  background: #07140f;
+  color: var(--text);
+}
+
+.checkout-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.checkout-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.checkout-heading h2,
+.order-success h2 {
+  font-size: 2rem;
+}
+
+.dialog-close {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(57, 255, 136, 0.2);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+#checkout-form,
+.customer-fields {
+  display: grid;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+#checkout-form label {
+  font-weight: 800;
+}
+
+#checkout-form input,
+#checkout-form textarea {
+  width: 100%;
+  border: 1px solid rgba(57, 255, 136, 0.2);
+  border-radius: 7px;
+  padding: 13px 14px;
+  background: #030806;
+  color: var(--text);
+  font: inherit;
+}
+
+.phone-lookup > div {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+#customer-lookup-message {
+  min-height: 22px;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.fulfillment-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin: 8px 0;
+  border: 0;
+  padding: 0;
+}
+
+.fulfillment-options legend {
+  grid-column: 1 / -1;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.fulfillment-options label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid rgba(57, 255, 136, 0.2);
+  border-radius: 7px;
+  padding: 13px;
+  cursor: pointer;
+}
+
+.fulfillment-options input {
+  width: 18px !important;
+  accent-color: var(--pink);
+}
+
+.checkout-summary {
+  margin-top: 8px;
+  border-top: 1px solid rgba(57, 255, 136, 0.18);
+  padding-top: 18px;
+}
+
+.checkout-summary h3 {
+  margin-bottom: 14px;
+}
+
+.checkout-item,
+.checkout-value {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 8px 0;
+  color: var(--muted);
+}
+
+.checkout-item small {
+  display: block;
+  margin-top: 3px;
+}
+
+.checkout-total {
+  margin-top: 6px;
+  border-top: 1px solid rgba(57, 255, 136, 0.18);
+  padding-top: 14px;
+  color: var(--text);
+  font-size: 1.15rem;
+}
+
+.checkout-total strong {
+  color: var(--blue);
+  font-size: 1.35rem;
+}
+
+.checkout-submit {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.order-success {
+  padding: 22px 0;
+  text-align: center;
+}
+
+.success-mark {
+  width: 68px;
+  height: 68px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: var(--pink);
+  color: #03120a;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.order-success p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+.order-success > strong {
+  display: block;
+  margin: 18px 0;
+  color: var(--blue);
 }
 
 .menu-toggle {
@@ -855,7 +1101,6 @@ p {
   }
 
   .flavor-panel,
-  .toppings-panel,
   .order-combos-panel,
   .order-summary {
     grid-column: 1;
@@ -920,6 +1165,15 @@ p {
   }
 
   .order-combos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #flavor-options {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-lookup > div,
+  .fulfillment-options {
     grid-template-columns: 1fr;
   }
 

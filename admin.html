@@ -4,140 +4,131 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Painel administrativo | ShakeUp Área 51</title>
-  <link rel="stylesheet" href="admin.css">
+  <link rel="stylesheet" href="admin.css?v=3">
 </head>
 <body>
-  <!-- ETAPA 1: Cabeçalho do painel e retorno para a landing page. -->
-  <header class="admin-header">
-    <a class="admin-brand" href="/" aria-label="Voltar para a landing page">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 64 64" focusable="false">
-          <path d="M20 34c3-10 21-10 24 0"></path>
-          <path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z"></path>
-          <path d="M19 42c6 5 20 5 26 0"></path>
-          <circle cx="22" cy="35" r="2"></circle>
-          <circle cx="32" cy="37" r="2"></circle>
-          <circle cx="42" cy="35" r="2"></circle>
-        </svg>
+  <!-- ETAPA 1: Login obrigatório para funcionários. -->
+  <main class="login-screen" id="login-screen">
+    <section class="login-box">
+      <span class="brand-mark login-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64"><path d="M20 34c3-10 21-10 24 0"></path><path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z"></path><path d="M19 42c6 5 20 5 26 0"></path><circle cx="22" cy="35" r="2"></circle><circle cx="32" cy="37" r="2"></circle><circle cx="42" cy="35" r="2"></circle></svg>
       </span>
-      <span>ShakeUp <strong>Área 51</strong></span>
-    </a>
-    <a class="view-store" href="/">Ver landing page</a>
-  </header>
-
-  <main class="admin-shell">
-    <!-- ETAPA 2: Título da área administrativa e comando de novo cadastro. -->
-    <section class="page-heading">
-      <div>
-        <p class="eyebrow">Painel administrativo</p>
-        <h1>Gerenciar cardápio</h1>
-        <p>Cadastre, edite e organize os milk-shakes exibidos na landing page.</p>
-      </div>
-      <button class="primary-button" type="button" id="new-product">Novo produto</button>
-    </section>
-
-    <!-- ETAPA 3: Indicadores calculados pelo JavaScript. -->
-    <section class="stats-grid" aria-label="Resumo do cardápio">
-      <article class="stat-item">
-        <span>Total de produtos</span>
-        <strong id="stat-total">0</strong>
-      </article>
-      <article class="stat-item">
-        <span>Disponíveis</span>
-        <strong id="stat-available">0</strong>
-      </article>
-      <article class="stat-item">
-        <span>Indisponíveis</span>
-        <strong id="stat-unavailable">0</strong>
-      </article>
-    </section>
-
-    <!-- ETAPA 4: Área de trabalho dividida entre formulário e listagem. -->
-    <section class="workspace-grid">
-      <!-- O mesmo formulário atende às operações de cadastro e alteração. -->
-      <article class="form-panel" id="form-panel">
-        <div class="panel-heading">
-          <div>
-            <p class="panel-kicker" id="form-kicker">Novo cadastro</p>
-            <h2 id="form-title">Adicionar produto</h2>
-          </div>
-          <button class="icon-button" type="button" id="cancel-edit" aria-label="Cancelar edição" title="Cancelar edição">×</button>
-        </div>
-
-        <form id="product-form">
-          <input type="hidden" id="product-id">
-
-          <label for="product-name">Nome</label>
-          <input id="product-name" name="name" type="text" minlength="3" maxlength="80" placeholder="Ex.: Eclipse de Pistache" required>
-
-          <label for="product-category">Categoria</label>
-          <input id="product-category" name="category" type="text" maxlength="40" placeholder="Ex.: Pistache" required>
-
-          <label for="product-price">Preço</label>
-          <div class="price-input">
-            <span>R$</span>
-            <input id="product-price" name="price" type="number" min="0" step="0.01" placeholder="19,90" required>
-          </div>
-
-          <label for="product-description">Descrição</label>
-          <textarea id="product-description" name="description" minlength="10" maxlength="240" rows="4" placeholder="Descreva ingredientes e coberturas." required></textarea>
-
-          <label for="product-image">Imagem</label>
-          <input id="product-image" name="image" type="text" placeholder="img/nome-da-imagem.jpg ou https://..." required>
-          <p class="field-hint">Use uma imagem da pasta <code>img/</code> ou uma URL pública.</p>
-
-          <div class="image-preview" id="image-preview">
-            <span>A prévia da imagem aparecerá aqui.</span>
-          </div>
-
-          <label class="availability-control" for="product-available">
-            <input id="product-available" name="available" type="checkbox" checked>
-            <span>
-              <strong>Produto disponível</strong>
-              <small>Exibir na landing e no montador de pedido</small>
-            </span>
-          </label>
-
-          <button class="primary-button submit-button" type="submit" id="submit-product">Cadastrar produto</button>
-        </form>
-      </article>
-
-      <!-- A listagem representa a operação de leitura do CRUD. -->
-      <section class="list-panel">
-        <div class="list-toolbar">
-          <div>
-            <p class="panel-kicker">Produtos cadastrados</p>
-            <h2>Cardápio</h2>
-          </div>
-          <label class="search-field" for="product-search">
-            <span>Buscar</span>
-            <input id="product-search" type="search" placeholder="Nome ou categoria">
-          </label>
-        </div>
-
-        <div class="product-list" id="admin-product-list" aria-live="polite">
-          <p class="empty-state">Carregando produtos...</p>
-        </div>
-      </section>
+      <p class="panel-kicker">Acesso interno</p>
+      <h1>Painel ShakeUp</h1>
+      <p>Entre com as credenciais da equipe para administrar o cardápio e os pedidos.</p>
+      <form id="login-form">
+        <label for="login-user">Usuário</label>
+        <input id="login-user" autocomplete="username" required>
+        <label for="login-password">Senha</label>
+        <input id="login-password" type="password" autocomplete="current-password" required>
+        <button class="primary-button" type="submit">Entrar</button>
+        <p class="login-message" id="login-message" aria-live="polite"></p>
+      </form>
+      <a class="back-store" href="/">Voltar para a loja</a>
     </section>
   </main>
 
-  <!-- ETAPA 5: Mensagens de retorno e confirmação antes da exclusão. -->
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <dialog class="confirm-dialog" id="delete-dialog">
-    <form method="dialog">
-      <p class="panel-kicker">Confirmar exclusão</p>
-      <h2>Excluir este produto?</h2>
-      <p id="delete-message">Essa ação removerá o item do banco de dados e da landing page.</p>
-      <div class="dialog-actions">
-        <button class="secondary-button" value="cancel">Cancelar</button>
-        <button class="danger-button" id="confirm-delete" value="confirm">Excluir produto</button>
+  <!-- ETAPA 2: Aplicação administrativa exibida após autenticação. -->
+  <div class="admin-app hidden" id="admin-app">
+    <header class="admin-header">
+      <a class="admin-brand" href="/">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64"><path d="M20 34c3-10 21-10 24 0"></path><path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z"></path><path d="M19 42c6 5 20 5 26 0"></path><circle cx="22" cy="35" r="2"></circle><circle cx="32" cy="37" r="2"></circle><circle cx="42" cy="35" r="2"></circle></svg>
+        </span>
+        <span>ShakeUp <strong>Área 51</strong></span>
+      </a>
+      <div class="header-actions">
+        <a class="view-store" href="/">Ver landing page</a>
+        <button class="secondary-button" type="button" id="logout-button">Sair</button>
       </div>
-    </form>
+    </header>
+
+    <main class="admin-shell">
+      <section class="page-heading">
+        <div>
+          <p class="eyebrow">Painel administrativo</p>
+          <h1>Operação ShakeUp</h1>
+          <p>Gerencie produtos, combos, clientes e pedidos em um só lugar.</p>
+        </div>
+      </section>
+
+      <!-- ETAPA 3: Navegação entre as áreas administrativas. -->
+      <nav class="admin-tabs" aria-label="Áreas do painel">
+        <button class="admin-tab active" type="button" data-tab="products">Produtos</button>
+        <button class="admin-tab" type="button" data-tab="combos">Combos</button>
+        <button class="admin-tab" type="button" data-tab="orders">Pedidos</button>
+      </nav>
+
+      <section class="stats-grid" aria-label="Resumo da operação">
+        <article class="stat-item"><span>Produtos</span><strong id="stat-products">0</strong></article>
+        <article class="stat-item"><span>Combos</span><strong id="stat-combos">0</strong></article>
+        <article class="stat-item"><span>Pedidos</span><strong id="stat-orders">0</strong></article>
+      </section>
+
+      <!-- ETAPA 4: CRUD de produtos e vínculos com adicionais. -->
+      <section class="tab-view" id="products-view">
+        <div class="workspace-grid">
+          <article class="form-panel">
+            <div class="panel-heading"><div><p class="panel-kicker" id="product-form-kicker">Novo cadastro</p><h2 id="product-form-title">Adicionar produto</h2></div><button class="icon-button" type="button" id="cancel-product">×</button></div>
+            <form id="product-form">
+              <input type="hidden" id="product-id">
+              <label for="product-name">Nome</label><input id="product-name" minlength="3" maxlength="80" required>
+              <label for="product-category">Categoria</label><input id="product-category" maxlength="40" required>
+              <label for="product-price">Preço</label><div class="price-input"><span>R$</span><input id="product-price" type="number" min="0" step="0.01" required></div>
+              <label for="product-description">Descrição</label><textarea id="product-description" minlength="10" maxlength="240" rows="4" required></textarea>
+              <label for="product-image">Imagem</label><input id="product-image" placeholder="img/nome-da-imagem.jpg" required>
+              <div class="image-preview" id="product-preview"><span>Prévia da imagem</span></div>
+              <fieldset class="relations-fieldset"><legend>Adicionais permitidos neste produto</legend><div class="relations-grid" id="product-extras"></div></fieldset>
+              <label class="availability-control"><input id="product-available" type="checkbox" checked><span><strong>Produto disponível</strong><small>Exibir na loja e no pedido</small></span></label>
+              <button class="primary-button submit-button" type="submit" id="submit-product">Cadastrar produto</button>
+            </form>
+          </article>
+          <section class="list-panel">
+            <div class="list-toolbar"><div><p class="panel-kicker">Produtos cadastrados</p><h2>Cardápio</h2></div><input id="product-search" type="search" placeholder="Buscar produto"></div>
+            <div class="product-list" id="admin-product-list"><p class="empty-state">Carregando...</p></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- ETAPA 5: CRUD de combos e composição com produtos. -->
+      <section class="tab-view hidden" id="combos-view">
+        <div class="workspace-grid">
+          <article class="form-panel">
+            <div class="panel-heading"><div><p class="panel-kicker" id="combo-form-kicker">Novo cadastro</p><h2 id="combo-form-title">Adicionar combo</h2></div><button class="icon-button" type="button" id="cancel-combo">×</button></div>
+            <form id="combo-form">
+              <input type="hidden" id="combo-id">
+              <label for="combo-name">Nome</label><input id="combo-name" minlength="3" required>
+              <label for="combo-price">Preço</label><div class="price-input"><span>R$</span><input id="combo-price" type="number" min="0" step="0.01" required></div>
+              <label for="combo-description">Descrição</label><textarea id="combo-description" minlength="10" rows="4" required></textarea>
+              <label for="combo-image">Imagem</label><input id="combo-image" placeholder="img/combo.png" required>
+              <div class="image-preview" id="combo-preview"><span>Prévia da imagem</span></div>
+              <fieldset class="relations-fieldset"><legend>Produtos que fazem parte do combo</legend><div class="relations-grid" id="combo-products"></div></fieldset>
+              <label class="availability-control"><input id="combo-available" type="checkbox" checked><span><strong>Combo disponível</strong><small>Exibir na loja e no pedido</small></span></label>
+              <button class="primary-button submit-button" type="submit" id="submit-combo">Cadastrar combo</button>
+            </form>
+          </article>
+          <section class="list-panel">
+            <div class="list-toolbar"><div><p class="panel-kicker">Combos cadastrados</p><h2>Combos</h2></div></div>
+            <div class="product-list" id="admin-combo-list"><p class="empty-state">Carregando...</p></div>
+          </section>
+        </div>
+      </section>
+
+      <!-- ETAPA 6: Pedidos agrupados por cliente. -->
+      <section class="tab-view hidden" id="orders-view">
+        <section class="list-panel orders-panel">
+          <div class="list-toolbar"><div><p class="panel-kicker">Pedidos recebidos</p><h2>Clientes e pedidos</h2></div><button class="secondary-button" type="button" id="refresh-orders">Atualizar</button></div>
+          <div class="orders-list" id="admin-order-list"><p class="empty-state">Nenhum pedido recebido.</p></div>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <dialog class="confirm-dialog" id="delete-dialog">
+    <form method="dialog"><p class="panel-kicker">Confirmar exclusão</p><h2 id="delete-title">Excluir item?</h2><p id="delete-message"></p><div class="dialog-actions"><button class="secondary-button" value="cancel">Cancelar</button><button class="danger-button" value="confirm">Excluir</button></div></form>
   </dialog>
 
-  <!-- ETAPA 6: Lógica do CRUD e comunicação com a API. -->
-  <script src="admin.js"></script>
+  <script src="admin.js?v=3"></script>
 </body>
 </html>

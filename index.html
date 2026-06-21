@@ -37,7 +37,6 @@
         <a href="#combos">Combos</a>
         <a href="#sobre">Sobre</a>
         <a href="#contato">Contato</a>
-        <a href="admin.html">Admin</a>
       </div>
 
       <a class="btn btn-small" href="#pedido">Pedir agora</a>
@@ -118,25 +117,8 @@
         <h2>Opções para compartilhar a missão</h2>
       </div>
 
-      <div class="combo-grid">
-        <article class="combo-card">
-          <img src="img/combo-duplo.png" alt="Combo Órbita e Nebulosa com os milk-shakes Órbita de Chocolate e Nebulosa de Morango">
-          <div class="combo-content">
-            <span class="combo-tag">Favorito da casa</span>
-            <h3>Combo Órbita e Nebulosa</h3>
-            <p>Órbita de Chocolate + Nebulosa de Morango com 2 toppings extras.</p>
-            <strong>R$ 34,90</strong>
-          </div>
-        </article>
-        <article class="combo-card combo-card-featured">
-          <img src="img/combo-familia.png" alt="Combo Galáxia Completa com Órbita de Chocolate, Nebulosa de Morango, Cookies Alien e Cometa Caramelo">
-          <div class="combo-content">
-            <span class="combo-tag">Para a galera</span>
-            <h3>Combo Galáxia Completa</h3>
-            <p>Órbita, Nebulosa, Cookies Alien e Cometa Caramelo com caldas de hortelã e limão.</p>
-            <strong>R$ 59,90</strong>
-          </div>
-        </article>
+      <div class="combo-grid" id="combo-grid" aria-live="polite">
+        <p class="loading-state">Carregando combos...</p>
       </div>
     </section>
 
@@ -174,8 +156,8 @@
         <p class="eyebrow">Monte seu pedido</p>
         <h2>Escolha, adicione e ajuste</h2>
         <p>
-          Selecione sabores, combos e adicionais disponíveis na ShakeUp Área 51. Use os botões
-          para adicionar ou remover itens e visualizar seu pedido.
+          Selecione sabores ou combos. Os adicionais disponíveis aparecem dentro de cada sabor,
+          mantendo cada escolha vinculada ao produto correto.
         </p>
       </div>
 
@@ -187,86 +169,11 @@
           </div>
         </div>
 
-        <div class="builder-group toppings-panel">
-          <h3>Adicionais</h3>
-          <div class="choice-grid toppings-grid">
-            <article class="order-option" data-id="chantilly" data-price="2.50">
-              <div>
-                <strong>Chantilly</strong>
-                <span>Extra cremoso</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Chantilly">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Chantilly">+</button>
-              </div>
-            </article>
-
-            <article class="order-option" data-id="calda" data-price="2.00">
-              <div>
-                <strong>Calda cósmica</strong>
-                  <span>Hortelã azul, limão verde ou caramelo</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Calda extra">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Calda extra">+</button>
-              </div>
-            </article>
-
-            <article class="order-option" data-id="cookies" data-price="3.00">
-              <div>
-                <strong>Cookies</strong>
-                <span>Pedaços crocantes</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Cookies">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Cookies">+</button>
-              </div>
-            </article>
-
-            <article class="order-option" data-id="brownie" data-price="4.00">
-              <div>
-                <strong>Brownie</strong>
-                  <span>Pedaços de brownie</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Brownie">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Brownie">+</button>
-              </div>
-            </article>
-          </div>
-        </div>
-
-        <!-- Combos fixos também podem ser adicionados ao pedido. -->
+        <!-- Combos cadastrados no painel também podem ser adicionados ao pedido. -->
         <div class="builder-group order-combos-panel">
           <h3>Combos</h3>
-          <div class="order-combos-grid">
-            <article class="order-option" data-id="combo-orbita-nebulosa" data-price="34.90" data-kind="combo">
-              <div>
-                <strong>Combo Órbita e Nebulosa</strong>
-                <span>2 milk-shakes + 2 toppings extras</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Combo Órbita e Nebulosa">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Combo Órbita e Nebulosa">+</button>
-              </div>
-            </article>
-
-            <article class="order-option" data-id="combo-galaxia-completa" data-price="59.90" data-kind="combo">
-              <div>
-                <strong>Combo Galáxia Completa</strong>
-                <span>4 milk-shakes + caldas especiais</span>
-              </div>
-              <div class="quantity-control">
-                <button type="button" class="qty-btn" data-action="remove" aria-label="Remover Combo Galáxia Completa">-</button>
-                <span data-qty>0</span>
-                <button type="button" class="qty-btn" data-action="add" aria-label="Adicionar Combo Galáxia Completa">+</button>
-              </div>
-            </article>
+          <div class="order-combos-grid" id="order-combo-options" aria-live="polite">
+            <p class="loading-state">Carregando combos...</p>
           </div>
         </div>
 
@@ -309,10 +216,64 @@
       <strong>Contato</strong>
       <a href="mailto:contato@shakeuparea51.com">contato@shakeuparea51.com</a>
       <span>Instagram: @shakeuparea51</span>
+      <a class="employee-link" href="admin.html">Acesso de funcionários</a>
     </div>
   </footer>
 
-  <!-- ETAPA 9: Carregamento da integração com a API e das interações. -->
-  <script src="script.js?v=2"></script>
+  <!-- ETAPA 9: Checkout com identificação pelo telefone e modalidade do pedido. -->
+  <dialog class="checkout-dialog" id="checkout-dialog">
+    <div id="checkout-form-view">
+      <div class="checkout-heading">
+        <div><p class="eyebrow">Finalizar pedido</p><h2>Identifique-se pelo telefone</h2></div>
+        <button class="dialog-close" type="button" id="close-checkout" aria-label="Fechar">×</button>
+      </div>
+
+      <form id="checkout-form">
+        <div class="phone-lookup">
+          <label for="customer-phone">Telefone com DDD</label>
+          <div><input id="customer-phone" inputmode="tel" placeholder="(11) 99999-9999" required><button class="btn" type="button" id="lookup-customer">Continuar</button></div>
+          <p id="customer-lookup-message" aria-live="polite"></p>
+        </div>
+
+        <div class="customer-fields hidden" id="customer-fields">
+          <label for="customer-name">Nome</label>
+          <input id="customer-name" required>
+
+          <fieldset class="fulfillment-options">
+            <legend>Como deseja receber?</legend>
+            <label><input type="radio" name="fulfillment" value="delivery" checked><span>Entrega</span></label>
+            <label><input type="radio" name="fulfillment" value="pickup"><span>Retirada no local</span></label>
+          </fieldset>
+
+          <div id="address-field">
+            <label for="customer-address">Endereço completo</label>
+            <textarea id="customer-address" rows="3" placeholder="Rua, número, bairro e complemento"></textarea>
+          </div>
+
+          <section class="checkout-summary">
+            <h3>Resumo do pedido</h3>
+            <div id="checkout-items"></div>
+            <div class="checkout-value"><span>Subtotal</span><strong id="checkout-subtotal">R$ 0,00</strong></div>
+            <div class="checkout-value"><span>Taxa de entrega</span><strong id="checkout-fee">R$ 6,00</strong></div>
+            <div class="checkout-value checkout-total"><span>Total</span><strong id="checkout-total">R$ 0,00</strong></div>
+          </section>
+
+          <button class="btn checkout-submit" type="submit">Confirmar pedido</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="order-success hidden" id="order-success">
+      <span class="success-mark">✓</span>
+      <p class="eyebrow">Pedido concluído</p>
+      <h2>Recebemos seu pedido!</h2>
+      <p id="success-message">Aguarde entre 10 e 25 minutos para receber seu pedido em casa.</p>
+      <strong id="success-order-number"></strong>
+      <button class="btn" type="button" id="finish-success">Voltar para a loja</button>
+    </div>
+  </dialog>
+
+  <!-- ETAPA 10: Carregamento da integração com a API e das interações. -->
+  <script src="script.js?v=3"></script>
 </body>
 </html>

@@ -32,6 +32,14 @@ Depois, acesse:
 - landing page: <http://localhost:3000>
 - painel administrativo: <http://localhost:3000/admin>
 
+Credenciais padrão do painel:
+
+- usuário: `admin`
+- senha: `shakeup51`
+
+As credenciais podem ser alteradas pelas variáveis de ambiente `ADMIN_USER` e
+`ADMIN_PASSWORD` antes de iniciar o servidor.
+
 O arquivo `shakeup.db` é criado automaticamente na primeira execução. Os quatro
 sabores originais são inseridos somente quando o banco está vazio.
 
@@ -42,8 +50,21 @@ sabores originais são inseridos somente quando o banco está vazio.
 - **Update:** alteração de nome, categoria, preço, descrição, imagem e disponibilidade;
 - **Delete:** exclusão definitiva do produto após confirmação.
 
+O painel também possui CRUD completo de combos, associação individual entre
+produtos e adicionais e visualização dos pedidos agrupados por cliente.
+
 Produtos marcados como indisponíveis continuam no painel, mas deixam de aparecer
 na landing page e no montador de pedido.
+
+## Fluxo do pedido
+
+1. O cliente escolhe sabores ou combos.
+2. Os adicionais aparecem dentro de cada sabor conforme o vínculo configurado no painel.
+3. Na finalização, o cliente informa primeiro o telefone.
+4. O sistema procura nome e endereço já cadastrados no banco.
+5. O cliente escolhe entrega, com taxa de R$ 6,00, ou retirada no local.
+6. O servidor recalcula os valores, grava o cliente e registra o pedido.
+7. O painel administrativo exibe o pedido com cliente, endereço e itens.
 
 ## Estrutura principal
 
@@ -63,4 +84,10 @@ na landing page e no montador de pedido.
 | `POST` | `/api/products` | Cadastrar |
 | `PUT` | `/api/products/:id` | Atualizar |
 | `DELETE` | `/api/products/:id` | Excluir |
+| `GET/POST` | `/api/combos` | Listar ou cadastrar combos |
+| `PUT/DELETE` | `/api/combos/:id` | Alterar ou excluir combo |
+| `GET` | `/api/customers/phone/:phone` | Buscar cliente pelo telefone |
+| `POST` | `/api/orders` | Recalcular e registrar pedido |
+| `GET` | `/api/orders` | Listar pedidos no painel autenticado |
+| `POST` | `/api/auth/login` | Autenticar funcionário |
 
