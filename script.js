@@ -1,193 +1,226 @@
-const API_URL = "/api/products?available=1";
-const currency = new Intl.NumberFormat("pt-BR", {
+// ETAPA 1: Configuração da API e do formato de moeda.
+const URL_API = "/api/products?available=1";
+const formatadorMoeda = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
 });
 
-const menuButton = document.querySelector(".menu-toggle");
-const navLinks = document.querySelector(".nav-links");
-const headerButton = document.querySelector(".navbar > .btn-small");
-const productGrid = document.querySelector("#product-grid");
-const flavorOptions = document.querySelector("#flavor-options");
-const summaryList = document.querySelector("#summary-list");
-const summaryTotal = document.querySelector("#summary-total");
-const finishOrder = document.querySelector("#finish-order");
-const formMessage = document.querySelector("#form-message");
+// ETAPA 2: Seleção dos elementos principais da landing page.
+const botaoMenu = document.querySelector(".menu-toggle");
+const linksNavegacao = document.querySelector(".nav-links");
+const botaoCabecalho = document.querySelector(".navbar > .btn-small");
+const gradeProdutos = document.querySelector("#product-grid");
+const opcoesSabores = document.querySelector("#flavor-options");
+const listaResumo = document.querySelector("#summary-list");
+const totalResumo = document.querySelector("#summary-total");
+const botaoFinalizar = document.querySelector("#finish-order");
+const mensagemPedido = document.querySelector("#form-message");
 
-menuButton.addEventListener("click", () => {
-  const isOpen = navLinks.classList.toggle("is-open");
-  headerButton.classList.toggle("is-open", isOpen);
-  menuButton.setAttribute("aria-expanded", String(isOpen));
+// ETAPA 3: Funcionamento do menu em telas menores.
+botaoMenu.addEventListener("click", () => {
+  const menuAberto = linksNavegacao.classList.toggle("is-open");
+  botaoCabecalho.classList.toggle("is-open", menuAberto);
+  botaoMenu.setAttribute("aria-expanded", String(menuAberto));
 });
 
-navLinks.addEventListener("click", (event) => {
-  if (event.target.tagName === "A") {
-    navLinks.classList.remove("is-open");
-    headerButton.classList.remove("is-open");
-    menuButton.setAttribute("aria-expanded", "false");
+linksNavegacao.addEventListener("click", (evento) => {
+  if (evento.target.tagName === "A") {
+    linksNavegacao.classList.remove("is-open");
+    botaoCabecalho.classList.remove("is-open");
+    botaoMenu.setAttribute("aria-expanded", "false");
   }
 });
 
-document.querySelectorAll('a[href="#inicio"]').forEach((link) => {
-  link.addEventListener("click", (event) => {
-    event.preventDefault();
+// O link Início sempre leva ao topo, mesmo quando existe uma âncora na URL.
+document.querySelectorAll('a[href="#inicio"]').forEach((linkInicio) => {
+  linkInicio.addEventListener("click", (evento) => {
+    evento.preventDefault();
     window.scrollTo({ top: 0, behavior: "smooth" });
     history.replaceState(null, "", window.location.pathname);
   });
 });
 
-function createElement(tag, className, text) {
-  const element = document.createElement(tag);
-  if (className) element.className = className;
-  if (text !== undefined) element.textContent = text;
-  return element;
+// ETAPA 4: Função auxiliar para criar elementos HTML com segurança.
+function criarElemento(nomeTag, classe, texto) {
+  const elemento = document.createElement(nomeTag);
+  if (classe) elemento.className = classe;
+  if (texto !== undefined) elemento.textContent = texto;
+  return elemento;
 }
 
-function renderProductCards(products) {
-  productGrid.replaceChildren();
-  if (!products.length) {
-    productGrid.append(createElement("p", "loading-state", "Nenhum sabor disponível no momento."));
+// ETAPA 5: Criação dos cards da seção Sabores em destaque.
+function renderizarCardsProdutos(produtos) {
+  gradeProdutos.replaceChildren();
+
+  if (!produtos.length) {
+    gradeProdutos.append(criarElemento("p", "loading-state", "Nenhum sabor disponível no momento."));
     return;
   }
 
-  products.forEach((product) => {
-    const card = createElement("article", "product-card");
-    const image = document.createElement("img");
-    image.src = product.image;
-    image.alt = `Milk-shake ${product.name}`;
-    image.addEventListener("error", () => {
-      image.src = "img/milkshake-hero.png";
+  produtos.forEach((produto) => {
+    const cartao = criarElemento("article", "product-card");
+    const imagem = document.createElement("img");
+    imagem.src = produto.image;
+    imagem.alt = `Milk-shake ${produto.name}`;
+    imagem.addEventListener("error", () => {
+      imagem.src = "img/milkshake-hero.png";
     }, { once: true });
 
-    const info = createElement("div", "product-info");
-    info.append(createElement("h3", "", product.name));
-    info.append(createElement("p", "", product.description));
-    info.append(createElement("strong", "", currency.format(product.price)));
-    card.append(image, info);
-    productGrid.append(card);
+    const informacoes = criarElemento("div", "product-info");
+    informacoes.append(criarElemento("h3", "", produto.name));
+    informacoes.append(criarElemento("p", "", produto.description));
+    informacoes.append(criarElemento("strong", "", formatadorMoeda.format(produto.price)));
+    cartao.append(imagem, informacoes);
+    gradeProdutos.append(cartao);
   });
 }
 
-function shortDescription(description) {
-  const normalized = description.replace(/^Milk-shake de\s*/i, "");
-  return normalized.length > 52 ? `${normalized.slice(0, 49).trim()}...` : normalized;
+// Reduz descrições extensas para que caibam no montador de pedido.
+function resumirDescricao(descricao) {
+  const descricaoSemPrefixo = descricao.replace(/^Milk-shake de\s*/i, "");
+  return descricaoSemPrefixo.length > 52
+    ? `${descricaoSemPrefixo.slice(0, 49).trim()}...`
+    : descricaoSemPrefixo;
 }
 
-function createQuantityControl(name) {
-  const control = createElement("div", "quantity-control");
-  const remove = createElement("button", "qty-btn", "-");
-  remove.type = "button";
-  remove.dataset.action = "remove";
-  remove.setAttribute("aria-label", `Remover ${name}`);
+// Cria os botões de menos, quantidade e mais usados em cada item.
+function criarControleQuantidade(nomeProduto) {
+  const controle = criarElemento("div", "quantity-control");
 
-  const quantity = createElement("span", "", "0");
-  quantity.dataset.qty = "";
+  const botaoRemover = criarElemento("button", "qty-btn", "-");
+  botaoRemover.type = "button";
+  botaoRemover.dataset.action = "remove";
+  botaoRemover.setAttribute("aria-label", `Remover ${nomeProduto}`);
 
-  const add = createElement("button", "qty-btn", "+");
-  add.type = "button";
-  add.dataset.action = "add";
-  add.setAttribute("aria-label", `Adicionar ${name}`);
-  control.append(remove, quantity, add);
-  return control;
+  const quantidade = criarElemento("span", "", "0");
+  quantidade.dataset.qty = "";
+
+  const botaoAdicionar = criarElemento("button", "qty-btn", "+");
+  botaoAdicionar.type = "button";
+  botaoAdicionar.dataset.action = "add";
+  botaoAdicionar.setAttribute("aria-label", `Adicionar ${nomeProduto}`);
+
+  controle.append(botaoRemover, quantidade, botaoAdicionar);
+  return controle;
 }
 
-function renderFlavorOptions(products) {
-  flavorOptions.replaceChildren();
-  if (!products.length) {
-    flavorOptions.append(createElement("p", "loading-state", "Nenhum sabor disponível para pedidos."));
+// ETAPA 6: Produtos do banco também viram opções no montador de pedido.
+function renderizarOpcoesSabores(produtos) {
+  opcoesSabores.replaceChildren();
+
+  if (!produtos.length) {
+    opcoesSabores.append(criarElemento("p", "loading-state", "Nenhum sabor disponível para pedidos."));
     return;
   }
 
-  products.forEach((product) => {
-    const option = createElement("article", "order-option");
-    option.dataset.id = `product-${product.id}`;
-    option.dataset.price = product.price;
-    option.dataset.qty = "0";
-    option.dataset.kind = "flavor";
+  produtos.forEach((produto) => {
+    const opcao = criarElemento("article", "order-option");
+    opcao.dataset.id = `product-${produto.id}`;
+    opcao.dataset.price = produto.price;
+    opcao.dataset.qty = "0";
+    opcao.dataset.kind = "flavor";
 
-    const copy = document.createElement("div");
-    copy.append(createElement("strong", "", product.name));
-    copy.append(createElement("span", "", shortDescription(product.description)));
-    option.append(copy, createQuantityControl(product.name));
-    flavorOptions.append(option);
+    const textos = document.createElement("div");
+    textos.append(criarElemento("strong", "", produto.name));
+    textos.append(criarElemento("span", "", resumirDescricao(produto.description)));
+
+    opcao.append(textos, criarControleQuantidade(produto.name));
+    opcoesSabores.append(opcao);
   });
 }
 
-function getOrderOptions() {
+// Busca novamente todas as opções, inclusive as criadas após a resposta da API.
+function obterOpcoesPedido() {
   return [...document.querySelectorAll(".order-option")];
 }
 
-function updateSummary() {
+// ETAPA 7: Cálculo do total e montagem do resumo do pedido.
+function atualizarResumo() {
   let total = 0;
-  const selectedItems = [];
+  const itensSelecionados = [];
 
-  getOrderOptions().forEach((option) => {
-    const quantity = Number(option.dataset.qty || 0);
-    const price = Number(option.dataset.price);
-    const name = option.querySelector("strong").textContent;
-    option.querySelector("[data-qty]").textContent = quantity;
-    option.classList.toggle("is-selected", quantity > 0);
+  obterOpcoesPedido().forEach((opcao) => {
+    const quantidade = Number(opcao.dataset.qty || 0);
+    const preco = Number(opcao.dataset.price);
+    const nome = opcao.querySelector("strong").textContent;
 
-    if (quantity > 0) {
-      total += quantity * price;
-      selectedItems.push({ name, quantity, subtotal: quantity * price });
+    opcao.querySelector("[data-qty]").textContent = quantidade;
+    opcao.classList.toggle("is-selected", quantidade > 0);
+
+    if (quantidade > 0) {
+      total += quantidade * preco;
+      itensSelecionados.push({ nome, quantidade, subtotal: quantidade * preco });
     }
   });
 
-  summaryList.replaceChildren();
-  if (!selectedItems.length) {
-    summaryList.append(createElement("p", "", "Nenhum item selecionado ainda."));
+  listaResumo.replaceChildren();
+
+  if (!itensSelecionados.length) {
+    listaResumo.append(criarElemento("p", "", "Nenhum item selecionado ainda."));
   } else {
-    selectedItems.forEach((item) => {
-      const row = createElement("div", "summary-item");
-      row.append(
-        createElement("span", "", `${item.quantity}x ${item.name}`),
-        createElement("span", "", currency.format(item.subtotal))
+    itensSelecionados.forEach((item) => {
+      const linha = criarElemento("div", "summary-item");
+      linha.append(
+        criarElemento("span", "", `${item.quantidade}x ${item.nome}`),
+        criarElemento("span", "", formatadorMoeda.format(item.subtotal))
       );
-      summaryList.append(row);
+      listaResumo.append(linha);
     });
   }
 
-  summaryTotal.textContent = currency.format(total);
+  totalResumo.textContent = formatadorMoeda.format(total);
 }
 
-document.querySelector(".order-builder").addEventListener("click", (event) => {
-  const button = event.target.closest(".qty-btn");
-  if (!button) return;
-  const option = button.closest(".order-option");
-  const currentQuantity = Number(option.dataset.qty || 0);
-  option.dataset.qty = String(button.dataset.action === "add" ? currentQuantity + 1 : Math.max(0, currentQuantity - 1));
-  formMessage.textContent = "";
-  updateSummary();
+// ETAPA 8: Adição e remoção de itens por delegação de eventos.
+document.querySelector(".order-builder").addEventListener("click", (evento) => {
+  const botao = evento.target.closest(".qty-btn");
+  if (!botao) return;
+
+  const opcao = botao.closest(".order-option");
+  const quantidadeAtual = Number(opcao.dataset.qty || 0);
+  const proximaQuantidade = botao.dataset.action === "add"
+    ? quantidadeAtual + 1
+    : Math.max(0, quantidadeAtual - 1);
+
+  opcao.dataset.qty = String(proximaQuantidade);
+  mensagemPedido.textContent = "";
+  atualizarResumo();
 });
 
-finishOrder.addEventListener("click", () => {
-  const hasFlavor = getOrderOptions().some((option) => option.dataset.kind === "flavor" && Number(option.dataset.qty || 0) > 0);
-  formMessage.textContent = hasFlavor
-    ? `Pedido finalizado com sucesso! Total: ${summaryTotal.textContent}.`
+// O pedido só pode ser finalizado quando existe pelo menos um sabor.
+botaoFinalizar.addEventListener("click", () => {
+  const possuiSabor = obterOpcoesPedido().some((opcao) => {
+    return opcao.dataset.kind === "flavor" && Number(opcao.dataset.qty || 0) > 0;
+  });
+
+  mensagemPedido.textContent = possuiSabor
+    ? `Pedido finalizado com sucesso! Total: ${totalResumo.textContent}.`
     : "Adicione pelo menos um sabor para finalizar seu pedido.";
 });
 
-async function loadProducts() {
+// ETAPA 9: READ da API para alimentar as duas áreas da landing.
+async function carregarProdutos() {
   try {
-    const response = await fetch(API_URL);
-    if (!response.ok) throw new Error("Não foi possível carregar os produtos.");
-    const products = await response.json();
-    renderProductCards(products);
-    renderFlavorOptions(products);
-    updateSummary();
-  } catch (error) {
-    const message = "Não foi possível carregar o cardápio. Inicie o projeto com npm start.";
-    productGrid.replaceChildren(createElement("p", "loading-state error-state", message));
-    flavorOptions.replaceChildren(createElement("p", "loading-state error-state", message));
-    console.error(error);
+    const resposta = await fetch(URL_API);
+    if (!resposta.ok) throw new Error("Não foi possível carregar os produtos.");
+
+    const produtos = await resposta.json();
+    renderizarCardsProdutos(produtos);
+    renderizarOpcoesSabores(produtos);
+    atualizarResumo();
+  } catch (erro) {
+    const mensagem = "Não foi possível carregar o cardápio. Inicie o projeto com npm start.";
+    gradeProdutos.replaceChildren(criarElemento("p", "loading-state error-state", mensagem));
+    opcoesSabores.replaceChildren(criarElemento("p", "loading-state error-state", mensagem));
+    console.error(erro);
   }
 }
 
-document.querySelectorAll(".toppings-panel .order-option").forEach((option) => {
-  option.dataset.qty = "0";
-  option.dataset.kind = "topping";
+// ETAPA 10: Preparação dos adicionais fixos e carregamento inicial.
+document.querySelectorAll(".toppings-panel .order-option").forEach((opcao) => {
+  opcao.dataset.qty = "0";
+  opcao.dataset.kind = "topping";
 });
 
-updateSummary();
-loadProducts();
+atualizarResumo();
+carregarProdutos();

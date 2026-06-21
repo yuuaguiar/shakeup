@@ -1,3 +1,4 @@
+/* ETAPA 1: Identidade visual compartilhada pelo painel. */
 :root {
   --green: #39ff88;
   --green-dark: #20d871;
@@ -11,6 +12,7 @@
   --danger: #ff6f7d;
 }
 
+/* ETAPA 2: Normalização e estilos básicos. */
 * {
   box-sizing: border-box;
 }
@@ -39,6 +41,7 @@ a {
   text-decoration: none;
 }
 
+/* ETAPA 3: Cabeçalho e marca do painel. */
 .admin-header {
   min-height: 72px;
   display: flex;
@@ -96,6 +99,7 @@ a {
   color: var(--green);
 }
 
+/* ETAPA 4: Estrutura principal, título e botões. */
 .admin-shell {
   width: min(1220px, calc(100% - 40px));
   margin: 0 auto;
@@ -173,6 +177,7 @@ a {
   color: var(--danger);
 }
 
+/* ETAPA 5: Indicadores do cardápio. */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -206,6 +211,7 @@ a {
   font-size: 1.8rem;
 }
 
+/* ETAPA 6: Formulário de cadastro e edição. */
 .workspace-grid {
   display: grid;
   grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.5fr);
@@ -214,6 +220,7 @@ a {
 }
 
 .form-panel,
+/* ETAPA 7: Lista de produtos e comandos do CRUD. */
 .list-panel {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -441,6 +448,7 @@ textarea {
   text-align: center;
 }
 
+/* ETAPA 8: Mensagens de retorno e confirmação de exclusão. */
 .toast {
   position: fixed;
   right: 24px;
@@ -493,6 +501,7 @@ textarea {
   margin-top: 22px;
 }
 
+/* ETAPA 9: Responsividade para tablets. */
 @media (max-width: 900px) {
   .workspace-grid {
     grid-template-columns: 1fr;
@@ -503,6 +512,7 @@ textarea {
   }
 }
 
+/* ETAPA 10: Responsividade para celulares. */
 @media (max-width: 650px) {
   .admin-header,
   .page-heading,

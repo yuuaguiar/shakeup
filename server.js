@@ -1,16 +1,19 @@
-const http = require("node:http");
-const fs = require("node:fs");
-const path = require("node:path");
-const { URL } = require("node:url");
-const { DatabaseSync } = require("node:sqlite");
+// ETAPA 1: Importação dos módulos nativos utilizados pelo servidor.
+const moduloHttp = require("node:http");
+const sistemaArquivos = require("node:fs");
+const caminho = require("node:path");
+const { URL: EnderecoURL } = require("node:url");
+const { DatabaseSync: BancoDadosSincrono } = require("node:sqlite");
 
-const PORT = Number(process.env.PORT) || 3000;
-const ROOT = __dirname;
-const DB_PATH = path.join(ROOT, "shakeup.db");
-const MAX_BODY_SIZE = 1_000_000;
+// ETAPA 2: Configurações gerais da aplicação.
+const PORTA = Number(process.env.PORT) || 3000;
+const RAIZ_PROJETO = __dirname;
+const CAMINHO_BANCO = caminho.join(RAIZ_PROJETO, "shakeup.db");
+const TAMANHO_MAXIMO_CORPO = 1_000_000;
 
-const db = new DatabaseSync(DB_PATH);
-db.exec(`
+// ETAPA 3: Abertura do SQLite e criação da tabela caso ela ainda não exista.
+const banco = new BancoDadosSincrono(CAMINHO_BANCO);
+banco.exec(`
   PRAGMA journal_mode = WAL;
   PRAGMA foreign_keys = ON;
 
@@ -27,202 +30,249 @@ db.exec(`
   );
 `);
 
-const seedProducts = [
+// ETAPA 4: Produtos iniciais inseridos somente quando o banco está vazio.
+const produtosIniciais = [
   {
-    name: "Órbita de Chocolate",
-    description: "Milk-shake de chocolate com calda cremosa, brownie e cobertura azul de hortelã.",
-    price: 18.9,
-    image: "img/choco-power.jpg",
-    category: "Chocolate",
+    nome: "Órbita de Chocolate",
+    descricao: "Milk-shake de chocolate com calda cremosa, brownie e cobertura azul de hortelã.",
+    preco: 18.9,
+    imagem: "img/choco-power.jpg",
+    categoria: "Chocolate",
   },
   {
-    name: "Nebulosa de Morango",
-    description: "Milk-shake de morango com chantilly, frutas vermelhas e confeitos estelares.",
-    price: 17.9,
-    image: "img/morango-dream.jpg",
-    category: "Frutas",
+    nome: "Nebulosa de Morango",
+    descricao: "Milk-shake de morango com chantilly, frutas vermelhas e confeitos estelares.",
+    preco: 17.9,
+    imagem: "img/morango-dream.jpg",
+    categoria: "Frutas",
   },
   {
-    name: "Cookies Alien",
-    description: "Milk-shake de baunilha com cookies crocantes e cobertura verde de limão.",
-    price: 19.9,
-    image: "img/cookies-blast.jpg",
-    category: "Cookies",
+    nome: "Cookies Alien",
+    descricao: "Milk-shake de baunilha com cookies crocantes e cobertura verde de limão.",
+    preco: 19.9,
+    imagem: "img/cookies-blast.jpg",
+    categoria: "Cookies",
   },
   {
-    name: "Cometa Caramelo",
-    description: "Milk-shake de doce de leite com caramelo, chantilly e brilho galáctico.",
-    price: 18.9,
-    image: "img/doce-caramelo.jpg",
-    category: "Caramelo",
+    nome: "Cometa Caramelo",
+    descricao: "Milk-shake de doce de leite com caramelo, chantilly e brilho galáctico.",
+    preco: 18.9,
+    imagem: "img/doce-caramelo.jpg",
+    categoria: "Caramelo",
   },
 ];
 
-if (db.prepare("SELECT COUNT(*) AS total FROM products").get().total === 0) {
-  const insertSeed = db.prepare(`
+const totalProdutos = banco.prepare("SELECT COUNT(*) AS total FROM products").get().total;
+
+if (totalProdutos === 0) {
+  const inserirProdutoInicial = banco.prepare(`
     INSERT INTO products (name, description, price, image, category, available)
     VALUES (?, ?, ?, ?, ?, 1)
   `);
 
-  db.exec("BEGIN");
+  // A transação garante que todos os produtos sejam inseridos juntos.
+  banco.exec("BEGIN");
   try {
-    seedProducts.forEach((product) => {
-      insertSeed.run(product.name, product.description, product.price, product.image, product.category);
+    produtosIniciais.forEach((produto) => {
+      inserirProdutoInicial.run(
+        produto.nome,
+        produto.descricao,
+        produto.preco,
+        produto.imagem,
+        produto.categoria
+      );
     });
-    db.exec("COMMIT");
-  } catch (error) {
-    db.exec("ROLLBACK");
-    throw error;
+    banco.exec("COMMIT");
+  } catch (erro) {
+    banco.exec("ROLLBACK");
+    throw erro;
   }
 }
 
-function productFromRow(row) {
-  return row ? { ...row, available: Boolean(row.available) } : null;
+// ETAPA 5: Funções auxiliares de resposta, leitura e validação.
+function converterLinhaEmProduto(linha) {
+  return linha ? { ...linha, available: Boolean(linha.available) } : null;
 }
 
-function sendJson(response, status, payload) {
-  response.writeHead(status, {
+function enviarJson(resposta, codigoStatus, dados) {
+  resposta.writeHead(codigoStatus, {
     "Content-Type": "application/json; charset=utf-8",
     "Cache-Control": "no-store",
     "Access-Control-Allow-Origin": "*",
   });
-  response.end(JSON.stringify(payload));
+  resposta.end(JSON.stringify(dados));
 }
 
-function readJson(request) {
-  return new Promise((resolve, reject) => {
-    let body = "";
+function lerCorpoJson(requisicao) {
+  return new Promise((resolver, rejeitar) => {
+    let corpo = "";
 
-    request.on("data", (chunk) => {
-      body += chunk;
-      if (Buffer.byteLength(body) > MAX_BODY_SIZE) {
-        reject(Object.assign(new Error("Corpo da requisição muito grande."), { status: 413 }));
-        request.destroy();
+    requisicao.on("data", (parte) => {
+      corpo += parte;
+      if (Buffer.byteLength(corpo) > TAMANHO_MAXIMO_CORPO) {
+        const erro = new Error("Corpo da requisição muito grande.");
+        erro.status = 413;
+        rejeitar(erro);
+        requisicao.destroy();
       }
     });
 
-    request.on("end", () => {
+    requisicao.on("end", () => {
       try {
-        resolve(body ? JSON.parse(body) : {});
+        resolver(corpo ? JSON.parse(corpo) : {});
       } catch {
-        reject(Object.assign(new Error("JSON inválido."), { status: 400 }));
+        const erro = new Error("JSON inválido.");
+        erro.status = 400;
+        rejeitar(erro);
       }
     });
 
-    request.on("error", reject);
+    requisicao.on("error", rejeitar);
   });
 }
 
-function normalizeProduct(payload) {
-  const product = {
-    name: String(payload.name || "").trim(),
-    description: String(payload.description || "").trim(),
-    price: Number(payload.price),
-    image: String(payload.image || "").trim(),
-    category: String(payload.category || "Milk-shake").trim(),
-    available: payload.available === undefined ? true : Boolean(payload.available),
+function normalizarProduto(dadosRecebidos) {
+  // A API usa nomes em inglês no JSON para manter compatibilidade com o banco.
+  const produto = {
+    name: String(dadosRecebidos.name || "").trim(),
+    description: String(dadosRecebidos.description || "").trim(),
+    price: Number(dadosRecebidos.price),
+    image: String(dadosRecebidos.image || "").trim(),
+    category: String(dadosRecebidos.category || "Milk-shake").trim(),
+    available: dadosRecebidos.available === undefined ? true : Boolean(dadosRecebidos.available),
   };
 
-  const errors = [];
-  if (product.name.length < 3) errors.push("O nome deve ter pelo menos 3 caracteres.");
-  if (product.description.length < 10) errors.push("A descrição deve ter pelo menos 10 caracteres.");
-  if (!Number.isFinite(product.price) || product.price < 0) errors.push("Informe um preço válido.");
-  if (!product.image) errors.push("Informe o caminho ou URL da imagem.");
-  if (!product.category) errors.push("Informe uma categoria.");
+  const erros = [];
+  if (produto.name.length < 3) erros.push("O nome deve ter pelo menos 3 caracteres.");
+  if (produto.description.length < 10) erros.push("A descrição deve ter pelo menos 10 caracteres.");
+  if (!Number.isFinite(produto.price) || produto.price < 0) erros.push("Informe um preço válido.");
+  if (!produto.image) erros.push("Informe o caminho ou URL da imagem.");
+  if (!produto.category) erros.push("Informe uma categoria.");
 
-  return { product, errors };
+  return { produto, erros };
 }
 
-function parseId(pathname) {
-  const match = pathname.match(/^\/api\/products\/(\d+)$/);
-  return match ? Number(match[1]) : null;
+function obterIdDaRota(nomeRota) {
+  const resultado = nomeRota.match(/^\/api\/products\/(\d+)$/);
+  return resultado ? Number(resultado[1]) : null;
 }
 
-async function handleApi(request, response, url) {
-  if (request.method === "OPTIONS") {
-    response.writeHead(204, {
+// ETAPA 6: Tratamento das rotas da API REST.
+async function tratarApi(requisicao, resposta, endereco) {
+  // OPTIONS permite que navegadores consultem os métodos aceitos pela API.
+  if (requisicao.method === "OPTIONS") {
+    resposta.writeHead(204, {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     });
-    response.end();
+    resposta.end();
     return;
   }
 
-  if (url.pathname === "/api/products" && request.method === "GET") {
-    const onlyAvailable = url.searchParams.get("available") === "1";
-    const rows = onlyAvailable
-      ? db.prepare("SELECT * FROM products WHERE available = 1 ORDER BY id DESC").all()
-      : db.prepare("SELECT * FROM products ORDER BY id DESC").all();
-    sendJson(response, 200, rows.map(productFromRow));
+  // READ: lista todos os produtos ou somente os disponíveis.
+  if (endereco.pathname === "/api/products" && requisicao.method === "GET") {
+    const somenteDisponiveis = endereco.searchParams.get("available") === "1";
+    const linhas = somenteDisponiveis
+      ? banco.prepare("SELECT * FROM products WHERE available = 1 ORDER BY id DESC").all()
+      : banco.prepare("SELECT * FROM products ORDER BY id DESC").all();
+
+    enviarJson(resposta, 200, linhas.map(converterLinhaEmProduto));
     return;
   }
 
-  if (url.pathname === "/api/products" && request.method === "POST") {
-    const { product, errors } = normalizeProduct(await readJson(request));
-    if (errors.length) {
-      sendJson(response, 422, { message: "Revise os dados do produto.", errors });
+  // CREATE: valida e cadastra um novo produto.
+  if (endereco.pathname === "/api/products" && requisicao.method === "POST") {
+    const { produto, erros } = normalizarProduto(await lerCorpoJson(requisicao));
+    if (erros.length) {
+      enviarJson(resposta, 422, { message: "Revise os dados do produto.", errors: erros });
       return;
     }
 
-    const result = db.prepare(`
+    const resultado = banco.prepare(`
       INSERT INTO products (name, description, price, image, category, available)
       VALUES (?, ?, ?, ?, ?, ?)
-    `).run(product.name, product.description, product.price, product.image, product.category, Number(product.available));
-    const created = db.prepare("SELECT * FROM products WHERE id = ?").get(result.lastInsertRowid);
-    sendJson(response, 201, productFromRow(created));
+    `).run(
+      produto.name,
+      produto.description,
+      produto.price,
+      produto.image,
+      produto.category,
+      Number(produto.available)
+    );
+
+    const produtoCriado = banco
+      .prepare("SELECT * FROM products WHERE id = ?")
+      .get(resultado.lastInsertRowid);
+
+    enviarJson(resposta, 201, converterLinhaEmProduto(produtoCriado));
     return;
   }
 
-  const id = parseId(url.pathname);
-  if (id !== null && request.method === "GET") {
-    const product = db.prepare("SELECT * FROM products WHERE id = ?").get(id);
-    if (!product) {
-      sendJson(response, 404, { message: "Produto não encontrado." });
+  const idProduto = obterIdDaRota(endereco.pathname);
+
+  // READ por ID: seleciona apenas um produto.
+  if (idProduto !== null && requisicao.method === "GET") {
+    const produto = banco.prepare("SELECT * FROM products WHERE id = ?").get(idProduto);
+    if (!produto) {
+      enviarJson(resposta, 404, { message: "Produto não encontrado." });
       return;
     }
-    sendJson(response, 200, productFromRow(product));
+    enviarJson(resposta, 200, converterLinhaEmProduto(produto));
     return;
   }
 
-  if (id !== null && request.method === "PUT") {
-    if (!db.prepare("SELECT id FROM products WHERE id = ?").get(id)) {
-      sendJson(response, 404, { message: "Produto não encontrado." });
+  // UPDATE: substitui os dados do produto informado.
+  if (idProduto !== null && requisicao.method === "PUT") {
+    const produtoExiste = banco.prepare("SELECT id FROM products WHERE id = ?").get(idProduto);
+    if (!produtoExiste) {
+      enviarJson(resposta, 404, { message: "Produto não encontrado." });
       return;
     }
 
-    const { product, errors } = normalizeProduct(await readJson(request));
-    if (errors.length) {
-      sendJson(response, 422, { message: "Revise os dados do produto.", errors });
+    const { produto, erros } = normalizarProduto(await lerCorpoJson(requisicao));
+    if (erros.length) {
+      enviarJson(resposta, 422, { message: "Revise os dados do produto.", errors: erros });
       return;
     }
 
-    db.prepare(`
+    banco.prepare(`
       UPDATE products
       SET name = ?, description = ?, price = ?, image = ?, category = ?,
           available = ?, updated_at = CURRENT_TIMESTAMP
       WHERE id = ?
-    `).run(product.name, product.description, product.price, product.image, product.category, Number(product.available), id);
-    const updated = db.prepare("SELECT * FROM products WHERE id = ?").get(id);
-    sendJson(response, 200, productFromRow(updated));
+    `).run(
+      produto.name,
+      produto.description,
+      produto.price,
+      produto.image,
+      produto.category,
+      Number(produto.available),
+      idProduto
+    );
+
+    const produtoAtualizado = banco.prepare("SELECT * FROM products WHERE id = ?").get(idProduto);
+    enviarJson(resposta, 200, converterLinhaEmProduto(produtoAtualizado));
     return;
   }
 
-  if (id !== null && request.method === "DELETE") {
-    const result = db.prepare("DELETE FROM products WHERE id = ?").run(id);
-    if (result.changes === 0) {
-      sendJson(response, 404, { message: "Produto não encontrado." });
+  // DELETE: remove definitivamente um produto.
+  if (idProduto !== null && requisicao.method === "DELETE") {
+    const resultado = banco.prepare("DELETE FROM products WHERE id = ?").run(idProduto);
+    if (resultado.changes === 0) {
+      enviarJson(resposta, 404, { message: "Produto não encontrado." });
       return;
     }
-    response.writeHead(204, { "Access-Control-Allow-Origin": "*" });
-    response.end();
+    resposta.writeHead(204, { "Access-Control-Allow-Origin": "*" });
+    resposta.end();
     return;
   }
 
-  sendJson(response, 404, { message: "Rota da API não encontrada." });
+  enviarJson(resposta, 404, { message: "Rota da API não encontrada." });
 }
 
-const mimeTypes = {
+// ETAPA 7: Tipos de arquivos que podem ser enviados ao navegador.
+const tiposMime = {
   ".html": "text/html; charset=utf-8",
   ".css": "text/css; charset=utf-8",
   ".js": "text/javascript; charset=utf-8",
@@ -234,61 +284,72 @@ const mimeTypes = {
   ".ico": "image/x-icon",
 };
 
-function serveStatic(response, pathname) {
-  const requestedPath = pathname === "/" ? "/index.html" : pathname === "/admin" ? "/admin.html" : pathname;
-  const filePath = path.resolve(ROOT, `.${decodeURIComponent(requestedPath)}`);
-  const extension = path.extname(filePath).toLowerCase();
+function servirArquivoEstatico(resposta, nomeRota) {
+  const rotaSolicitada = nomeRota === "/"
+    ? "/index.html"
+    : nomeRota === "/admin"
+      ? "/admin.html"
+      : nomeRota;
 
-  if (!filePath.startsWith(`${ROOT}${path.sep}`) || !mimeTypes[extension]) {
-    sendJson(response, 404, { message: "Arquivo não encontrado." });
+  const caminhoArquivo = caminho.resolve(RAIZ_PROJETO, `.${decodeURIComponent(rotaSolicitada)}`);
+  const extensao = caminho.extname(caminhoArquivo).toLowerCase();
+
+  // Esta verificação impede acesso a arquivos fora da pasta do projeto.
+  if (!caminhoArquivo.startsWith(`${RAIZ_PROJETO}${caminho.sep}`) || !tiposMime[extensao]) {
+    enviarJson(resposta, 404, { message: "Arquivo não encontrado." });
     return;
   }
 
-  fs.readFile(filePath, (error, content) => {
-    if (error) {
-      sendJson(response, error.code === "ENOENT" ? 404 : 500, {
-        message: error.code === "ENOENT" ? "Arquivo não encontrado." : "Erro ao carregar arquivo.",
+  sistemaArquivos.readFile(caminhoArquivo, (erro, conteudo) => {
+    if (erro) {
+      enviarJson(resposta, erro.code === "ENOENT" ? 404 : 500, {
+        message: erro.code === "ENOENT" ? "Arquivo não encontrado." : "Erro ao carregar arquivo.",
       });
       return;
     }
 
-    response.writeHead(200, {
-      "Content-Type": mimeTypes[extension],
-      "Cache-Control": extension === ".html" ? "no-cache" : "public, max-age=3600",
+    resposta.writeHead(200, {
+      "Content-Type": tiposMime[extensao],
+      "Cache-Control": extensao === ".html" ? "no-cache" : "public, max-age=3600",
     });
-    response.end(content);
+    resposta.end(conteudo);
   });
 }
 
-const server = http.createServer(async (request, response) => {
-  const url = new URL(request.url, `http://${request.headers.host || "localhost"}`);
+// ETAPA 8: Criação e inicialização do servidor HTTP.
+const servidor = moduloHttp.createServer(async (requisicao, resposta) => {
+  const endereco = new EnderecoURL(requisicao.url, `http://${requisicao.headers.host || "localhost"}`);
+
   try {
-    if (url.pathname.startsWith("/api/")) {
-      await handleApi(request, response, url);
+    if (endereco.pathname.startsWith("/api/")) {
+      await tratarApi(requisicao, resposta, endereco);
       return;
     }
-    serveStatic(response, url.pathname);
-  } catch (error) {
-    console.error(error);
-    if (!response.headersSent) {
-      sendJson(response, error.status || 500, { message: error.message || "Erro interno do servidor." });
+    servirArquivoEstatico(resposta, endereco.pathname);
+  } catch (erro) {
+    console.error(erro);
+    if (!resposta.headersSent) {
+      enviarJson(resposta, erro.status || 500, {
+        message: erro.message || "Erro interno do servidor.",
+      });
     } else {
-      response.end();
+      resposta.end();
     }
   }
 });
 
-server.listen(PORT, () => {
-  console.log(`ShakeUp Área 51 disponível em http://localhost:${PORT}`);
-  console.log(`Painel administrativo: http://localhost:${PORT}/admin`);
+servidor.listen(PORTA, () => {
+  console.log(`ShakeUp Área 51 disponível em http://localhost:${PORTA}`);
+  console.log(`Painel administrativo: http://localhost:${PORTA}/admin`);
 });
 
-function shutdown() {
-  server.close(() => {
-    db.close();
+// ETAPA 9: Encerramento seguro do servidor e do banco.
+function encerrarAplicacao() {
+  servidor.close(() => {
+    banco.close();
     process.exit(0);
   });
 }
 
-process.on("SIGINT", shutdown);
-process.on("SIGTERM", shutdown);
+process.on("SIGINT", encerrarAplicacao);
+process.on("SIGTERM", encerrarAplicacao);

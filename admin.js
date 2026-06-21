@@ -1,268 +1,298 @@
-const API_URL = "/api/products";
-const currency = new Intl.NumberFormat("pt-BR", {
+// ETAPA 1: Configuração da API e do formato de moeda brasileira.
+const URL_API = "/api/products";
+const formatadorMoeda = new Intl.NumberFormat("pt-BR", {
   style: "currency",
   currency: "BRL",
 });
 
-const elements = {
-  form: document.querySelector("#product-form"),
+// ETAPA 2: Seleção dos elementos HTML utilizados pelo painel.
+const elementos = {
+  formulario: document.querySelector("#product-form"),
   id: document.querySelector("#product-id"),
-  name: document.querySelector("#product-name"),
-  category: document.querySelector("#product-category"),
-  price: document.querySelector("#product-price"),
-  description: document.querySelector("#product-description"),
-  image: document.querySelector("#product-image"),
-  available: document.querySelector("#product-available"),
-  preview: document.querySelector("#image-preview"),
-  formKicker: document.querySelector("#form-kicker"),
-  formTitle: document.querySelector("#form-title"),
-  submit: document.querySelector("#submit-product"),
-  cancel: document.querySelector("#cancel-edit"),
-  newProduct: document.querySelector("#new-product"),
-  list: document.querySelector("#admin-product-list"),
-  search: document.querySelector("#product-search"),
+  nome: document.querySelector("#product-name"),
+  categoria: document.querySelector("#product-category"),
+  preco: document.querySelector("#product-price"),
+  descricao: document.querySelector("#product-description"),
+  imagem: document.querySelector("#product-image"),
+  disponivel: document.querySelector("#product-available"),
+  previa: document.querySelector("#image-preview"),
+  rotuloFormulario: document.querySelector("#form-kicker"),
+  tituloFormulario: document.querySelector("#form-title"),
+  botaoEnviar: document.querySelector("#submit-product"),
+  botaoCancelar: document.querySelector("#cancel-edit"),
+  botaoNovoProduto: document.querySelector("#new-product"),
+  lista: document.querySelector("#admin-product-list"),
+  busca: document.querySelector("#product-search"),
   total: document.querySelector("#stat-total"),
-  availableTotal: document.querySelector("#stat-available"),
-  unavailableTotal: document.querySelector("#stat-unavailable"),
-  toast: document.querySelector("#toast"),
-  deleteDialog: document.querySelector("#delete-dialog"),
-  deleteMessage: document.querySelector("#delete-message"),
-  confirmDelete: document.querySelector("#confirm-delete"),
+  totalDisponiveis: document.querySelector("#stat-available"),
+  totalIndisponiveis: document.querySelector("#stat-unavailable"),
+  aviso: document.querySelector("#toast"),
+  dialogoExclusao: document.querySelector("#delete-dialog"),
+  mensagemExclusao: document.querySelector("#delete-message"),
+  confirmarExclusao: document.querySelector("#confirm-delete"),
 };
 
-let products = [];
-let pendingDeleteId = null;
-let toastTimer = null;
+// ETAPA 3: Estado temporário da interface.
+let produtos = [];
+let idPendenteExclusao = null;
+let temporizadorAviso = null;
 
-function showToast(message, type = "success") {
-  window.clearTimeout(toastTimer);
-  elements.toast.textContent = message;
-  elements.toast.classList.toggle("error", type === "error");
-  elements.toast.classList.add("show");
-  toastTimer = window.setTimeout(() => elements.toast.classList.remove("show"), 3200);
+// Exibe uma mensagem de sucesso ou erro no canto da tela.
+function mostrarAviso(mensagem, tipo = "sucesso") {
+  window.clearTimeout(temporizadorAviso);
+  elementos.aviso.textContent = mensagem;
+  elementos.aviso.classList.toggle("error", tipo === "erro");
+  elementos.aviso.classList.add("show");
+  temporizadorAviso = window.setTimeout(() => elementos.aviso.classList.remove("show"), 3200);
 }
 
-async function apiRequest(url, options = {}) {
-  const response = await fetch(url, {
-    ...options,
+// Centraliza as chamadas à API e o tratamento de erros HTTP.
+async function requisitarApi(endereco, opcoes = {}) {
+  const resposta = await fetch(endereco, {
+    ...opcoes,
     headers: {
       "Content-Type": "application/json",
-      ...options.headers,
+      ...opcoes.headers,
     },
   });
 
-  const payload = response.status === 204 ? null : await response.json();
-  if (!response.ok) {
-    const details = payload?.errors?.join(" ");
-    throw new Error(details || payload?.message || "Não foi possível concluir a operação.");
+  const dados = resposta.status === 204 ? null : await resposta.json();
+  if (!resposta.ok) {
+    const detalhes = dados?.errors?.join(" ");
+    throw new Error(detalhes || dados?.message || "Não foi possível concluir a operação.");
   }
-  return payload;
+  return dados;
 }
 
-function createElement(tag, className, text) {
-  const element = document.createElement(tag);
-  if (className) element.className = className;
-  if (text !== undefined) element.textContent = text;
-  return element;
+// Cria elementos HTML evitando a montagem de conteúdo com strings inseguras.
+function criarElemento(nomeTag, classe, texto) {
+  const elemento = document.createElement(nomeTag);
+  if (classe) elemento.className = classe;
+  if (texto !== undefined) elemento.textContent = texto;
+  return elemento;
 }
 
-function updateStats() {
-  const available = products.filter((product) => product.available).length;
-  elements.total.textContent = products.length;
-  elements.availableTotal.textContent = available;
-  elements.unavailableTotal.textContent = products.length - available;
+// ETAPA 4: Atualização dos indicadores superiores do painel.
+function atualizarIndicadores() {
+  const quantidadeDisponiveis = produtos.filter((produto) => produto.available).length;
+  elementos.total.textContent = produtos.length;
+  elementos.totalDisponiveis.textContent = quantidadeDisponiveis;
+  elementos.totalIndisponiveis.textContent = produtos.length - quantidadeDisponiveis;
 }
 
-function buildProductRow(product) {
-  const row = createElement("article", "admin-product-row");
-  row.dataset.id = product.id;
+// Monta visualmente uma linha de produto com seus botões de ação.
+function criarLinhaProduto(produto) {
+  const linha = criarElemento("article", "admin-product-row");
+  linha.dataset.id = produto.id;
 
-  const image = document.createElement("img");
-  image.src = product.image;
-  image.alt = `Foto de ${product.name}`;
-  image.addEventListener("error", () => {
-    image.src = "img/milkshake-hero.png";
+  const imagem = document.createElement("img");
+  imagem.src = produto.image;
+  imagem.alt = `Foto de ${produto.name}`;
+  imagem.addEventListener("error", () => {
+    imagem.src = "img/milkshake-hero.png";
   }, { once: true });
 
-  const main = createElement("div", "product-main");
-  main.append(createElement("h3", "", product.name));
-  main.append(createElement("p", "", product.description));
+  const conteudoPrincipal = criarElemento("div", "product-main");
+  conteudoPrincipal.append(criarElemento("h3", "", produto.name));
+  conteudoPrincipal.append(criarElemento("p", "", produto.description));
 
-  const meta = createElement("div", "product-meta");
-  meta.append(createElement("strong", "", currency.format(product.price)));
-  meta.append(createElement("span", "", product.category));
-  meta.append(createElement("span", `status-badge${product.available ? "" : " off"}`, product.available ? "Disponível" : "Indisponível"));
-  main.append(meta);
+  const metadados = criarElemento("div", "product-meta");
+  metadados.append(criarElemento("strong", "", formatadorMoeda.format(produto.price)));
+  metadados.append(criarElemento("span", "", produto.category));
+  metadados.append(criarElemento(
+    "span",
+    `status-badge${produto.available ? "" : " off"}`,
+    produto.available ? "Disponível" : "Indisponível"
+  ));
+  conteudoPrincipal.append(metadados);
 
-  const actions = createElement("div", "row-actions");
-  const editButton = createElement("button", "row-action", "Editar");
-  editButton.type = "button";
-  editButton.dataset.action = "edit";
-  editButton.dataset.id = product.id;
+  const acoes = criarElemento("div", "row-actions");
+  const botaoEditar = criarElemento("button", "row-action", "Editar");
+  botaoEditar.type = "button";
+  botaoEditar.dataset.action = "edit";
+  botaoEditar.dataset.id = produto.id;
 
-  const deleteButton = createElement("button", "row-action danger", "Excluir");
-  deleteButton.type = "button";
-  deleteButton.dataset.action = "delete";
-  deleteButton.dataset.id = product.id;
-  actions.append(editButton, deleteButton);
+  const botaoExcluir = criarElemento("button", "row-action danger", "Excluir");
+  botaoExcluir.type = "button";
+  botaoExcluir.dataset.action = "delete";
+  botaoExcluir.dataset.id = produto.id;
+  acoes.append(botaoEditar, botaoExcluir);
 
-  row.append(image, main, actions);
-  return row;
+  linha.append(imagem, conteudoPrincipal, acoes);
+  return linha;
 }
 
-function renderProducts() {
-  const term = elements.search.value.trim().toLocaleLowerCase("pt-BR");
-  const filtered = products.filter((product) => {
-    const haystack = `${product.name} ${product.category}`.toLocaleLowerCase("pt-BR");
-    return haystack.includes(term);
+// ETAPA 5: Filtragem e renderização da listagem de produtos.
+function renderizarProdutos() {
+  const termo = elementos.busca.value.trim().toLocaleLowerCase("pt-BR");
+  const produtosFiltrados = produtos.filter((produto) => {
+    const textoPesquisavel = `${produto.name} ${produto.category}`.toLocaleLowerCase("pt-BR");
+    return textoPesquisavel.includes(termo);
   });
 
-  elements.list.replaceChildren();
-  if (!filtered.length) {
-    elements.list.append(createElement("p", "empty-state", term ? "Nenhum produto encontrado para essa busca." : "Nenhum produto cadastrado."));
+  elementos.lista.replaceChildren();
+  if (!produtosFiltrados.length) {
+    const mensagem = termo
+      ? "Nenhum produto encontrado para essa busca."
+      : "Nenhum produto cadastrado.";
+    elementos.lista.append(criarElemento("p", "empty-state", mensagem));
     return;
   }
 
-  filtered.forEach((product) => elements.list.append(buildProductRow(product)));
+  produtosFiltrados.forEach((produto) => elementos.lista.append(criarLinhaProduto(produto)));
 }
 
-async function loadProducts() {
-  elements.list.innerHTML = '<p class="empty-state">Carregando produtos...</p>';
+// READ: consulta os produtos cadastrados no banco.
+async function carregarProdutos() {
+  elementos.lista.innerHTML = '<p class="empty-state">Carregando produtos...</p>';
   try {
-    products = await apiRequest(API_URL);
-    updateStats();
-    renderProducts();
-  } catch (error) {
-    elements.list.innerHTML = '<p class="empty-state">Não foi possível carregar o cardápio.</p>';
-    showToast(error.message, "error");
+    produtos = await requisitarApi(URL_API);
+    atualizarIndicadores();
+    renderizarProdutos();
+  } catch (erro) {
+    elementos.lista.innerHTML = '<p class="empty-state">Não foi possível carregar o cardápio.</p>';
+    mostrarAviso(erro.message, "erro");
   }
 }
 
-function renderPreview() {
-  const source = elements.image.value.trim();
-  elements.preview.replaceChildren();
-  if (!source) {
-    elements.preview.append(createElement("span", "", "A prévia da imagem aparecerá aqui."));
+// ETAPA 6: Prévia da imagem informada no formulário.
+function renderizarPrevia() {
+  const enderecoImagem = elementos.imagem.value.trim();
+  elementos.previa.replaceChildren();
+
+  if (!enderecoImagem) {
+    elementos.previa.append(criarElemento("span", "", "A prévia da imagem aparecerá aqui."));
     return;
   }
 
-  const image = document.createElement("img");
-  image.src = source;
-  image.alt = "Prévia do produto";
-  image.addEventListener("error", () => {
-    elements.preview.replaceChildren(createElement("span", "", "Não foi possível carregar essa imagem."));
+  const imagem = document.createElement("img");
+  imagem.src = enderecoImagem;
+  imagem.alt = "Prévia do produto";
+  imagem.addEventListener("error", () => {
+    elementos.previa.replaceChildren(criarElemento("span", "", "Não foi possível carregar essa imagem."));
   }, { once: true });
-  elements.preview.append(image);
+  elementos.previa.append(imagem);
 }
 
-function resetForm({ focus = false } = {}) {
-  elements.form.reset();
-  elements.id.value = "";
-  elements.available.checked = true;
-  elements.formKicker.textContent = "Novo cadastro";
-  elements.formTitle.textContent = "Adicionar produto";
-  elements.submit.textContent = "Cadastrar produto";
-  renderPreview();
-  if (focus) {
+// Retorna o formulário ao modo de cadastro.
+function limparFormulario({ focar = false } = {}) {
+  elementos.formulario.reset();
+  elementos.id.value = "";
+  elementos.disponivel.checked = true;
+  elementos.rotuloFormulario.textContent = "Novo cadastro";
+  elementos.tituloFormulario.textContent = "Adicionar produto";
+  elementos.botaoEnviar.textContent = "Cadastrar produto";
+  renderizarPrevia();
+
+  if (focar) {
     document.querySelector("#form-panel").scrollIntoView({ behavior: "smooth", block: "start" });
-    elements.name.focus({ preventScroll: true });
+    elementos.nome.focus({ preventScroll: true });
   }
 }
 
-function editProduct(id) {
-  const product = products.find((item) => item.id === id);
-  if (!product) return;
+// ETAPA 7: Preenchimento do formulário para a operação de alteração.
+function editarProduto(idProduto) {
+  const produto = produtos.find((item) => item.id === idProduto);
+  if (!produto) return;
 
-  elements.id.value = product.id;
-  elements.name.value = product.name;
-  elements.category.value = product.category;
-  elements.price.value = product.price.toFixed(2);
-  elements.description.value = product.description;
-  elements.image.value = product.image;
-  elements.available.checked = product.available;
-  elements.formKicker.textContent = `Editando produto #${product.id}`;
-  elements.formTitle.textContent = product.name;
-  elements.submit.textContent = "Salvar alterações";
-  renderPreview();
+  elementos.id.value = produto.id;
+  elementos.nome.value = produto.name;
+  elementos.categoria.value = produto.category;
+  elementos.preco.value = produto.price.toFixed(2);
+  elementos.descricao.value = produto.description;
+  elementos.imagem.value = produto.image;
+  elementos.disponivel.checked = produto.available;
+  elementos.rotuloFormulario.textContent = `Editando produto #${produto.id}`;
+  elementos.tituloFormulario.textContent = produto.name;
+  elementos.botaoEnviar.textContent = "Salvar alterações";
+  renderizarPrevia();
   document.querySelector("#form-panel").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function requestDelete(id) {
-  const product = products.find((item) => item.id === id);
-  if (!product) return;
-  pendingDeleteId = id;
-  elements.deleteMessage.textContent = `“${product.name}” será removido do banco de dados, da landing page e do montador de pedido.`;
-  elements.deleteDialog.showModal();
+// Abre a confirmação antes de excluir definitivamente.
+function solicitarExclusao(idProduto) {
+  const produto = produtos.find((item) => item.id === idProduto);
+  if (!produto) return;
+
+  idPendenteExclusao = idProduto;
+  elementos.mensagemExclusao.textContent = `“${produto.name}” será removido do banco de dados, da landing page e do montador de pedido.`;
+  elementos.dialogoExclusao.showModal();
 }
 
-elements.form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  if (!elements.form.reportValidity()) return;
+// ETAPA 8: CREATE ou UPDATE, dependendo da presença de um ID.
+elementos.formulario.addEventListener("submit", async (evento) => {
+  evento.preventDefault();
+  if (!elementos.formulario.reportValidity()) return;
 
-  const id = Number(elements.id.value);
-  const isEditing = Boolean(id);
-  const product = {
-    name: elements.name.value,
-    category: elements.category.value,
-    price: Number(elements.price.value),
-    description: elements.description.value,
-    image: elements.image.value,
-    available: elements.available.checked,
+  const idProduto = Number(elementos.id.value);
+  const estaEditando = Boolean(idProduto);
+  const produto = {
+    name: elementos.nome.value,
+    category: elementos.categoria.value,
+    price: Number(elementos.preco.value),
+    description: elementos.descricao.value,
+    image: elementos.imagem.value,
+    available: elementos.disponivel.checked,
   };
 
-  elements.submit.disabled = true;
-  elements.submit.textContent = isEditing ? "Salvando..." : "Cadastrando...";
+  elementos.botaoEnviar.disabled = true;
+  elementos.botaoEnviar.textContent = estaEditando ? "Salvando..." : "Cadastrando...";
 
   try {
-    await apiRequest(isEditing ? `${API_URL}/${id}` : API_URL, {
-      method: isEditing ? "PUT" : "POST",
-      body: JSON.stringify(product),
+    await requisitarApi(estaEditando ? `${URL_API}/${idProduto}` : URL_API, {
+      method: estaEditando ? "PUT" : "POST",
+      body: JSON.stringify(produto),
     });
-    showToast(isEditing ? "Produto atualizado com sucesso." : "Produto cadastrado com sucesso.");
-    resetForm();
-    await loadProducts();
-  } catch (error) {
-    showToast(error.message, "error");
+    mostrarAviso(estaEditando ? "Produto atualizado com sucesso." : "Produto cadastrado com sucesso.");
+    limparFormulario();
+    await carregarProdutos();
+  } catch (erro) {
+    mostrarAviso(erro.message, "erro");
   } finally {
-    elements.submit.disabled = false;
-    if (!elements.id.value) elements.submit.textContent = "Cadastrar produto";
+    elementos.botaoEnviar.disabled = false;
+    if (!elementos.id.value) elementos.botaoEnviar.textContent = "Cadastrar produto";
   }
 });
 
-elements.list.addEventListener("click", (event) => {
-  const button = event.target.closest("button[data-action]");
-  if (!button) return;
-  const id = Number(button.dataset.id);
-  if (button.dataset.action === "edit") editProduct(id);
-  if (button.dataset.action === "delete") requestDelete(id);
+// Identifica qual botão foi clicado dentro da listagem.
+elementos.lista.addEventListener("click", (evento) => {
+  const botao = evento.target.closest("button[data-action]");
+  if (!botao) return;
+
+  const idProduto = Number(botao.dataset.id);
+  if (botao.dataset.action === "edit") editarProduto(idProduto);
+  if (botao.dataset.action === "delete") solicitarExclusao(idProduto);
 });
 
-elements.deleteDialog.addEventListener("close", async () => {
-  if (elements.deleteDialog.returnValue !== "confirm" || pendingDeleteId === null) {
-    pendingDeleteId = null;
+// ETAPA 9: DELETE após o fechamento confirmado do diálogo.
+elementos.dialogoExclusao.addEventListener("close", async () => {
+  if (elementos.dialogoExclusao.returnValue !== "confirm" || idPendenteExclusao === null) {
+    idPendenteExclusao = null;
     return;
   }
 
-  const id = pendingDeleteId;
-  pendingDeleteId = null;
+  const idProduto = idPendenteExclusao;
+  idPendenteExclusao = null;
+
   try {
-    await apiRequest(`${API_URL}/${id}`, { method: "DELETE" });
-    if (Number(elements.id.value) === id) resetForm();
-    showToast("Produto excluído com sucesso.");
-    await loadProducts();
-  } catch (error) {
-    showToast(error.message, "error");
+    await requisitarApi(`${URL_API}/${idProduto}`, { method: "DELETE" });
+    if (Number(elementos.id.value) === idProduto) limparFormulario();
+    mostrarAviso("Produto excluído com sucesso.");
+    await carregarProdutos();
+  } catch (erro) {
+    mostrarAviso(erro.message, "erro");
   }
 });
 
-elements.confirmDelete.addEventListener("click", () => {
-  elements.deleteDialog.returnValue = "confirm";
+// ETAPA 10: Eventos auxiliares da interface e carregamento inicial.
+elementos.confirmarExclusao.addEventListener("click", () => {
+  elementos.dialogoExclusao.returnValue = "confirm";
 });
 
-elements.image.addEventListener("input", renderPreview);
-elements.search.addEventListener("input", renderProducts);
-elements.cancel.addEventListener("click", () => resetForm());
-elements.newProduct.addEventListener("click", () => resetForm({ focus: true }));
+elementos.imagem.addEventListener("input", renderizarPrevia);
+elementos.busca.addEventListener("input", renderizarProdutos);
+elementos.botaoCancelar.addEventListener("click", () => limparFormulario());
+elementos.botaoNovoProduto.addEventListener("click", () => limparFormulario({ focar: true }));
 
-resetForm();
-loadProducts();
+limparFormulario();
+carregarProdutos();

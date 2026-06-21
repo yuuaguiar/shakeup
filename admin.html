@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="admin.css">
 </head>
 <body>
+  <!-- ETAPA 1: Cabeçalho do painel e retorno para a landing page. -->
   <header class="admin-header">
     <a class="admin-brand" href="/" aria-label="Voltar para a landing page">
       <span class="brand-mark" aria-hidden="true">
@@ -25,6 +26,7 @@
   </header>
 
   <main class="admin-shell">
+    <!-- ETAPA 2: Título da área administrativa e comando de novo cadastro. -->
     <section class="page-heading">
       <div>
         <p class="eyebrow">Painel administrativo</p>
@@ -34,6 +36,7 @@
       <button class="primary-button" type="button" id="new-product">Novo produto</button>
     </section>
 
+    <!-- ETAPA 3: Indicadores calculados pelo JavaScript. -->
     <section class="stats-grid" aria-label="Resumo do cardápio">
       <article class="stat-item">
         <span>Total de produtos</span>
@@ -49,7 +52,9 @@
       </article>
     </section>
 
+    <!-- ETAPA 4: Área de trabalho dividida entre formulário e listagem. -->
     <section class="workspace-grid">
+      <!-- O mesmo formulário atende às operações de cadastro e alteração. -->
       <article class="form-panel" id="form-panel">
         <div class="panel-heading">
           <div>
@@ -97,6 +102,7 @@
         </form>
       </article>
 
+      <!-- A listagem representa a operação de leitura do CRUD. -->
       <section class="list-panel">
         <div class="list-toolbar">
           <div>
@@ -116,6 +122,7 @@
     </section>
   </main>
 
+  <!-- ETAPA 5: Mensagens de retorno e confirmação antes da exclusão. -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <dialog class="confirm-dialog" id="delete-dialog">
@@ -130,6 +137,7 @@
     </form>
   </dialog>
 
+  <!-- ETAPA 6: Lógica do CRUD e comunicação com a API. -->
   <script src="admin.js"></script>
 </body>
 </html>

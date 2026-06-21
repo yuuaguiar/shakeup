@@ -1,3 +1,4 @@
+/* ETAPA 1: Cores e medidas reutilizadas em toda a landing page. */
 :root {
   --pink: #39ff88;
   --pink-dark: #00d9ff;
@@ -12,6 +13,7 @@
   --radius: 24px;
 }
 
+/* ETAPA 2: Normalização e estilos básicos do documento. */
 * {
   box-sizing: border-box;
 }
@@ -40,6 +42,7 @@ a {
   text-decoration: none;
 }
 
+/* ETAPA 3: Cabeçalho, logotipo, navegação e botões principais. */
 .site-header {
   position: sticky;
   top: 0;
@@ -165,6 +168,7 @@ a {
   color: #03120a;
 }
 
+/* ETAPA 4: Estrutura das seções e apresentação principal. */
 .section {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
@@ -293,6 +297,7 @@ p {
   color: var(--muted);
 }
 
+/* ETAPA 5: Passos, produtos dinâmicos e estados de carregamento. */
 .steps-grid,
 .product-grid,
 .combo-grid {
@@ -397,6 +402,7 @@ p {
   font-size: 1.5rem;
 }
 
+/* ETAPA 6: Cards dos combos. */
 .combos {
   padding-top: 36px;
 }
@@ -452,6 +458,7 @@ p {
   font-size: 2rem;
 }
 
+/* ETAPA 7: História da marca. */
 .story-section {
   display: grid;
   grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1fr);
@@ -515,6 +522,7 @@ p {
   line-height: 1.6;
 }
 
+/* ETAPA 8: Montador de pedido, quantidades e resumo. */
 .order-section {
   display: block;
 }
@@ -733,6 +741,7 @@ p {
   font-weight: 800;
 }
 
+/* ETAPA 9: Rodapé e menu para dispositivos móveis. */
 .footer {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
@@ -778,6 +787,7 @@ p {
   background: var(--chocolate);
 }
 
+/* ETAPA 10: Adaptações para tablets. */
 @media (max-width: 980px) {
   .navbar {
     flex-wrap: wrap;
@@ -852,6 +862,7 @@ p {
   }
 }
 
+/* ETAPA 11: Adaptações para celulares. */
 @media (max-width: 680px) {
   .section {
     width: min(100% - 24px, 1120px);

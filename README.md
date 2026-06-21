@@ -15,6 +15,10 @@ seleção, alteração e exclusão.
 - SQLite por meio do módulo `node:sqlite`;
 - banco de dados local e persistente.
 
+Os arquivos JavaScript utilizam variáveis, constantes e funções em português.
+Cada bloco foi comentado por etapas para facilitar o estudo e a apresentação do
+código durante o vídeo da atividade.
+
 ## Como executar
 
 É necessário ter Node.js 22.5 ou superior instalado.
