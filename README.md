@@ -51,7 +51,8 @@ sabores originais são inseridos somente quando o banco está vazio.
 - **Delete:** exclusão definitiva do produto após confirmação.
 
 O painel também possui CRUD completo de combos, associação individual entre
-produtos e adicionais e visualização dos pedidos agrupados por cliente.
+produtos e adicionais, notificação de novos pedidos e histórico de pedidos
+concluídos.
 
 Produtos marcados como indisponíveis continuam no painel, mas deixam de aparecer
 na landing page e no montador de pedido.
@@ -59,18 +60,21 @@ na landing page e no montador de pedido.
 ## Fluxo do pedido
 
 1. O cliente escolhe sabores ou combos.
-2. Os adicionais aparecem dentro de cada sabor conforme o vínculo configurado no painel.
+2. Ao personalizar um sabor, um modal exibe somente os adicionais vinculados a ele.
 3. Na finalização, o cliente informa primeiro o telefone.
 4. O sistema procura nome e endereço já cadastrados no banco.
 5. O cliente escolhe entrega, com taxa de R$ 6,00, ou retirada no local.
 6. O servidor recalcula os valores, grava o cliente e registra o pedido.
-7. O painel administrativo exibe o pedido com cliente, endereço e itens.
+7. O painel exibe uma notificação com a quantidade de novos pedidos.
+8. O funcionário conclui o pedido, que passa para o histórico sem ser apagado.
 
 ## Estrutura principal
 
 - `server.js`: servidor, banco SQLite, validação e rotas da API;
 - `admin.html`, `admin.css`, `admin.js`: painel administrativo;
 - `index.html`, `style.css`, `script.js`: landing page e montador de pedido;
+- `sobre.html`: página separada com a história da marca;
+- `ROTEIRO-VIDEO.md`: roteiro de apresentação e demonstração do CRUD;
 - `img/`: imagens dos produtos e da identidade visual;
 - `package.json`: comandos do projeto.
 
@@ -89,5 +93,6 @@ na landing page e no montador de pedido.
 | `GET` | `/api/customers/phone/:phone` | Buscar cliente pelo telefone |
 | `POST` | `/api/orders` | Recalcular e registrar pedido |
 | `GET` | `/api/orders` | Listar pedidos no painel autenticado |
+| `PUT` | `/api/orders/:id/status` | Concluir ou reabrir um pedido |
 | `POST` | `/api/auth/login` | Autenticar funcionário |
 

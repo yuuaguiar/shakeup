@@ -24,6 +24,7 @@ const elementos = {
   tituloCombo: document.querySelector("#combo-form-title"), rotuloCombo: document.querySelector("#combo-form-kicker"),
   enviarCombo: document.querySelector("#submit-combo"), cancelarCombo: document.querySelector("#cancel-combo"),
   listaCombos: document.querySelector("#admin-combo-list"), listaPedidos: document.querySelector("#admin-order-list"),
+  listaPedidosConcluidos: document.querySelector("#completed-order-list"), avisoPedidos: document.querySelector("#orders-badge"),
   atualizarPedidos: document.querySelector("#refresh-orders"), dialogoExclusao: document.querySelector("#delete-dialog"),
   tituloExclusao: document.querySelector("#delete-title"), mensagemExclusao: document.querySelector("#delete-message"),
 };
@@ -118,9 +119,12 @@ elementos.abas.forEach((aba) => {
 });
 
 function atualizarIndicadores() {
+  const quantidadeNovos = pedidos.filter((pedido) => pedido.status !== "completed").length;
   elementos.totalProdutos.textContent = produtos.length;
   elementos.totalCombos.textContent = combos.length;
   elementos.totalPedidos.textContent = pedidos.length;
+  elementos.avisoPedidos.textContent = quantidadeNovos;
+  elementos.avisoPedidos.classList.toggle("hidden", quantidadeNovos === 0);
 }
 
 // ETAPA 5: Renderização dos vínculos de adicionais e composição de combos.
@@ -184,15 +188,35 @@ function renderizarCombos() {
 }
 
 function renderizarPedidos() {
-  elementos.listaPedidos.replaceChildren();
-  if (!pedidos.length) { elementos.listaPedidos.append(criarElemento("p", "empty-state", "Nenhum pedido recebido.")); return; }
-  pedidos.forEach((pedido) => {
+  const pedidosNovos = pedidos.filter((pedido) => pedido.status !== "completed");
+  const pedidosConcluidos = pedidos.filter((pedido) => pedido.status === "completed");
+  elementos.listaPedidos.replaceChildren(); elementos.listaPedidosConcluidos.replaceChildren();
+
+  function criarLinhaPedido(pedido, concluido) {
     const linha = criarElemento("article", "order-row");
     const cliente = criarElemento("div", "order-customer"); cliente.append(criarElemento("strong", "", pedido.customer_name)); cliente.append(criarElemento("span", "", pedido.phone)); cliente.append(criarElemento("span", "", pedido.fulfillment === "delivery" ? pedido.address : "Retirada no local"));
     const itens = criarElemento("div", "order-items"); itens.append(criarElemento("strong", "", `Pedido #${pedido.id}`)); pedido.items.forEach((item) => { const extrasTexto = item.extras.length ? ` + ${item.extras.map((extra) => extra.name).join(", ")}` : ""; itens.append(criarElemento("span", "", `${item.quantity}x ${item.name}${extrasTexto}`)); });
     const total = criarElemento("div", "order-total"); total.append(criarElemento("strong", "", formatadorMoeda.format(pedido.total))); total.append(criarElemento("span", "", new Date(`${pedido.created_at}Z`).toLocaleString("pt-BR")));
-    linha.append(cliente, itens, total); elementos.listaPedidos.append(linha);
-  });
+    if (concluido) {
+      total.append(criarElemento("span", "completed-label", "Concluído"));
+    } else {
+      const botaoConcluir = criarElemento("button", "complete-order-button", "Marcar como concluído");
+      botaoConcluir.type = "button"; botaoConcluir.dataset.action = "complete-order"; botaoConcluir.dataset.id = pedido.id; total.append(botaoConcluir);
+    }
+    linha.append(cliente, itens, total); return linha;
+  }
+
+  if (!pedidosNovos.length) elementos.listaPedidos.append(criarElemento("p", "empty-state", "Nenhum pedido novo."));
+  else pedidosNovos.forEach((pedido) => elementos.listaPedidos.append(criarLinhaPedido(pedido, false)));
+  if (!pedidosConcluidos.length) elementos.listaPedidosConcluidos.append(criarElemento("p", "empty-state", "Nenhum pedido concluído."));
+  else pedidosConcluidos.forEach((pedido) => elementos.listaPedidosConcluidos.append(criarLinhaPedido(pedido, true)));
+}
+
+async function concluirPedido(idPedido) {
+  try {
+    await requisitarApi(`${URL_API}/orders/${idPedido}/status`, { method: "PUT", body: JSON.stringify({ status: "completed" }) });
+    mostrarAviso(`Pedido #${idPedido} concluído.`); await carregarPedidos();
+  } catch (erro) { mostrarAviso(erro.message, "erro"); }
 }
 
 // ETAPA 7: Carregamento dos dados protegidos.
@@ -265,6 +289,7 @@ elementos.formularioCombo.addEventListener("submit", async (evento) => {
 // ETAPA 10: Edição e exclusão pela listagem.
 document.addEventListener("click", (evento) => {
   const botao = evento.target.closest("button[data-action]"); if (!botao) return;
+  if (botao.dataset.action === "complete-order") { concluirPedido(Number(botao.dataset.id)); return; }
   const id = Number(botao.dataset.id); const recurso = botao.dataset.resource;
   if (botao.dataset.action === "edit") recurso === "product" ? editarProduto(id) : editarCombo(id);
   if (botao.dataset.action === "delete") {

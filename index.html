@@ -35,7 +35,7 @@
         <a href="#como-funciona">Como funciona</a>
         <a href="#sabores">Sabores</a>
         <a href="#combos">Combos</a>
-        <a href="#sobre">Sobre</a>
+        <a href="sobre.html">Nossa história</a>
         <a href="#contato">Contato</a>
       </div>
 
@@ -122,35 +122,7 @@
       </div>
     </section>
 
-    <!-- ETAPA 6: História e posicionamento da ShakeUp Área 51. -->
-    <section class="section story-section" id="sobre">
-      <div class="story-image">
-        <img src="img/loja-shakeup.png" alt="Espaço físico da ShakeUp Área 51 com balcão retrô e iluminação verde">
-      </div>
-
-      <div class="story-content">
-        <p class="eyebrow">O porquê da ShakeUp Área 51</p>
-        <h2>Uma ideia jovem com sabor de galáxia</h2>
-        <p>
-          A história da ShakeUp Área 51 começou em 2010, quando um jovem casal
-          apaixonado por milk-shakes decidiu abrir uma loja diferente de tudo que
-          existia na cidade. A ideia era simples: usar ingredientes conhecidos,
-          mas apresentar cada combinação como uma experiência de outro planeta.
-        </p>
-        <p>
-          Entre testes de calda azul de hortelã, calda verde de limão e um espaço
-          inspirado na Área 51, a marca ganhou identidade própria. Hoje, cada
-          milk-shake mistura chocolate, morango, cookies ou caramelo com um visual
-          galáctico feito para transformar uma pausa simples em um momento especial.
-        </p>
-        <div class="story-note">
-          <strong>Desde 2010</strong>
-          <span>Criatividade jovem, ingredientes conhecidos e combinações personalizadas.</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- ETAPA 7: Montador de pedido que recebe os sabores disponíveis da API. -->
+    <!-- ETAPA 6: Montador de pedido que recebe os sabores disponíveis da API. -->
     <section class="section order-section" id="pedido">
       <div class="order-copy">
         <p class="eyebrow">Monte seu pedido</p>
@@ -220,7 +192,38 @@
     </div>
   </footer>
 
-  <!-- ETAPA 9: Checkout com identificação pelo telefone e modalidade do pedido. -->
+  <!-- ETAPA 9: Modal exclusivo para personalizar um sabor. -->
+  <dialog class="customization-dialog" id="customization-dialog">
+    <div class="customization-heading">
+      <div><p class="eyebrow">Personalize seu ShakeUp</p><h2 id="customization-name">Milk-shake</h2><p id="customization-description"></p></div>
+      <button class="dialog-close" type="button" id="close-customization" aria-label="Fechar">×</button>
+    </div>
+
+    <div class="customization-content">
+      <div class="customization-image-wrap"><img id="customization-image" alt=""></div>
+      <div>
+        <section class="customization-section">
+          <h3>Quantidade</h3>
+          <div class="customization-quantity">
+            <button type="button" id="customization-remove" aria-label="Diminuir quantidade">−</button>
+            <strong id="customization-quantity">1</strong>
+            <button type="button" id="customization-add" aria-label="Aumentar quantidade">+</button>
+          </div>
+        </section>
+        <section class="customization-section">
+          <h3>Adicionais disponíveis</h3>
+          <p>Escolha os extras que serão preparados com este sabor.</p>
+          <div class="customization-extras" id="customization-extras"></div>
+        </section>
+        <div class="customization-footer">
+          <div><span>Total deste item</span><strong id="customization-total">R$ 0,00</strong></div>
+          <button class="btn" type="button" id="save-customization">Adicionar ao pedido</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- ETAPA 10: Checkout com identificação pelo telefone e modalidade do pedido. -->
   <dialog class="checkout-dialog" id="checkout-dialog">
     <div id="checkout-form-view">
       <div class="checkout-heading">
@@ -273,7 +276,7 @@
     </div>
   </dialog>
 
-  <!-- ETAPA 10: Carregamento da integração com a API e das interações. -->
-  <script src="script.js?v=3"></script>
+  <!-- ETAPA 11: Carregamento da integração com a API e das interações. -->
+  <script src="script.js?v=4"></script>
 </body>
 </html>

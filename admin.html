@@ -56,7 +56,7 @@
       <nav class="admin-tabs" aria-label="Áreas do painel">
         <button class="admin-tab active" type="button" data-tab="products">Produtos</button>
         <button class="admin-tab" type="button" data-tab="combos">Combos</button>
-        <button class="admin-tab" type="button" data-tab="orders">Pedidos</button>
+        <button class="admin-tab" type="button" data-tab="orders">Pedidos <span class="notification-badge hidden" id="orders-badge">0</span></button>
       </nav>
 
       <section class="stats-grid" aria-label="Resumo da operação">
@@ -116,9 +116,14 @@
 
       <!-- ETAPA 6: Pedidos agrupados por cliente. -->
       <section class="tab-view hidden" id="orders-view">
+        <div class="orders-toolbar"><div><p class="panel-kicker">Acompanhamento</p><h2>Fluxo de pedidos</h2></div><button class="secondary-button" type="button" id="refresh-orders">Atualizar</button></div>
         <section class="list-panel orders-panel">
-          <div class="list-toolbar"><div><p class="panel-kicker">Pedidos recebidos</p><h2>Clientes e pedidos</h2></div><button class="secondary-button" type="button" id="refresh-orders">Atualizar</button></div>
-          <div class="orders-list" id="admin-order-list"><p class="empty-state">Nenhum pedido recebido.</p></div>
+          <div class="list-toolbar"><div><p class="panel-kicker">Aguardando preparo</p><h2>Pedidos novos</h2></div></div>
+          <div class="orders-list" id="admin-order-list"><p class="empty-state">Nenhum pedido novo.</p></div>
+        </section>
+        <section class="list-panel orders-panel completed-orders-panel">
+          <div class="list-toolbar"><div><p class="panel-kicker">Histórico</p><h2>Pedidos concluídos</h2></div></div>
+          <div class="orders-list" id="completed-order-list"><p class="empty-state">Nenhum pedido concluído.</p></div>
         </section>
       </section>
     </main>

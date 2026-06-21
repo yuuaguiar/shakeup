@@ -233,6 +233,20 @@ a {
   color: var(--text);
 }
 
+.notification-badge {
+  min-width: 22px;
+  height: 22px;
+  display: inline-grid;
+  place-items: center;
+  margin-left: 6px;
+  border-radius: 999px;
+  padding: 0 6px;
+  background: var(--danger);
+  color: #ffffff;
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
 .primary-button,
 .secondary-button,
 .danger-button,
@@ -594,6 +608,25 @@ textarea {
   min-height: 300px;
 }
 
+.orders-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.orders-toolbar h2 {
+  margin: 0;
+  font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+.completed-orders-panel {
+  min-height: 220px;
+  margin-top: 22px;
+  border-color: rgba(168, 200, 179, 0.14);
+}
+
 .orders-list {
   display: grid;
 }
@@ -639,6 +672,28 @@ textarea {
   margin-top: 6px;
   color: var(--muted);
   font-size: 0.82rem;
+}
+
+.complete-order-button {
+  min-height: 38px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 7px;
+  padding: 0 14px;
+  background: var(--green);
+  color: #03120a;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.completed-label {
+  display: inline-block !important;
+  margin-top: 10px !important;
+  border-radius: 999px;
+  padding: 5px 9px;
+  background: rgba(57, 255, 136, 0.1);
+  color: var(--green) !important;
+  font-weight: 800;
 }
 
 /* ETAPA 8: Mensagens de retorno e confirmação de exclusão. */
@@ -717,6 +772,11 @@ textarea {
   .header-actions {
     width: 100%;
     justify-content: space-between;
+  }
+
+  .orders-toolbar {
+    align-items: stretch;
+    flex-direction: column;
   }
 
   .admin-header {

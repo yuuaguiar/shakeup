@@ -526,6 +526,18 @@ p {
   line-height: 1.6;
 }
 
+.about-page .story-section {
+  min-height: calc(100vh - 78px);
+}
+
+.about-page .story-content h1 {
+  font-size: clamp(2.8rem, 5vw, 4.4rem);
+}
+
+.story-cta {
+  margin-top: 24px;
+}
+
 /* ETAPA 8: Montador de pedido, quantidades e resumo. */
 .order-section {
   display: block;
@@ -862,7 +874,163 @@ p {
   text-underline-offset: 3px;
 }
 
-/* ETAPA 10: Modal de identificação e conclusão do pedido. */
+/* ETAPA 10: Modal de personalização do sabor. */
+.customization-dialog {
+  width: min(820px, calc(100% - 28px));
+  max-height: calc(100vh - 28px);
+  overflow-y: auto;
+  border: 1px solid rgba(57, 255, 136, 0.28);
+  border-radius: 8px;
+  padding: 30px;
+  background: #07140f;
+  color: var(--text);
+}
+
+.customization-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.customization-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.customization-heading h2 {
+  font-size: 2rem;
+}
+
+.customization-heading p:not(.eyebrow) {
+  max-width: 600px;
+  margin-bottom: 0;
+  color: var(--muted);
+}
+
+.customization-content {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.75fr) minmax(0, 1.25fr);
+  gap: 26px;
+}
+
+.customization-image-wrap {
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--surface, #0d1f17);
+}
+
+.customization-image-wrap img {
+  width: 100%;
+  height: 100%;
+  min-height: 340px;
+  object-fit: cover;
+}
+
+.customization-section {
+  border-bottom: 1px solid rgba(57, 255, 136, 0.16);
+  padding: 0 0 18px;
+}
+
+.customization-section + .customization-section {
+  padding-top: 18px;
+}
+
+.customization-section h3 {
+  margin-bottom: 8px;
+}
+
+.customization-section > p {
+  margin: 0 0 12px;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.customization-quantity {
+  width: 132px;
+  display: grid;
+  grid-template-columns: 42px 48px 42px;
+  align-items: center;
+  border: 1px solid rgba(57, 255, 136, 0.22);
+  border-radius: 999px;
+  background: #030806;
+}
+
+.customization-quantity button {
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font-size: 1.25rem;
+  cursor: pointer;
+}
+
+.customization-quantity strong {
+  text-align: center;
+}
+
+.customization-extras {
+  display: grid;
+  gap: 8px;
+}
+
+.customization-extra {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid rgba(57, 255, 136, 0.14);
+  border-radius: 7px;
+  padding: 11px 12px;
+  cursor: pointer;
+}
+
+.customization-extra input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--pink);
+}
+
+.customization-extra span,
+.customization-extra small {
+  display: block;
+}
+
+.customization-extra small {
+  margin-top: 3px;
+  color: var(--muted);
+}
+
+.customization-extra > strong {
+  color: var(--blue);
+}
+
+.customization-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 20px;
+}
+
+.customization-footer span,
+.customization-footer strong {
+  display: block;
+}
+
+.customization-footer span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.customization-footer strong {
+  margin-top: 4px;
+  color: var(--blue);
+  font-size: 1.4rem;
+}
+
+/* ETAPA 11: Modal de identificação e conclusão do pedido. */
 .checkout-dialog {
   width: min(720px, calc(100% - 28px));
   max-height: calc(100vh - 28px);
@@ -1175,6 +1343,24 @@ p {
   .phone-lookup > div,
   .fulfillment-options {
     grid-template-columns: 1fr;
+  }
+
+  .customization-content {
+    grid-template-columns: 1fr;
+  }
+
+  .customization-image-wrap img {
+    min-height: 220px;
+    max-height: 280px;
+  }
+
+  .customization-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .customization-footer .btn {
+    width: 100%;
   }
 
   .order-option {

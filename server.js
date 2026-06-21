@@ -111,6 +111,12 @@ banco.exec(`
   );
 `);
 
+// Migração simples para projetos que já possuíam a tabela de pedidos.
+const colunasPedidos = banco.prepare("PRAGMA table_info(orders)").all().map((coluna) => coluna.name);
+if (!colunasPedidos.includes("completed_at")) {
+  banco.exec("ALTER TABLE orders ADD COLUMN completed_at TEXT");
+}
+
 // ETAPA 4: Dados iniciais para a primeira execução.
 const produtosIniciais = [
   ["Órbita de Chocolate", "Milk-shake de chocolate com calda cremosa, brownie e cobertura azul de hortelã.", 18.9, "img/choco-power.jpg", "Chocolate"],
@@ -543,6 +549,20 @@ async function tratarPedidos(requisicao, resposta, endereco) {
       })),
     }));
     enviarJson(resposta, 200, pedidos);
+    return true;
+  }
+
+  const resultadoStatus = endereco.pathname.match(/^\/api\/orders\/(\d+)\/status$/);
+  if (resultadoStatus && requisicao.method === "PUT") {
+    if (!exigirAutenticacao(requisicao, resposta)) return true;
+    const idPedido = Number(resultadoStatus[1]);
+    const dados = await lerCorpoJson(requisicao);
+    const status = dados.status === "completed" ? "completed" : "received";
+    const concluidoEm = status === "completed" ? new Date().toISOString() : null;
+    const resultado = banco.prepare("UPDATE orders SET status=?, completed_at=? WHERE id=?")
+      .run(status, concluidoEm, idPedido);
+    if (!resultado.changes) enviarJson(resposta, 404, { message: "Pedido não encontrado." });
+    else enviarJson(resposta, 200, banco.prepare("SELECT * FROM orders WHERE id=?").get(idPedido));
     return true;
   }
 

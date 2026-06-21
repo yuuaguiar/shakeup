@@ -28,9 +28,18 @@ const itensCheckout = document.querySelector("#checkout-items");
 const subtotalCheckout = document.querySelector("#checkout-subtotal");
 const taxaCheckout = document.querySelector("#checkout-fee");
 const totalCheckout = document.querySelector("#checkout-total");
+const dialogoPersonalizacao = document.querySelector("#customization-dialog");
+const nomePersonalizacao = document.querySelector("#customization-name");
+const descricaoPersonalizacao = document.querySelector("#customization-description");
+const imagemPersonalizacao = document.querySelector("#customization-image");
+const quantidadePersonalizacaoTexto = document.querySelector("#customization-quantity");
+const adicionaisPersonalizacao = document.querySelector("#customization-extras");
+const totalPersonalizacao = document.querySelector("#customization-total");
 
 let produtosDisponiveis = [];
 let combosDisponiveis = [];
+let produtoEmPersonalizacao = null;
+let quantidadePersonalizacao = 1;
 
 // ETAPA 2: Menu responsivo e navegação para o topo.
 botaoMenu.addEventListener("click", () => {
@@ -65,11 +74,11 @@ function resumirDescricao(descricao) {
   return texto.length > 64 ? `${texto.slice(0, 61).trim()}...` : texto;
 }
 
-function criarControleQuantidade(nome) {
+function criarControleQuantidade(nome, acaoAdicionar = "add") {
   const controle = criarElemento("div", "quantity-control");
   const remover = criarElemento("button", "qty-btn", "-"); remover.type = "button"; remover.dataset.action = "remove"; remover.setAttribute("aria-label", `Remover ${nome}`);
   const quantidade = criarElemento("span", "", "0"); quantidade.dataset.qty = "";
-  const adicionar = criarElemento("button", "qty-btn", "+"); adicionar.type = "button"; adicionar.dataset.action = "add"; adicionar.setAttribute("aria-label", `Adicionar ${nome}`);
+  const adicionar = criarElemento("button", "qty-btn", "+"); adicionar.type = "button"; adicionar.dataset.action = acaoAdicionar; adicionar.setAttribute("aria-label", `Adicionar ${nome}`);
   controle.append(remover, quantidade, adicionar); return controle;
 }
 
@@ -94,27 +103,15 @@ function renderizarCardsCombos() {
   });
 }
 
-// ETAPA 4: Cada sabor recebe somente os adicionais vinculados no painel.
+// ETAPA 4: Sabores simples; a personalização será feita em um modal.
 function renderizarOpcoesSabores() {
   opcoesSabores.replaceChildren();
   produtosDisponiveis.forEach((produto) => {
     const opcao = criarElemento("article", "order-option product-order-option");
-    opcao.dataset.id = produto.id; opcao.dataset.price = produto.price; opcao.dataset.qty = "0"; opcao.dataset.kind = "product";
+    opcao.dataset.id = produto.id; opcao.dataset.price = produto.price; opcao.dataset.qty = "0"; opcao.dataset.kind = "product"; opcao.dataset.extraIds = "[]";
     const cabecalho = criarElemento("div", "order-product-head");
     const textos = document.createElement("div"); textos.append(criarElemento("strong", "", produto.name)); textos.append(criarElemento("span", "", resumirDescricao(produto.description)));
-    cabecalho.append(textos, criarControleQuantidade(produto.name)); opcao.append(cabecalho);
-
-    const blocoAdicionais = criarElemento("div", "linked-extras");
-    if (produto.extras.length) {
-      blocoAdicionais.append(criarElemento("strong", "", "Adicionais para este sabor"));
-      produto.extras.forEach((adicional) => {
-        const rotulo = criarElemento("label", "extra-toggle");
-        const caixa = document.createElement("input"); caixa.type = "checkbox"; caixa.dataset.extraId = adicional.id; caixa.dataset.extraPrice = adicional.price; caixa.dataset.extraName = adicional.name;
-        rotulo.append(caixa, criarElemento("span", "", adicional.name), criarElemento("small", "", `+ ${formatadorMoeda.format(adicional.price)}`));
-        blocoAdicionais.append(rotulo);
-      });
-    } else blocoAdicionais.append(criarElemento("span", "", "Este sabor não possui adicionais."));
-    opcao.append(blocoAdicionais); opcoesSabores.append(opcao);
+    cabecalho.append(textos, criarControleQuantidade(produto.name, "customize")); opcao.append(cabecalho); opcoesSabores.append(opcao);
   });
 }
 
@@ -133,9 +130,9 @@ function obterItensSelecionados() {
     const quantidade = Number(opcao.dataset.qty || 0);
     if (!quantidade) return [];
     const tipo = opcao.dataset.kind;
-    const adicionaisSelecionados = tipo === "product"
-      ? [...opcao.querySelectorAll('.extra-toggle input:checked')].map((caixa) => ({ id: Number(caixa.dataset.extraId), name: caixa.dataset.extraName, price: Number(caixa.dataset.extraPrice) }))
-      : [];
+    const idsAdicionais = tipo === "product" ? JSON.parse(opcao.dataset.extraIds || "[]") : [];
+    const produto = tipo === "product" ? produtosDisponiveis.find((item) => item.id === Number(opcao.dataset.id)) : null;
+    const adicionaisSelecionados = produto ? produto.extras.filter((adicional) => idsAdicionais.includes(adicional.id)) : [];
     return [{ type: tipo, id: Number(opcao.dataset.id), quantity: quantidade, name: opcao.querySelector("strong").textContent, price: Number(opcao.dataset.price), extras: adicionaisSelecionados }];
   });
 }
@@ -171,15 +168,56 @@ function atualizarResumo() {
 document.querySelector(".order-builder").addEventListener("click", (evento) => {
   const botao = evento.target.closest(".qty-btn"); if (!botao) return;
   const opcao = botao.closest(".order-option"); const quantidadeAtual = Number(opcao.dataset.qty || 0);
+  if (botao.dataset.action === "customize") { abrirPersonalizacao(opcao); return; }
   opcao.dataset.qty = String(botao.dataset.action === "add" ? quantidadeAtual + 1 : Math.max(0, quantidadeAtual - 1));
+  if (opcao.dataset.kind === "product" && Number(opcao.dataset.qty) === 0) opcao.dataset.extraIds = "[]";
   mensagemPedido.textContent = ""; atualizarResumo();
 });
 
-document.querySelector(".order-builder").addEventListener("change", (evento) => {
-  if (evento.target.matches(".extra-toggle input")) atualizarResumo();
+// ETAPA 7: Modal bem diagramado para quantidade e adicionais do sabor.
+function atualizarTotalPersonalizacao() {
+  if (!produtoEmPersonalizacao) return;
+  const adicionaisMarcados = [...adicionaisPersonalizacao.querySelectorAll("input:checked")]
+    .map((caixa) => produtoEmPersonalizacao.extras.find((adicional) => adicional.id === Number(caixa.value)))
+    .filter(Boolean);
+  const valorUnitario = produtoEmPersonalizacao.price + adicionaisMarcados.reduce((soma, adicional) => soma + adicional.price, 0);
+  quantidadePersonalizacaoTexto.textContent = quantidadePersonalizacao;
+  totalPersonalizacao.textContent = formatadorMoeda.format(valorUnitario * quantidadePersonalizacao);
+}
+
+function abrirPersonalizacao(opcao) {
+  produtoEmPersonalizacao = produtosDisponiveis.find((produto) => produto.id === Number(opcao.dataset.id));
+  if (!produtoEmPersonalizacao) return;
+  quantidadePersonalizacao = Math.max(1, Number(opcao.dataset.qty || 1));
+  const idsSelecionados = JSON.parse(opcao.dataset.extraIds || "[]");
+  nomePersonalizacao.textContent = produtoEmPersonalizacao.name;
+  descricaoPersonalizacao.textContent = produtoEmPersonalizacao.description;
+  imagemPersonalizacao.src = produtoEmPersonalizacao.image;
+  imagemPersonalizacao.alt = produtoEmPersonalizacao.name;
+  adicionaisPersonalizacao.replaceChildren();
+  if (!produtoEmPersonalizacao.extras.length) adicionaisPersonalizacao.append(criarElemento("p", "", "Este sabor não possui adicionais disponíveis."));
+  produtoEmPersonalizacao.extras.forEach((adicional) => {
+    const rotulo = criarElemento("label", "customization-extra");
+    const caixa = document.createElement("input"); caixa.type = "checkbox"; caixa.value = adicional.id; caixa.checked = idsSelecionados.includes(adicional.id);
+    const textos = document.createElement("span"); textos.append(criarElemento("strong", "", adicional.name)); textos.append(criarElemento("small", "", adicional.description));
+    rotulo.append(caixa, textos, criarElemento("strong", "", `+ ${formatadorMoeda.format(adicional.price)}`)); adicionaisPersonalizacao.append(rotulo);
+  });
+  atualizarTotalPersonalizacao(); dialogoPersonalizacao.showModal();
+}
+
+document.querySelector("#customization-remove").addEventListener("click", () => { quantidadePersonalizacao = Math.max(1, quantidadePersonalizacao - 1); atualizarTotalPersonalizacao(); });
+document.querySelector("#customization-add").addEventListener("click", () => { quantidadePersonalizacao += 1; atualizarTotalPersonalizacao(); });
+adicionaisPersonalizacao.addEventListener("change", atualizarTotalPersonalizacao);
+document.querySelector("#close-customization").addEventListener("click", () => dialogoPersonalizacao.close());
+document.querySelector("#save-customization").addEventListener("click", () => {
+  if (!produtoEmPersonalizacao) return;
+  const opcao = document.querySelector(`.order-option[data-kind="product"][data-id="${produtoEmPersonalizacao.id}"]`);
+  opcao.dataset.qty = quantidadePersonalizacao;
+  opcao.dataset.extraIds = JSON.stringify([...adicionaisPersonalizacao.querySelectorAll("input:checked")].map((caixa) => Number(caixa.value)));
+  dialogoPersonalizacao.close(); mensagemPedido.textContent = ""; atualizarResumo();
 });
 
-// ETAPA 7: Modal de checkout e busca do cliente pelo telefone.
+// ETAPA 8: Modal de checkout e busca do cliente pelo telefone.
 function obterModalidade() {
   return formularioCheckout.querySelector('input[name="fulfillment"]:checked')?.value || "delivery";
 }
@@ -218,7 +256,7 @@ formularioCheckout.addEventListener("change", (evento) => {
   if (evento.target.name === "fulfillment") renderizarResumoCheckout();
 });
 
-// ETAPA 8: Envio e persistência do pedido.
+// ETAPA 9: Envio e persistência do pedido.
 formularioCheckout.addEventListener("submit", async (evento) => {
   evento.preventDefault();
   if (camposCliente.classList.contains("hidden")) { mensagemBuscaCliente.textContent = "Consulte o telefone antes de confirmar."; return; }
@@ -242,11 +280,11 @@ formularioCheckout.addEventListener("submit", async (evento) => {
 document.querySelector("#close-checkout").addEventListener("click", () => dialogoCheckout.close());
 document.querySelector("#finish-success").addEventListener("click", () => {
   dialogoCheckout.close();
-  document.querySelectorAll(".order-option").forEach((opcao) => { opcao.dataset.qty = "0"; opcao.querySelectorAll('.extra-toggle input').forEach((caixa) => { caixa.checked = false; }); });
+  document.querySelectorAll(".order-option").forEach((opcao) => { opcao.dataset.qty = "0"; if (opcao.dataset.kind === "product") opcao.dataset.extraIds = "[]"; });
   atualizarResumo();
 });
 
-// ETAPA 9: Carregamento paralelo dos dados públicos.
+// ETAPA 10: Carregamento paralelo dos dados públicos.
 async function carregarCardapio() {
   try {
     const [respostaProdutos, respostaCombos] = await Promise.all([fetch(URL_PRODUTOS), fetch(URL_COMBOS)]);
