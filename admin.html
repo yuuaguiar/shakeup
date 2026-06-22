@@ -8,130 +8,130 @@
 </head>
 <body>
   <!-- ETAPA 1: Login obrigatório para funcionários. -->
-  <main class="login-screen" id="login-screen">
-    <section class="login-box">
-      <span class="brand-mark login-mark" aria-hidden="true">
+  <main class="tela-login" id="tela-login">
+    <section class="caixa-login">
+      <span class="simbolo-marca simbolo-login" aria-hidden="true">
         <svg viewBox="0 0 64 64"><path d="M20 34c3-10 21-10 24 0"></path><path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z"></path><path d="M19 42c6 5 20 5 26 0"></path><circle cx="22" cy="35" r="2"></circle><circle cx="32" cy="37" r="2"></circle><circle cx="42" cy="35" r="2"></circle></svg>
       </span>
-      <p class="panel-kicker">Acesso interno</p>
+      <p class="rotulo-painel">Acesso interno</p>
       <h1>Painel ShakeUp</h1>
       <p>Entre com as credenciais da equipe para administrar o cardápio e os pedidos.</p>
-      <form id="login-form">
-        <label for="login-user">Usuário</label>
-        <input id="login-user" autocomplete="username" required>
-        <label for="login-password">Senha</label>
-        <input id="login-password" type="password" autocomplete="current-password" required>
-        <button class="primary-button" type="submit">Entrar</button>
-        <p class="login-message" id="login-message" aria-live="polite"></p>
+      <form id="formulario-login">
+        <label for="usuario-login">Usuário</label>
+        <input id="usuario-login" autocomplete="username" required>
+        <label for="senha-login">Senha</label>
+        <input id="senha-login" type="password" autocomplete="current-password" required>
+        <button class="botao-principal" type="submit">Entrar</button>
+        <p class="mensagem-login" id="mensagem-login" aria-live="polite"></p>
       </form>
-      <a class="back-store" href="/">Voltar para a loja</a>
+      <a class="voltar-loja" href="/">Voltar para a loja</a>
     </section>
   </main>
 
   <!-- ETAPA 2: Aplicação administrativa exibida após autenticação. -->
-  <div class="admin-app hidden" id="admin-app">
-    <header class="admin-header">
-      <a class="admin-brand" href="/">
-        <span class="brand-mark" aria-hidden="true">
+  <div class="aplicativo-administrativo oculto" id="aplicativo-administrativo">
+    <header class="cabecalho-administrativo">
+      <a class="marca-administrativa" href="/">
+        <span class="simbolo-marca" aria-hidden="true">
           <svg viewBox="0 0 64 64"><path d="M20 34c3-10 21-10 24 0"></path><path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z"></path><path d="M19 42c6 5 20 5 26 0"></path><circle cx="22" cy="35" r="2"></circle><circle cx="32" cy="37" r="2"></circle><circle cx="42" cy="35" r="2"></circle></svg>
         </span>
         <span>ShakeUp <strong>Área 51</strong></span>
       </a>
-      <div class="header-actions">
-        <a class="view-store" href="/">Ver landing page</a>
-        <button class="secondary-button" type="button" id="logout-button">Sair</button>
+      <div class="acoes-cabecalho">
+        <a class="ver-loja" href="/">Ver landing page</a>
+        <button class="botao-secundario" type="button" id="botao-sair">Sair</button>
       </div>
     </header>
 
-    <main class="admin-shell">
-      <section class="page-heading">
+    <main class="conteudo-administrativo">
+      <section class="cabecalho-pagina">
         <div>
-          <p class="eyebrow">Painel administrativo</p>
+          <p class="rotulo-secao">Painel administrativo</p>
           <h1>Operação ShakeUp</h1>
           <p>Gerencie produtos, combos, clientes e pedidos em um só lugar.</p>
         </div>
       </section>
 
       <!-- ETAPA 3: Navegação entre as áreas administrativas. -->
-      <nav class="admin-tabs" aria-label="Áreas do painel">
-        <button class="admin-tab active" type="button" data-tab="products">Produtos</button>
-        <button class="admin-tab" type="button" data-tab="combos">Combos</button>
-        <button class="admin-tab" type="button" data-tab="orders">Pedidos <span class="notification-badge hidden" id="orders-badge">0</span></button>
+      <nav class="abas-administrativas" aria-label="Áreas do painel">
+        <button class="aba-administrativa ativo" type="button" data-aba="produtos">Produtos</button>
+        <button class="aba-administrativa" type="button" data-aba="combos">Combos</button>
+        <button class="aba-administrativa" type="button" data-aba="pedidos">Pedidos <span class="aviso-notificacao oculto" id="aviso-pedidos">0</span></button>
       </nav>
 
-      <section class="stats-grid" aria-label="Resumo da operação">
-        <article class="stat-item"><span>Produtos</span><strong id="stat-products">0</strong></article>
-        <article class="stat-item"><span>Combos</span><strong id="stat-combos">0</strong></article>
-        <article class="stat-item"><span>Pedidos</span><strong id="stat-orders">0</strong></article>
+      <section class="grade-estatisticas" aria-label="Resumo da operação">
+        <article class="item-estatistica"><span>Produtos</span><strong id="estatistica-produtos">0</strong></article>
+        <article class="item-estatistica"><span>Combos</span><strong id="estatistica-combos">0</strong></article>
+        <article class="item-estatistica"><span>Pedidos</span><strong id="estatistica-pedidos">0</strong></article>
       </section>
 
       <!-- ETAPA 4: CRUD de produtos e vínculos com adicionais. -->
-      <section class="tab-view" id="products-view">
-        <div class="workspace-grid">
-          <article class="form-panel">
-            <div class="panel-heading"><div><p class="panel-kicker" id="product-form-kicker">Novo cadastro</p><h2 id="product-form-title">Adicionar produto</h2></div><button class="icon-button" type="button" id="cancel-product">×</button></div>
-            <form id="product-form">
-              <input type="hidden" id="product-id">
-              <label for="product-name">Nome</label><input id="product-name" minlength="3" maxlength="80" required>
-              <label for="product-category">Categoria</label><input id="product-category" maxlength="40" required>
-              <label for="product-price">Preço</label><div class="price-input"><span>R$</span><input id="product-price" type="number" min="0" step="0.01" required></div>
-              <label for="product-description">Descrição</label><textarea id="product-description" minlength="10" maxlength="240" rows="4" required></textarea>
-              <label for="product-image">Imagem</label><input id="product-image" placeholder="img/nome-da-imagem.jpg" required>
-              <div class="image-preview" id="product-preview"><span>Prévia da imagem</span></div>
-              <fieldset class="relations-fieldset"><legend>Adicionais permitidos neste produto</legend><div class="relations-grid" id="product-extras"></div></fieldset>
-              <label class="availability-control"><input id="product-available" type="checkbox" checked><span><strong>Produto disponível</strong><small>Exibir na loja e no pedido</small></span></label>
-              <button class="primary-button submit-button" type="submit" id="submit-product">Cadastrar produto</button>
+      <section class="visualizacao-aba" id="visualizacao-produtos">
+        <div class="grade-trabalho">
+          <article class="painel-formulario">
+            <div class="cabecalho-painel"><div><p class="rotulo-painel" id="rotulo-formulario-produto">Novo cadastro</p><h2 id="titulo-formulario-produto">Adicionar produto</h2></div><button class="botao-icone" type="button" id="cancelar-produto">×</button></div>
+            <form id="formulario-produto">
+              <input type="oculto" id="id-produto">
+              <label for="nome-produto">Nome</label><input id="nome-produto" minlength="3" maxlength="80" required>
+              <label for="categoria-produto">Categoria</label><input id="categoria-produto" maxlength="40" required>
+              <label for="preco-produto">Preço</label><div class="campo-preco"><span>R$</span><input id="preco-produto" type="number" min="0" step="0.01" required></div>
+              <label for="descricao-produto">Descrição</label><textarea id="descricao-produto" minlength="10" maxlength="240" rows="4" required></textarea>
+              <label for="imagem-produto">Imagem</label><input id="imagem-produto" placeholder="img/nome-da-imagem.jpg" required>
+              <div class="previa-imagem" id="previa-produto"><span>Prévia da imagem</span></div>
+              <fieldset class="grupo-relacoes"><legend>Adicionais permitidos neste produto</legend><div class="grade-relacoes" id="adicionais-produto"></div></fieldset>
+              <label class="controle-disponibilidade"><input id="produto-disponivel" type="checkbox" checked><span><strong>Produto disponível</strong><small>Exibir na loja e no pedido</small></span></label>
+              <button class="botao-principal botao-enviar" type="submit" id="enviar-produto">Cadastrar produto</button>
             </form>
           </article>
-          <section class="list-panel">
-            <div class="list-toolbar"><div><p class="panel-kicker">Produtos cadastrados</p><h2>Cardápio</h2></div><input id="product-search" type="search" placeholder="Buscar produto"></div>
-            <div class="product-list" id="admin-product-list"><p class="empty-state">Carregando...</p></div>
+          <section class="painel-lista">
+            <div class="barra-lista"><div><p class="rotulo-painel">Produtos cadastrados</p><h2>Cardápio</h2></div><input id="busca-produto" type="search" placeholder="Buscar produto"></div>
+            <div class="lista-produtos" id="lista-produtos-admin"><p class="estado-vazio">Carregando...</p></div>
           </section>
         </div>
       </section>
 
       <!-- ETAPA 5: CRUD de combos e composição com produtos. -->
-      <section class="tab-view hidden" id="combos-view">
-        <div class="workspace-grid">
-          <article class="form-panel">
-            <div class="panel-heading"><div><p class="panel-kicker" id="combo-form-kicker">Novo cadastro</p><h2 id="combo-form-title">Adicionar combo</h2></div><button class="icon-button" type="button" id="cancel-combo">×</button></div>
-            <form id="combo-form">
-              <input type="hidden" id="combo-id">
-              <label for="combo-name">Nome</label><input id="combo-name" minlength="3" required>
-              <label for="combo-price">Preço</label><div class="price-input"><span>R$</span><input id="combo-price" type="number" min="0" step="0.01" required></div>
-              <label for="combo-description">Descrição</label><textarea id="combo-description" minlength="10" rows="4" required></textarea>
-              <label for="combo-image">Imagem</label><input id="combo-image" placeholder="img/combo.png" required>
-              <div class="image-preview" id="combo-preview"><span>Prévia da imagem</span></div>
-              <fieldset class="relations-fieldset"><legend>Produtos que fazem parte do combo</legend><div class="relations-grid" id="combo-products"></div></fieldset>
-              <label class="availability-control"><input id="combo-available" type="checkbox" checked><span><strong>Combo disponível</strong><small>Exibir na loja e no pedido</small></span></label>
-              <button class="primary-button submit-button" type="submit" id="submit-combo">Cadastrar combo</button>
+      <section class="visualizacao-aba oculto" id="visualizacao-combos">
+        <div class="grade-trabalho">
+          <article class="painel-formulario">
+            <div class="cabecalho-painel"><div><p class="rotulo-painel" id="rotulo-formulario-combo">Novo cadastro</p><h2 id="titulo-formulario-combo">Adicionar combo</h2></div><button class="botao-icone" type="button" id="cancelar-combo">×</button></div>
+            <form id="formulario-combo">
+              <input type="oculto" id="id-combo">
+              <label for="nome-combo">Nome</label><input id="nome-combo" minlength="3" required>
+              <label for="preco-combo">Preço</label><div class="campo-preco"><span>R$</span><input id="preco-combo" type="number" min="0" step="0.01" required></div>
+              <label for="descricao-combo">Descrição</label><textarea id="descricao-combo" minlength="10" rows="4" required></textarea>
+              <label for="imagem-combo">Imagem</label><input id="imagem-combo" placeholder="img/combo.png" required>
+              <div class="previa-imagem" id="previa-combo"><span>Prévia da imagem</span></div>
+              <fieldset class="grupo-relacoes"><legend>Produtos que fazem parte do combo</legend><div class="grade-relacoes" id="produtos-combo"></div></fieldset>
+              <label class="controle-disponibilidade"><input id="combo-disponivel" type="checkbox" checked><span><strong>Combo disponível</strong><small>Exibir na loja e no pedido</small></span></label>
+              <button class="botao-principal botao-enviar" type="submit" id="enviar-combo">Cadastrar combo</button>
             </form>
           </article>
-          <section class="list-panel">
-            <div class="list-toolbar"><div><p class="panel-kicker">Combos cadastrados</p><h2>Combos</h2></div></div>
-            <div class="product-list" id="admin-combo-list"><p class="empty-state">Carregando...</p></div>
+          <section class="painel-lista">
+            <div class="barra-lista"><div><p class="rotulo-painel">Combos cadastrados</p><h2>Combos</h2></div></div>
+            <div class="lista-produtos" id="lista-combos-admin"><p class="estado-vazio">Carregando...</p></div>
           </section>
         </div>
       </section>
 
       <!-- ETAPA 6: Pedidos agrupados por cliente. -->
-      <section class="tab-view hidden" id="orders-view">
-        <div class="orders-toolbar"><div><p class="panel-kicker">Acompanhamento</p><h2>Fluxo de pedidos</h2></div><button class="secondary-button" type="button" id="refresh-orders">Atualizar</button></div>
-        <section class="list-panel orders-panel">
-          <div class="list-toolbar"><div><p class="panel-kicker">Aguardando preparo</p><h2>Pedidos novos</h2></div></div>
-          <div class="orders-list" id="admin-order-list"><p class="empty-state">Nenhum pedido novo.</p></div>
+      <section class="visualizacao-aba oculto" id="visualizacao-pedidos">
+        <div class="barra-pedidos"><div><p class="rotulo-painel">Acompanhamento</p><h2>Fluxo de pedidos</h2></div><button class="botao-secundario" type="button" id="atualizar-pedidos">Atualizar</button></div>
+        <section class="painel-lista painel-pedidos">
+          <div class="barra-lista"><div><p class="rotulo-painel">Aguardando preparo</p><h2>Pedidos novos</h2></div></div>
+          <div class="lista-pedidos" id="lista-pedidos-admin"><p class="estado-vazio">Nenhum pedido novo.</p></div>
         </section>
-        <section class="list-panel orders-panel completed-orders-panel">
-          <div class="list-toolbar"><div><p class="panel-kicker">Histórico</p><h2>Pedidos concluídos</h2></div></div>
-          <div class="orders-list" id="completed-order-list"><p class="empty-state">Nenhum pedido concluído.</p></div>
+        <section class="painel-lista painel-pedidos painel-pedidos-concluidos">
+          <div class="barra-lista"><div><p class="rotulo-painel">Histórico</p><h2>Pedidos concluídos</h2></div></div>
+          <div class="lista-pedidos" id="lista-pedidos-concluidos"><p class="estado-vazio">Nenhum pedido concluído.</p></div>
         </section>
       </section>
     </main>
   </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <dialog class="confirm-dialog" id="delete-dialog">
-    <form method="dialog"><p class="panel-kicker">Confirmar exclusão</p><h2 id="delete-title">Excluir item?</h2><p id="delete-message"></p><div class="dialog-actions"><button class="secondary-button" value="cancel">Cancelar</button><button class="danger-button" value="confirm">Excluir</button></div></form>
+  <div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+  <dialog class="dialogo-confirmacao" id="dialogo-exclusao">
+    <form method="dialog"><p class="rotulo-painel">Confirmar exclusão</p><h2 id="titulo-exclusao">Excluir item?</h2><p id="mensagem-exclusao"></p><div class="acoes-dialogo"><button class="botao-secundario" value="cancelar">Cancelar</button><button class="botao-perigo" value="confirmar">Excluir</button></div></form>
   </dialog>
 
   <script src="admin.js?v=3"></script>

@@ -15,9 +15,9 @@ seleção, alteração e exclusão.
 - SQLite por meio do módulo `node:sqlite`;
 - banco de dados local e persistente.
 
-Os arquivos JavaScript utilizam variáveis, constantes e funções em português.
-Cada bloco foi comentado por etapas para facilitar o estudo e a apresentação do
-código durante o vídeo da atividade.
+Os arquivos HTML, CSS e JavaScript utilizam classes, identificadores, variáveis,
+constantes e funções em português. Cada bloco foi comentado por etapas para
+facilitar o estudo e a apresentação do código durante o vídeo da atividade.
 
 ## Como executar
 

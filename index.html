@@ -8,10 +8,10 @@
 </head>
 <body>
   <!-- ETAPA 1: Cabeçalho com identidade visual e navegação entre seções. -->
-  <header class="site-header" id="inicio">
-    <nav class="navbar">
-      <a class="logo" href="#inicio" aria-label="ShakeUp Área 51 início">
-        <span class="logo-mark" aria-hidden="true">
+  <header class="cabecalho-site" id="inicio">
+    <nav class="barra-navegacao">
+      <a class="logotipo" href="#inicio" aria-label="ShakeUp Área 51 início">
+        <span class="simbolo-logotipo" aria-hidden="true">
           <svg viewBox="0 0 64 64" focusable="false">
             <path d="M20 34c3-10 21-10 24 0" />
             <path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z" />
@@ -24,13 +24,13 @@
         ShakeUp <span>Área 51</span>
       </a>
 
-      <button class="menu-toggle" type="button" aria-label="Abrir menu" aria-expanded="false">
+      <button class="alternar-menu" type="button" aria-label="Abrir menu" aria-expanded="false">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <div class="nav-links">
+      <div class="links-navegacao">
         <a href="#inicio">Início</a>
         <a href="#como-funciona">Como funciona</a>
         <a href="#sabores">Sabores</a>
@@ -39,32 +39,32 @@
         <a href="#contato">Contato</a>
       </div>
 
-      <a class="btn btn-small" href="#pedido">Pedir agora</a>
+      <a class="botao botao-pequeno" href="#pedido">Pedir agora</a>
     </nav>
   </header>
 
   <main>
     <!-- ETAPA 2: Apresentação principal da marca e chamadas para ação. -->
-    <section class="hero section">
-      <div class="hero-content">
-        <p class="eyebrow">Milk-shakes galácticos</p>
+    <section class="destaque secao">
+      <div class="conteudo-destaque">
+        <p class="rotulo-secao">Milk-shakes galácticos</p>
         <h1>Monte seu milk-shake de outro planeta</h1>
-        <p class="hero-text">
+        <p class="texto-destaque">
           Cremoso, gelado e cheio de combinações cósmicas. Escolha seu sabor
           favorito, adicione cobertura azul de hortelã ou verde de limão e aproveite uma
           experiência feita para quem ama milk-shake de verdade.
         </p>
 
-        <div class="hero-actions">
-          <a class="btn" href="#sabores">Ver sabores</a>
-          <a class="btn btn-outline" href="#pedido">Montar o meu</a>
+        <div class="acoes-destaque">
+          <a class="botao" href="#sabores">Ver sabores</a>
+          <a class="botao botao-contorno" href="#pedido">Montar o meu</a>
         </div>
 
       </div>
 
-      <div class="hero-image-wrap">
-        <img src="img/milkshake-hero.png" alt="Milk-shake Área 51 com chantilly, cobertura azul de hortelã e verde de limão" class="hero-image">
-        <div class="price-badge">
+      <div class="area-imagem-destaque">
+        <img src="img/milkshake-hero.png" alt="Milk-shake Área 51 com chantilly, cobertura azul de hortelã e verde de limão" class="imagem-destaque">
+        <div class="etiqueta-preco">
           <strong>A partir de</strong>
           <span>R$ 17,90</span>
         </div>
@@ -72,26 +72,26 @@
     </section>
 
     <!-- ETAPA 3: Explicação resumida da experiência de compra. -->
-    <section class="section process" id="como-funciona">
-      <div class="section-heading">
-        <p class="eyebrow">Como funciona</p>
+    <section class="secao processo" id="como-funciona">
+      <div class="cabecalho-secao">
+        <p class="rotulo-secao">Como funciona</p>
         <h2>Seu ShakeUp em três passos</h2>
         <p>Escolha a base, capriche nos adicionais e transforme tudo em uma missão galáctica.</p>
       </div>
 
-      <div class="steps-grid">
-        <article class="step-card">
-          <span class="icon">1</span>
+      <div class="grade-etapas">
+        <article class="cartao-etapa">
+          <span class="icone">1</span>
           <h3>Escolha o sabor</h3>
           <p>Chocolate, morango, baunilha, cookies, doce de leite e combinações especiais.</p>
         </article>
-        <article class="step-card">
-          <span class="icon">2</span>
+        <article class="cartao-etapa">
+          <span class="icone">2</span>
           <h3>Adicione toppings</h3>
           <p>Finalize com chantilly, calda azul de hortelã, calda verde de limão, confeitos, cookies ou pedaços de chocolate.</p>
         </article>
-        <article class="step-card">
-          <span class="icon">3</span>
+        <article class="cartao-etapa">
+          <span class="icone">3</span>
           <h3>Aproveite seu ShakeUp</h3>
           <p>Receba uma combinação personalizada e perfeita para uma pausa fora de órbita.</p>
         </article>
@@ -99,33 +99,33 @@
     </section>
 
     <!-- ETAPA 4: Produtos inseridos dinamicamente pelo script a partir da API. -->
-    <section class="section flavors" id="sabores">
-      <div class="section-heading">
-        <p class="eyebrow">Sabores em destaque</p>
+    <section class="secao sabores" id="sabores">
+      <div class="cabecalho-secao">
+        <p class="rotulo-secao">Sabores em destaque</p>
         <h2>Combinações que parecem de outro planeta</h2>
       </div>
 
-      <div class="product-grid" id="product-grid" aria-live="polite">
-        <p class="loading-state">Carregando sabores...</p>
+      <div class="grade-produtos" id="grade-produtos" aria-live="polite">
+        <p class="estado-carregando">Carregando sabores...</p>
       </div>
     </section>
 
     <!-- ETAPA 5: Combos fixos da marca. -->
-    <section class="section combos" id="combos">
-      <div class="section-heading">
-        <p class="eyebrow">Combos</p>
+    <section class="secao combos" id="combos">
+      <div class="cabecalho-secao">
+        <p class="rotulo-secao">Combos</p>
         <h2>Opções para compartilhar a missão</h2>
       </div>
 
-      <div class="combo-grid" id="combo-grid" aria-live="polite">
-        <p class="loading-state">Carregando combos...</p>
+      <div class="grade-combos" id="grade-combos" aria-live="polite">
+        <p class="estado-carregando">Carregando combos...</p>
       </div>
     </section>
 
     <!-- ETAPA 6: Montador de pedido que recebe os sabores disponíveis da API. -->
-    <section class="section order-section" id="pedido">
-      <div class="order-copy">
-        <p class="eyebrow">Monte seu pedido</p>
+    <section class="secao secao-pedido" id="pedido">
+      <div class="texto-pedido">
+        <p class="rotulo-secao">Monte seu pedido</p>
         <h2>Escolha, adicione e ajuste</h2>
         <p>
           Selecione sabores ou combos. Os adicionais disponíveis aparecem dentro de cada sabor,
@@ -133,44 +133,44 @@
         </p>
       </div>
 
-      <div class="order-builder" aria-label="Montador visual de pedidos">
-        <div class="builder-group flavor-panel">
+      <div class="montador-pedido" aria-label="Montador visual de pedidos">
+        <div class="grupo-montador painel-sabores">
           <h3>Sabores</h3>
-          <div class="choice-grid" id="flavor-options" aria-live="polite">
-            <p class="loading-state">Carregando sabores...</p>
+          <div class="grade-escolhas" id="opcoes-sabores" aria-live="polite">
+            <p class="estado-carregando">Carregando sabores...</p>
           </div>
         </div>
 
         <!-- Combos cadastrados no painel também podem ser adicionados ao pedido. -->
-        <div class="builder-group order-combos-panel">
+        <div class="grupo-montador painel-combos-pedido">
           <h3>Combos</h3>
-          <div class="order-combos-grid" id="order-combo-options" aria-live="polite">
-            <p class="loading-state">Carregando combos...</p>
+          <div class="grade-combos-pedido" id="opcoes-combos-pedido" aria-live="polite">
+            <p class="estado-carregando">Carregando combos...</p>
           </div>
         </div>
 
-        <aside class="order-summary">
-          <span class="combo-tag">Resumo</span>
+        <aside class="resumo-pedido">
+          <span class="etiqueta-combo">Resumo</span>
           <h3>Seu pedido</h3>
-          <div class="summary-list" id="summary-list">
+          <div class="lista-resumo" id="lista-resumo">
             <p>Nenhum item selecionado ainda.</p>
           </div>
-          <div class="summary-total">
+          <div class="total-resumo">
             <span>Total</span>
-            <strong id="summary-total">R$ 0,00</strong>
+            <strong id="total-resumo">R$ 0,00</strong>
           </div>
-          <button class="btn full" type="button" id="finish-order">Finalizar pedido</button>
-          <p class="form-message" id="form-message" aria-live="polite"></p>
+          <button class="botao largura-total" type="button" id="finalizar-pedido">Finalizar pedido</button>
+          <p class="mensagem-formulario" id="mensagem-formulario" aria-live="polite"></p>
         </aside>
       </div>
     </section>
   </main>
 
   <!-- ETAPA 8: Rodapé com contatos fictícios da empresa. -->
-  <footer class="footer" id="contato">
+  <footer class="rodape" id="contato">
     <div>
-      <a class="logo footer-logo" href="#inicio">
-        <span class="logo-mark" aria-hidden="true">
+      <a class="logotipo logotipo-rodape" href="#inicio">
+        <span class="simbolo-logotipo" aria-hidden="true">
           <svg viewBox="0 0 64 64" focusable="false">
             <path d="M20 34c3-10 21-10 24 0" />
             <path d="M8 35c8 8 40 8 48 0-5-6-43-6-48 0Z" />
@@ -184,95 +184,95 @@
       </a>
       <p>Milk-shakes personalizados de outro planeta</p>
     </div>
-    <div class="footer-contact">
+    <div class="contato-rodape">
       <strong>Contato</strong>
       <a href="mailto:contato@shakeuparea51.com">contato@shakeuparea51.com</a>
       <span>Instagram: @shakeuparea51</span>
-      <a class="employee-link" href="admin.html">Acesso de funcionários</a>
+      <a class="link-funcionarios" href="admin.html">Acesso de funcionários</a>
     </div>
   </footer>
 
   <!-- ETAPA 9: Modal exclusivo para personalizar um sabor. -->
-  <dialog class="customization-dialog" id="customization-dialog">
-    <div class="customization-heading">
-      <div><p class="eyebrow">Personalize seu ShakeUp</p><h2 id="customization-name">Milk-shake</h2><p id="customization-description"></p></div>
-      <button class="dialog-close" type="button" id="close-customization" aria-label="Fechar">×</button>
+  <dialog class="dialogo-personalizacao" id="dialogo-personalizacao">
+    <div class="cabecalho-personalizacao">
+      <div><p class="rotulo-secao">Personalize seu ShakeUp</p><h2 id="nome-personalizacao">Milk-shake</h2><p id="descricao-personalizacao"></p></div>
+      <button class="fechar-dialogo" type="button" id="fechar-personalizacao" aria-label="Fechar">×</button>
     </div>
 
-    <div class="customization-content">
-      <div class="customization-image-wrap"><img id="customization-image" alt=""></div>
+    <div class="conteudo-personalizacao">
+      <div class="area-imagem-personalizacao"><img id="imagem-personalizacao" alt=""></div>
       <div>
-        <section class="customization-section">
+        <section class="secao-personalizacao">
           <h3>Quantidade</h3>
-          <div class="customization-quantity">
-            <button type="button" id="customization-remove" aria-label="Diminuir quantidade">−</button>
-            <strong id="customization-quantity">1</strong>
-            <button type="button" id="customization-add" aria-label="Aumentar quantidade">+</button>
+          <div class="quantidade-personalizacao">
+            <button type="button" id="remover-personalizacao" aria-label="Diminuir quantidade">−</button>
+            <strong id="quantidade-personalizacao">1</strong>
+            <button type="button" id="adicionar-personalizacao" aria-label="Aumentar quantidade">+</button>
           </div>
         </section>
-        <section class="customization-section">
+        <section class="secao-personalizacao">
           <h3>Adicionais disponíveis</h3>
           <p>Escolha os extras que serão preparados com este sabor.</p>
-          <div class="customization-extras" id="customization-extras"></div>
+          <div class="adicionais-personalizacao" id="adicionais-personalizacao"></div>
         </section>
-        <div class="customization-footer">
-          <div><span>Total deste item</span><strong id="customization-total">R$ 0,00</strong></div>
-          <button class="btn" type="button" id="save-customization">Adicionar ao pedido</button>
+        <div class="rodape-personalizacao">
+          <div><span>Total deste item</span><strong id="total-personalizacao">R$ 0,00</strong></div>
+          <button class="botao" type="button" id="salvar-personalizacao">Adicionar ao pedido</button>
         </div>
       </div>
     </div>
   </dialog>
 
   <!-- ETAPA 10: Checkout com identificação pelo telefone e modalidade do pedido. -->
-  <dialog class="checkout-dialog" id="checkout-dialog">
-    <div id="checkout-form-view">
-      <div class="checkout-heading">
-        <div><p class="eyebrow">Finalizar pedido</p><h2>Identifique-se pelo telefone</h2></div>
-        <button class="dialog-close" type="button" id="close-checkout" aria-label="Fechar">×</button>
+  <dialog class="dialogo-finalizacao" id="dialogo-finalizacao">
+    <div id="visualizacao-formulario-finalizacao">
+      <div class="cabecalho-finalizacao">
+        <div><p class="rotulo-secao">Finalizar pedido</p><h2>Identifique-se pelo telefone</h2></div>
+        <button class="fechar-dialogo" type="button" id="fechar-finalizacao" aria-label="Fechar">×</button>
       </div>
 
-      <form id="checkout-form">
-        <div class="phone-lookup">
-          <label for="customer-phone">Telefone com DDD</label>
-          <div><input id="customer-phone" inputmode="tel" placeholder="(11) 99999-9999" required><button class="btn" type="button" id="lookup-customer">Continuar</button></div>
-          <p id="customer-lookup-message" aria-live="polite"></p>
+      <form id="formulario-finalizacao">
+        <div class="busca-telefone">
+          <label for="telefone-cliente">Telefone com DDD</label>
+          <div><input id="telefone-cliente" inputmode="tel" placeholder="(11) 99999-9999" required><button class="botao" type="button" id="buscar-cliente">Continuar</button></div>
+          <p id="mensagem-busca-cliente" aria-live="polite"></p>
         </div>
 
-        <div class="customer-fields hidden" id="customer-fields">
-          <label for="customer-name">Nome</label>
-          <input id="customer-name" required>
+        <div class="campos-cliente oculto" id="campos-cliente">
+          <label for="nome-cliente">Nome</label>
+          <input id="nome-cliente" required>
 
-          <fieldset class="fulfillment-options">
+          <fieldset class="opcoes-recebimento">
             <legend>Como deseja receber?</legend>
-            <label><input type="radio" name="fulfillment" value="delivery" checked><span>Entrega</span></label>
-            <label><input type="radio" name="fulfillment" value="pickup"><span>Retirada no local</span></label>
+            <label><input type="radio" name="modalidade" value="entrega" checked><span>Entrega</span></label>
+            <label><input type="radio" name="modalidade" value="retirada"><span>Retirada no local</span></label>
           </fieldset>
 
-          <div id="address-field">
-            <label for="customer-address">Endereço completo</label>
-            <textarea id="customer-address" rows="3" placeholder="Rua, número, bairro e complemento"></textarea>
+          <div id="campo-endereco">
+            <label for="endereco-cliente">Endereço completo</label>
+            <textarea id="endereco-cliente" rows="3" placeholder="Rua, número, bairro e complemento"></textarea>
           </div>
 
-          <section class="checkout-summary">
+          <section class="resumo-finalizacao">
             <h3>Resumo do pedido</h3>
-            <div id="checkout-items"></div>
-            <div class="checkout-value"><span>Subtotal</span><strong id="checkout-subtotal">R$ 0,00</strong></div>
-            <div class="checkout-value"><span>Taxa de entrega</span><strong id="checkout-fee">R$ 6,00</strong></div>
-            <div class="checkout-value checkout-total"><span>Total</span><strong id="checkout-total">R$ 0,00</strong></div>
+            <div id="itens-finalizacao"></div>
+            <div class="valor-finalizacao"><span>Subtotal</span><strong id="subtotal-finalizacao">R$ 0,00</strong></div>
+            <div class="valor-finalizacao"><span>Taxa de entrega</span><strong id="taxa-finalizacao">R$ 6,00</strong></div>
+            <div class="valor-finalizacao total-finalizacao"><span>Total</span><strong id="total-finalizacao">R$ 0,00</strong></div>
           </section>
 
-          <button class="btn checkout-submit" type="submit">Confirmar pedido</button>
+          <button class="botao enviar-finalizacao" type="submit">Confirmar pedido</button>
         </div>
       </form>
     </div>
 
-    <div class="order-success hidden" id="order-success">
-      <span class="success-mark">✓</span>
-      <p class="eyebrow">Pedido concluído</p>
+    <div class="sucesso-pedido oculto" id="sucesso-pedido">
+      <span class="simbolo-sucesso">✓</span>
+      <p class="rotulo-secao">Pedido concluído</p>
       <h2>Recebemos seu pedido!</h2>
-      <p id="success-message">Aguarde entre 10 e 25 minutos para receber seu pedido em casa.</p>
-      <strong id="success-order-number"></strong>
-      <button class="btn" type="button" id="finish-success">Voltar para a loja</button>
+      <p id="mensagem-sucesso">Aguarde entre 10 e 25 minutos para receber seu pedido em casa.</p>
+      <strong id="numero-pedido-sucesso"></strong>
+      <button class="botao" type="button" id="finalizar-sucesso">Voltar para a loja</button>
     </div>
   </dialog>
 

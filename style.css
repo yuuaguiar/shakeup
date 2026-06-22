@@ -18,7 +18,7 @@
   box-sizing: border-box;
 }
 
-.hidden {
+.oculto {
   display: none !important;
 }
 
@@ -47,7 +47,7 @@ a {
 }
 
 /* ETAPA 3: Cabeçalho, logotipo, navegação e botões principais. */
-.site-header {
+.cabecalho-site {
   position: sticky;
   top: 0;
   z-index: 10;
@@ -56,7 +56,7 @@ a {
   backdrop-filter: blur(18px);
 }
 
-.navbar {
+.barra-navegacao {
   width: min(1120px, calc(100% - 32px));
   min-height: 78px;
   margin: 0 auto;
@@ -66,7 +66,7 @@ a {
   gap: 24px;
 }
 
-.logo {
+.logotipo {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -76,11 +76,11 @@ a {
   color: var(--chocolate);
 }
 
-.logo span:not(.logo-mark) {
+.logotipo span:not(.simbolo-logotipo) {
   color: var(--pink);
 }
 
-.logo-mark {
+.simbolo-logotipo {
   width: 40px;
   height: 40px;
   display: grid;
@@ -91,7 +91,7 @@ a {
   box-shadow: none;
 }
 
-.logo-mark svg {
+.simbolo-logotipo svg {
   width: 28px;
   height: 28px;
   fill: none;
@@ -101,12 +101,12 @@ a {
   stroke-width: 4;
 }
 
-.logo-mark circle {
+.simbolo-logotipo circle {
   fill: currentColor;
   stroke: none;
 }
 
-.nav-links {
+.links-navegacao {
   display: flex;
   align-items: center;
   gap: 22px;
@@ -115,11 +115,11 @@ a {
   font-size: 0.95rem;
 }
 
-.nav-links a {
+.links-navegacao a {
   position: relative;
 }
 
-.nav-links a::after {
+.links-navegacao a::after {
   content: "";
   position: absolute;
   left: 0;
@@ -131,11 +131,11 @@ a {
   transition: width 0.2s ease;
 }
 
-.nav-links a:hover::after {
+.links-navegacao a:hover::after {
   width: 100%;
 }
 
-.btn {
+.botao {
   display: inline-flex;
   min-height: 50px;
   align-items: center;
@@ -151,35 +151,35 @@ a {
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 
-.btn:hover {
+.botao:hover {
   background: var(--blue);
   box-shadow: none;
 }
 
-.btn-small {
+.botao-pequeno {
   min-height: 42px;
   padding: 0 20px;
 }
 
-.btn-outline {
+.botao-contorno {
   background: var(--white);
   color: var(--chocolate);
   border: 2px solid rgba(57, 255, 136, 0.22);
   box-shadow: none;
 }
 
-.btn-outline:hover {
+.botao-contorno:hover {
   color: #03120a;
 }
 
 /* ETAPA 4: Estrutura das seções e apresentação principal. */
-.section {
+.secao {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
   padding: 78px 0;
 }
 
-.hero {
+.destaque {
   min-height: calc(100vh - 78px);
   display: grid;
   grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.78fr);
@@ -189,7 +189,7 @@ a {
   padding-bottom: 52px;
 }
 
-.eyebrow {
+.rotulo-secao {
   margin: 0 0 12px;
   color: var(--pink-dark);
   font-weight: 900;
@@ -225,25 +225,25 @@ p {
   line-height: 1.7;
 }
 
-.hero-text {
+.texto-destaque {
   max-width: 650px;
   color: var(--muted);
   font-size: 1.12rem;
 }
 
-.hero-actions {
+.acoes-destaque {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
   margin: 30px 0;
 }
 
-.hero-image-wrap {
+.area-imagem-destaque {
   position: relative;
   isolation: isolate;
 }
 
-.hero-image-wrap::before {
+.area-imagem-destaque::before {
   content: "";
   position: absolute;
   inset: 8% 0 3%;
@@ -253,14 +253,14 @@ p {
   opacity: 0.18;
 }
 
-.hero-image {
+.imagem-destaque {
   width: min(410px, 100%);
   margin: 0 auto;
   border-radius: 36px;
   filter: drop-shadow(0 24px 28px rgba(0, 0, 0, 0.42));
 }
 
-.price-badge {
+.etiqueta-preco {
   position: absolute;
   right: 4%;
   bottom: 6%;
@@ -279,56 +279,56 @@ p {
   box-shadow: 0 16px 34px rgba(0, 0, 0, 0.28);
 }
 
-.price-badge strong,
-.price-badge span {
+.etiqueta-preco strong,
+.etiqueta-preco span {
   display: block;
 }
 
-.price-badge span {
+.etiqueta-preco span {
   color: var(--pink-dark);
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 1.8rem;
   font-weight: 900;
 }
 
-.section-heading {
+.cabecalho-secao {
   max-width: 730px;
   margin-bottom: 34px;
 }
 
-.section-heading p:not(.eyebrow) {
+.cabecalho-secao p:not(.rotulo-secao) {
   margin-bottom: 0;
   color: var(--muted);
 }
 
 /* ETAPA 5: Passos, produtos dinâmicos e estados de carregamento. */
-.steps-grid,
-.product-grid,
-.combo-grid {
+.grade-etapas,
+.grade-produtos,
+.grade-combos {
   display: grid;
   gap: 22px;
 }
 
-.steps-grid {
+.grade-etapas {
   grid-template-columns: repeat(3, 1fr);
 }
 
-.step-card,
-.product-card,
-.combo-card,
-.builder-group,
-.order-summary {
+.cartao-etapa,
+.cartao-produto,
+.cartao-combo,
+.grupo-montador,
+.resumo-pedido {
   border: 1px solid rgba(57, 255, 136, 0.14);
   border-radius: var(--radius);
   background: rgba(13, 31, 23, 0.9);
   box-shadow: var(--shadow);
 }
 
-.step-card {
+.cartao-etapa {
   padding: 28px;
 }
 
-.icon {
+.icone {
   width: 54px;
   height: 54px;
   display: grid;
@@ -342,27 +342,27 @@ p {
   font-weight: 700;
 }
 
-.step-card:nth-child(2) .icon {
+.cartao-etapa:nth-child(2) .icone {
   background: var(--pink);
   color: #03120a;
 }
 
-.step-card:nth-child(3) .icon {
+.cartao-etapa:nth-child(3) .icone {
   background: var(--cream);
 }
 
-.step-card p,
-.product-card p,
-.combo-card p,
-.order-copy p {
+.cartao-etapa p,
+.cartao-produto p,
+.cartao-combo p,
+.texto-pedido p {
   color: var(--muted);
 }
 
-.product-grid {
+.grade-produtos {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
 }
 
-.loading-state {
+.estado-carregando {
   grid-column: 1 / -1;
   margin: 0;
   border: 1px dashed rgba(0, 217, 255, 0.28);
@@ -372,33 +372,33 @@ p {
   text-align: center;
 }
 
-.error-state {
+.estado-erro {
   border-color: rgba(255, 111, 125, 0.4);
   color: #ff9da7;
 }
 
-.product-card {
-  overflow: hidden;
+.cartao-produto {
+  overflow: oculto;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.product-card:hover {
+.cartao-produto:hover {
   transform: translateY(-6px);
   box-shadow: 0 24px 52px rgba(0, 0, 0, 0.38);
 }
 
-.product-card img {
+.cartao-produto img {
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   background: var(--cream);
 }
 
-.product-info {
+.informacoes-produto {
   padding: 22px;
 }
 
-.product-info strong {
+.informacoes-produto strong {
   display: inline-block;
   margin-top: 6px;
   color: var(--pink-dark);
@@ -411,37 +411,37 @@ p {
   padding-top: 36px;
 }
 
-.combo-grid {
+.grade-combos {
   grid-template-columns: repeat(2, 1fr);
 }
 
-.combo-card {
-  overflow: hidden;
+.cartao-combo {
+  overflow: oculto;
   background: var(--white);
 }
 
-.combo-card img {
+.cartao-combo img {
   width: 100%;
   aspect-ratio: 16 / 9;
   object-fit: cover;
 }
 
-.combo-content {
+.conteudo-combo {
   padding: 26px 30px 30px;
 }
 
-.combo-card-featured {
+.cartao-combo-destaque {
   background: #07140f;
   border-color: rgba(0, 217, 255, 0.26);
 }
 
-.combo-card-featured h3,
-.combo-card-featured p,
-.combo-card-featured strong {
+.cartao-combo-destaque h3,
+.cartao-combo-destaque p,
+.cartao-combo-destaque strong {
   color: var(--text);
 }
 
-.combo-tag {
+.etiqueta-combo {
   display: inline-flex;
   align-items: center;
   min-height: 32px;
@@ -454,7 +454,7 @@ p {
   font-size: 0.8rem;
 }
 
-.combo-card strong {
+.cartao-combo strong {
   display: inline-block;
   margin-top: 8px;
   color: var(--pink-dark);
@@ -463,7 +463,7 @@ p {
 }
 
 /* ETAPA 7: História da marca. */
-.story-section {
+.secao-historia {
   display: grid;
   grid-template-columns: minmax(320px, 0.95fr) minmax(0, 1fr);
   gap: 44px;
@@ -471,11 +471,11 @@ p {
   padding-top: 42px;
 }
 
-.story-image {
+.imagem-historia {
   position: relative;
 }
 
-.story-image::after {
+.imagem-historia::after {
   content: "";
   position: absolute;
   right: -18px;
@@ -488,7 +488,7 @@ p {
   opacity: 0.22;
 }
 
-.story-image img {
+.imagem-historia img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
@@ -496,15 +496,15 @@ p {
   box-shadow: var(--shadow);
 }
 
-.story-content {
+.conteudo-historia {
   max-width: 620px;
 }
 
-.story-content p:not(.eyebrow) {
+.conteudo-historia p:not(.rotulo-secao) {
   color: var(--muted);
 }
 
-.story-note {
+.nota-historia {
   display: grid;
   gap: 5px;
   margin-top: 24px;
@@ -515,56 +515,56 @@ p {
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.24);
 }
 
-.story-note strong {
+.nota-historia strong {
   color: var(--chocolate);
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 1.25rem;
 }
 
-.story-note span {
+.nota-historia span {
   color: var(--muted);
   line-height: 1.6;
 }
 
-.about-page .story-section {
+.pagina-sobre .secao-historia {
   min-height: calc(100vh - 78px);
 }
 
-.about-page .story-content h1 {
+.pagina-sobre .conteudo-historia h1 {
   font-size: clamp(2.8rem, 5vw, 4.4rem);
 }
 
-.story-cta {
+.acao-historia {
   margin-top: 24px;
 }
 
 /* ETAPA 8: Montador de pedido, quantidades e resumo. */
-.order-section {
+.secao-pedido {
   display: block;
 }
 
-.order-copy {
+.texto-pedido {
   max-width: 820px;
   margin-bottom: 34px;
 }
 
-.order-builder {
+.montador-pedido {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(280px, 0.38fr);
   align-items: stretch;
   gap: 20px;
 }
 
-.builder-group,
-.order-summary {
+.grupo-montador,
+.resumo-pedido {
   padding: 28px;
 }
 
-.builder-group + .builder-group {
+.grupo-montador + .grupo-montador {
   margin-top: 0;
 }
 
-.flavor-panel {
+.painel-sabores {
   position: relative;
   z-index: 2;
   grid-column: 1;
@@ -575,92 +575,92 @@ p {
   box-shadow: 0 18px 42px rgba(0, 0, 0, 0.3);
 }
 
-#flavor-options {
+#opcoes-sabores {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.flavor-panel h3 {
+.painel-sabores h3 {
   color: #03120a;
 }
 
-.flavor-panel .order-option {
+.painel-sabores .opcao-pedido {
   border-color: rgba(3, 18, 10, 0.16);
   background: rgba(234, 255, 242, 0.92);
 }
 
-.flavor-panel .order-option.is-selected {
+.painel-sabores .opcao-pedido.selecionado {
   border-color: #03120a;
   background: #eafff2;
 }
 
-.flavor-panel .order-option strong,
-.flavor-panel .order-option span {
+.painel-sabores .opcao-pedido strong,
+.painel-sabores .opcao-pedido span {
   color: #03120a;
 }
 
-.flavor-panel .quantity-control {
+.painel-sabores .controle-quantidade {
   background: #eafff2;
   border: 1px solid rgba(3, 18, 10, 0.14);
   box-shadow: none;
 }
 
-.flavor-panel .quantity-control span,
-.flavor-panel .qty-btn {
+.painel-sabores .controle-quantidade span,
+.painel-sabores .botao-quantidade {
   color: #03120a;
 }
 
-.flavor-panel .qty-btn:hover {
+.painel-sabores .botao-quantidade:hover {
   background: #39ff88;
 }
 
-.order-combos-panel {
+.painel-combos-pedido {
   grid-column: 1;
   grid-row: 2;
   border-color: rgba(0, 217, 255, 0.24);
   background: #07140f;
 }
 
-.order-combos-grid {
+.grade-combos-pedido {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.order-combos-panel .order-option {
+.painel-combos-pedido .opcao-pedido {
   background: #0d1f17;
 }
 
-.product-order-option {
+.opcao-produto-pedido {
   display: block;
   min-height: 0;
 }
 
-.order-product-head {
+.cabecalho-produto-pedido {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 14px;
 }
 
-.linked-extras {
+.adicionais-vinculados {
   display: none;
   margin-top: 14px;
   border-top: 1px solid rgba(3, 18, 10, 0.16);
   padding-top: 12px;
 }
 
-.product-order-option.is-selected .linked-extras {
+.opcao-produto-pedido.selecionado .adicionais-vinculados {
   display: grid;
   gap: 8px;
 }
 
-.linked-extras > strong {
+.adicionais-vinculados > strong {
   color: #03120a;
   font-size: 0.78rem;
   text-transform: uppercase;
 }
 
-.extra-toggle {
+.controle-adicional {
   display: grid;
   grid-template-columns: 18px minmax(0, 1fr) auto;
   align-items: center;
@@ -668,34 +668,34 @@ p {
   cursor: pointer;
 }
 
-.extra-toggle input {
+.controle-adicional input {
   width: 18px;
   height: 18px;
   accent-color: #03120a;
 }
 
-.extra-toggle span,
-.extra-toggle small {
+.controle-adicional span,
+.controle-adicional small {
   margin: 0;
   color: #03120a;
   font-size: 0.82rem;
 }
 
-.extra-toggle small {
+.controle-adicional small {
   font-weight: 800;
 }
 
-.builder-group h3,
-.order-summary h3 {
+.grupo-montador h3,
+.resumo-pedido h3 {
   margin-bottom: 16px;
 }
 
-.choice-grid {
+.grade-escolhas {
   display: grid;
   gap: 12px;
 }
 
-.order-option {
+.opcao-pedido {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -708,27 +708,27 @@ p {
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
-.order-option.is-selected {
+.opcao-pedido.selecionado {
   border-color: rgba(0, 217, 255, 0.72);
   background: #102319;
 }
 
-.order-option strong,
-.order-option span {
+.opcao-pedido strong,
+.opcao-pedido span {
   display: block;
 }
 
-.order-option strong {
+.opcao-pedido strong {
   color: var(--chocolate);
 }
 
-.order-option span {
+.opcao-pedido span {
   margin-top: 5px;
   color: var(--muted);
   font-size: 0.92rem;
 }
 
-.quantity-control {
+.controle-quantidade {
   flex: 0 0 auto;
   display: grid;
   grid-template-columns: 36px 34px 36px;
@@ -738,7 +738,7 @@ p {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
 }
 
-.qty-btn {
+.botao-quantidade {
   width: 36px;
   height: 36px;
   border: 0;
@@ -751,19 +751,19 @@ p {
   cursor: pointer;
 }
 
-.qty-btn:hover {
+.botao-quantidade:hover {
   background: var(--cream);
   color: var(--chocolate);
 }
 
-.quantity-control span {
+.controle-quantidade span {
   margin: 0;
   text-align: center;
   color: var(--chocolate);
   font-weight: 900;
 }
 
-.order-summary {
+.resumo-pedido {
   position: sticky;
   top: 102px;
   grid-column: 2;
@@ -772,7 +772,7 @@ p {
   background: var(--white);
 }
 
-.summary-list {
+.lista-resumo {
   min-height: 142px;
   display: grid;
   gap: 10px;
@@ -781,11 +781,11 @@ p {
   color: var(--muted);
 }
 
-.summary-list p {
+.lista-resumo p {
   margin: 0;
 }
 
-.summary-item {
+.item-resumo {
   display: flex;
   justify-content: space-between;
   gap: 12px;
@@ -795,11 +795,11 @@ p {
   font-weight: 700;
 }
 
-.summary-item span:last-child {
+.item-resumo span:last-child {
   color: var(--pink-dark);
 }
 
-.summary-item span:first-child small {
+.item-resumo span:first-child small {
   display: block;
   margin-top: 4px;
   color: var(--muted);
@@ -807,7 +807,7 @@ p {
   font-weight: 400;
 }
 
-.summary-total {
+.total-resumo {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -817,22 +817,22 @@ p {
   padding-top: 18px;
 }
 
-.summary-total span {
+.total-resumo span {
   color: var(--chocolate);
   font-weight: 900;
 }
 
-.summary-total strong {
+.total-resumo strong {
   color: var(--pink-dark);
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 1.75rem;
 }
 
-.full {
+.largura-total {
   grid-column: 1 / -1;
 }
 
-.form-message {
+.mensagem-formulario {
   min-height: 24px;
   margin: 0;
   color: var(--pink-dark);
@@ -840,7 +840,7 @@ p {
 }
 
 /* ETAPA 9: Rodapé e menu para dispositivos móveis. */
-.footer {
+.rodape {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
   padding: 34px 0 42px;
@@ -852,21 +852,21 @@ p {
   color: var(--muted);
 }
 
-.footer p {
+.rodape p {
   margin: 10px 0 0;
 }
 
-.footer-contact {
+.contato-rodape {
   display: grid;
   gap: 8px;
   text-align: right;
 }
 
-.footer-contact strong {
+.contato-rodape strong {
   color: var(--chocolate);
 }
 
-.employee-link {
+.link-funcionarios {
   margin-top: 6px;
   color: #6f8d79;
   font-size: 0.75rem;
@@ -875,7 +875,7 @@ p {
 }
 
 /* ETAPA 10: Modal de personalização do sabor. */
-.customization-dialog {
+.dialogo-personalizacao {
   width: min(820px, calc(100% - 28px));
   max-height: calc(100vh - 28px);
   overflow-y: auto;
@@ -886,11 +886,11 @@ p {
   color: var(--text);
 }
 
-.customization-dialog::backdrop {
+.dialogo-personalizacao::backdrop {
   background: rgba(0, 0, 0, 0.78);
 }
 
-.customization-heading {
+.cabecalho-personalizacao {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -898,55 +898,55 @@ p {
   margin-bottom: 24px;
 }
 
-.customization-heading h2 {
+.cabecalho-personalizacao h2 {
   font-size: 2rem;
 }
 
-.customization-heading p:not(.eyebrow) {
+.cabecalho-personalizacao p:not(.rotulo-secao) {
   max-width: 600px;
   margin-bottom: 0;
   color: var(--muted);
 }
 
-.customization-content {
+.conteudo-personalizacao {
   display: grid;
   grid-template-columns: minmax(230px, 0.75fr) minmax(0, 1.25fr);
   gap: 26px;
 }
 
-.customization-image-wrap {
-  overflow: hidden;
+.area-imagem-personalizacao {
+  overflow: oculto;
   border-radius: 8px;
   background: var(--surface, #0d1f17);
 }
 
-.customization-image-wrap img {
+.area-imagem-personalizacao img {
   width: 100%;
   height: 100%;
   min-height: 340px;
   object-fit: cover;
 }
 
-.customization-section {
+.secao-personalizacao {
   border-bottom: 1px solid rgba(57, 255, 136, 0.16);
   padding: 0 0 18px;
 }
 
-.customization-section + .customization-section {
+.secao-personalizacao + .secao-personalizacao {
   padding-top: 18px;
 }
 
-.customization-section h3 {
+.secao-personalizacao h3 {
   margin-bottom: 8px;
 }
 
-.customization-section > p {
+.secao-personalizacao > p {
   margin: 0 0 12px;
   color: var(--muted);
   font-size: 0.88rem;
 }
 
-.customization-quantity {
+.quantidade-personalizacao {
   width: 132px;
   display: grid;
   grid-template-columns: 42px 48px 42px;
@@ -956,7 +956,7 @@ p {
   background: #030806;
 }
 
-.customization-quantity button {
+.quantidade-personalizacao button {
   height: 42px;
   border: 0;
   border-radius: 50%;
@@ -966,16 +966,16 @@ p {
   cursor: pointer;
 }
 
-.customization-quantity strong {
+.quantidade-personalizacao strong {
   text-align: center;
 }
 
-.customization-extras {
+.adicionais-personalizacao {
   display: grid;
   gap: 8px;
 }
 
-.customization-extra {
+.adicional-personalizacao {
   display: grid;
   grid-template-columns: 20px minmax(0, 1fr) auto;
   align-items: center;
@@ -986,27 +986,27 @@ p {
   cursor: pointer;
 }
 
-.customization-extra input {
+.adicional-personalizacao input {
   width: 18px;
   height: 18px;
   accent-color: var(--pink);
 }
 
-.customization-extra span,
-.customization-extra small {
+.adicional-personalizacao span,
+.adicional-personalizacao small {
   display: block;
 }
 
-.customization-extra small {
+.adicional-personalizacao small {
   margin-top: 3px;
   color: var(--muted);
 }
 
-.customization-extra > strong {
+.adicional-personalizacao > strong {
   color: var(--blue);
 }
 
-.customization-footer {
+.rodape-personalizacao {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1014,24 +1014,24 @@ p {
   padding-top: 20px;
 }
 
-.customization-footer span,
-.customization-footer strong {
+.rodape-personalizacao span,
+.rodape-personalizacao strong {
   display: block;
 }
 
-.customization-footer span {
+.rodape-personalizacao span {
   color: var(--muted);
   font-size: 0.82rem;
 }
 
-.customization-footer strong {
+.rodape-personalizacao strong {
   margin-top: 4px;
   color: var(--blue);
   font-size: 1.4rem;
 }
 
 /* ETAPA 11: Modal de identificação e conclusão do pedido. */
-.checkout-dialog {
+.dialogo-finalizacao {
   width: min(720px, calc(100% - 28px));
   max-height: calc(100vh - 28px);
   overflow-y: auto;
@@ -1042,23 +1042,23 @@ p {
   color: var(--text);
 }
 
-.checkout-dialog::backdrop {
+.dialogo-finalizacao::backdrop {
   background: rgba(0, 0, 0, 0.78);
 }
 
-.checkout-heading {
+.cabecalho-finalizacao {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 20px;
 }
 
-.checkout-heading h2,
-.order-success h2 {
+.cabecalho-finalizacao h2,
+.sucesso-pedido h2 {
   font-size: 2rem;
 }
 
-.dialog-close {
+.fechar-dialogo {
   width: 40px;
   height: 40px;
   border: 1px solid rgba(57, 255, 136, 0.2);
@@ -1069,19 +1069,19 @@ p {
   cursor: pointer;
 }
 
-#checkout-form,
-.customer-fields {
+#formulario-finalizacao,
+.campos-cliente {
   display: grid;
   gap: 12px;
   margin-top: 22px;
 }
 
-#checkout-form label {
+#formulario-finalizacao label {
   font-weight: 800;
 }
 
-#checkout-form input,
-#checkout-form textarea {
+#formulario-finalizacao input,
+#formulario-finalizacao textarea {
   width: 100%;
   border: 1px solid rgba(57, 255, 136, 0.2);
   border-radius: 7px;
@@ -1091,21 +1091,21 @@ p {
   font: inherit;
 }
 
-.phone-lookup > div {
+.busca-telefone > div {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 10px;
   margin-top: 8px;
 }
 
-#customer-lookup-message {
+#mensagem-busca-cliente {
   min-height: 22px;
   margin: 6px 0 0;
   color: var(--muted);
   font-size: 0.85rem;
 }
 
-.fulfillment-options {
+.opcoes-recebimento {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;
@@ -1114,13 +1114,13 @@ p {
   padding: 0;
 }
 
-.fulfillment-options legend {
+.opcoes-recebimento legend {
   grid-column: 1 / -1;
   margin-bottom: 8px;
   font-weight: 800;
 }
 
-.fulfillment-options label {
+.opcoes-recebimento label {
   display: flex;
   align-items: center;
   gap: 9px;
@@ -1130,23 +1130,23 @@ p {
   cursor: pointer;
 }
 
-.fulfillment-options input {
+.opcoes-recebimento input {
   width: 18px !important;
   accent-color: var(--pink);
 }
 
-.checkout-summary {
+.resumo-finalizacao {
   margin-top: 8px;
   border-top: 1px solid rgba(57, 255, 136, 0.18);
   padding-top: 18px;
 }
 
-.checkout-summary h3 {
+.resumo-finalizacao h3 {
   margin-bottom: 14px;
 }
 
-.checkout-item,
-.checkout-value {
+.item-finalizacao,
+.valor-finalizacao {
   display: flex;
   justify-content: space-between;
   gap: 18px;
@@ -1154,12 +1154,12 @@ p {
   color: var(--muted);
 }
 
-.checkout-item small {
+.item-finalizacao small {
   display: block;
   margin-top: 3px;
 }
 
-.checkout-total {
+.total-finalizacao {
   margin-top: 6px;
   border-top: 1px solid rgba(57, 255, 136, 0.18);
   padding-top: 14px;
@@ -1167,22 +1167,22 @@ p {
   font-size: 1.15rem;
 }
 
-.checkout-total strong {
+.total-finalizacao strong {
   color: var(--blue);
   font-size: 1.35rem;
 }
 
-.checkout-submit {
+.enviar-finalizacao {
   width: 100%;
   margin-top: 10px;
 }
 
-.order-success {
+.sucesso-pedido {
   padding: 22px 0;
   text-align: center;
 }
 
-.success-mark {
+.simbolo-sucesso {
   width: 68px;
   height: 68px;
   display: grid;
@@ -1195,17 +1195,17 @@ p {
   font-weight: 900;
 }
 
-.order-success p:not(.eyebrow) {
+.sucesso-pedido p:not(.rotulo-secao) {
   color: var(--muted);
 }
 
-.order-success > strong {
+.sucesso-pedido > strong {
   display: block;
   margin: 18px 0;
   color: var(--blue);
 }
 
-.menu-toggle {
+.alternar-menu {
   display: none;
   width: 44px;
   height: 44px;
@@ -1215,7 +1215,7 @@ p {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
 }
 
-.menu-toggle span {
+.alternar-menu span {
   display: block;
   width: 20px;
   height: 2px;
@@ -1226,26 +1226,26 @@ p {
 
 /* ETAPA 10: Adaptações para tablets. */
 @media (max-width: 980px) {
-  .navbar {
+  .barra-navegacao {
     flex-wrap: wrap;
     padding: 14px 0;
   }
 
-  .menu-toggle {
+  .alternar-menu {
     display: block;
   }
 
-  .nav-links,
-  .navbar > .btn-small {
+  .links-navegacao,
+  .barra-navegacao > .botao-pequeno {
     display: none;
   }
 
-  .nav-links.is-open,
-  .navbar > .btn-small.is-open {
+  .links-navegacao.aberto,
+  .barra-navegacao > .botao-pequeno.aberto {
     display: flex;
   }
 
-  .nav-links {
+  .links-navegacao {
     width: 100%;
     order: 3;
     flex-direction: column;
@@ -1254,66 +1254,66 @@ p {
     padding: 16px 0 6px;
   }
 
-  .navbar > .btn-small {
+  .barra-navegacao > .botao-pequeno {
     width: 100%;
     order: 4;
   }
 
-  .hero,
-  .order-section {
+  .destaque,
+  .secao-pedido {
     grid-template-columns: 1fr;
   }
 
-  .order-builder {
+  .montador-pedido {
     grid-template-columns: 1fr;
   }
 
-  .flavor-panel,
-  .order-combos-panel,
-  .order-summary {
+  .painel-sabores,
+  .painel-combos-pedido,
+  .resumo-pedido {
     grid-column: 1;
     grid-row: auto;
   }
 
-  .flavor-panel {
+  .painel-sabores {
     margin-right: 0;
   }
 
-  .toppings-panel {
+  .painel-adicionais {
     padding-left: 28px;
   }
 
-  .order-summary {
+  .resumo-pedido {
     position: static;
   }
 
-  .hero {
+  .destaque {
     min-height: auto;
     padding-top: 48px;
   }
 
-  .hero-image {
+  .imagem-destaque {
     width: min(360px, 100%);
   }
 
-  .steps-grid,
-  .product-grid {
+  .grade-etapas,
+  .grade-produtos {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .story-section {
+  .secao-historia {
     grid-template-columns: 1fr;
   }
 }
 
 /* ETAPA 11: Adaptações para celulares. */
 @media (max-width: 680px) {
-  .section {
+  .secao {
     width: min(100% - 24px, 1120px);
     padding: 54px 0;
   }
 
-  .navbar {
+  .barra-navegacao {
     width: min(100% - 24px, 1120px);
   }
 
@@ -1321,67 +1321,67 @@ p {
     font-size: 3.05rem;
   }
 
-  .hero-actions,
-  .hero-actions .btn {
+  .acoes-destaque,
+  .acoes-destaque .botao {
     width: 100%;
   }
 
-  .steps-grid,
-  .product-grid,
-  .combo-grid {
+  .grade-etapas,
+  .grade-produtos,
+  .grade-combos {
     grid-template-columns: 1fr;
   }
 
-  .order-combos-grid {
+  .grade-combos-pedido {
     grid-template-columns: 1fr;
   }
 
-  #flavor-options {
+  #opcoes-sabores {
     grid-template-columns: 1fr;
   }
 
-  .phone-lookup > div,
-  .fulfillment-options {
+  .busca-telefone > div,
+  .opcoes-recebimento {
     grid-template-columns: 1fr;
   }
 
-  .customization-content {
+  .conteudo-personalizacao {
     grid-template-columns: 1fr;
   }
 
-  .customization-image-wrap img {
+  .area-imagem-personalizacao img {
     min-height: 220px;
     max-height: 280px;
   }
 
-  .customization-footer {
+  .rodape-personalizacao {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .customization-footer .btn {
+  .rodape-personalizacao .botao {
     width: 100%;
   }
 
-  .order-option {
+  .opcao-pedido {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .price-badge {
+  .etiqueta-preco {
     min-width: 168px;
     min-height: 70px;
     right: 0;
     padding: 13px 16px;
   }
 
-  .footer {
+  .rodape {
     width: min(100% - 24px, 1120px);
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .footer-contact {
+  .contato-rodape {
     text-align: left;
   }
 }

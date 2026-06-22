@@ -2,31 +2,31 @@
 const URL_API = "/api";
 const formatadorMoeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 const elementos = {
-  telaLogin: document.querySelector("#login-screen"), aplicativo: document.querySelector("#admin-app"),
-  formularioLogin: document.querySelector("#login-form"), usuario: document.querySelector("#login-user"),
-  senha: document.querySelector("#login-password"), mensagemLogin: document.querySelector("#login-message"),
-  botaoSair: document.querySelector("#logout-button"), abas: document.querySelectorAll(".admin-tab"),
-  visualizacoes: document.querySelectorAll(".tab-view"), aviso: document.querySelector("#toast"),
-  totalProdutos: document.querySelector("#stat-products"), totalCombos: document.querySelector("#stat-combos"),
-  totalPedidos: document.querySelector("#stat-orders"), formularioProduto: document.querySelector("#product-form"),
-  idProduto: document.querySelector("#product-id"), nomeProduto: document.querySelector("#product-name"),
-  categoriaProduto: document.querySelector("#product-category"), precoProduto: document.querySelector("#product-price"),
-  descricaoProduto: document.querySelector("#product-description"), imagemProduto: document.querySelector("#product-image"),
-  disponivelProduto: document.querySelector("#product-available"), previaProduto: document.querySelector("#product-preview"),
-  adicionaisProduto: document.querySelector("#product-extras"), tituloProduto: document.querySelector("#product-form-title"),
-  rotuloProduto: document.querySelector("#product-form-kicker"), enviarProduto: document.querySelector("#submit-product"),
-  cancelarProduto: document.querySelector("#cancel-product"), buscaProduto: document.querySelector("#product-search"),
-  listaProdutos: document.querySelector("#admin-product-list"), formularioCombo: document.querySelector("#combo-form"),
-  idCombo: document.querySelector("#combo-id"), nomeCombo: document.querySelector("#combo-name"),
-  precoCombo: document.querySelector("#combo-price"), descricaoCombo: document.querySelector("#combo-description"),
-  imagemCombo: document.querySelector("#combo-image"), disponivelCombo: document.querySelector("#combo-available"),
-  previaCombo: document.querySelector("#combo-preview"), produtosCombo: document.querySelector("#combo-products"),
-  tituloCombo: document.querySelector("#combo-form-title"), rotuloCombo: document.querySelector("#combo-form-kicker"),
-  enviarCombo: document.querySelector("#submit-combo"), cancelarCombo: document.querySelector("#cancel-combo"),
-  listaCombos: document.querySelector("#admin-combo-list"), listaPedidos: document.querySelector("#admin-order-list"),
-  listaPedidosConcluidos: document.querySelector("#completed-order-list"), avisoPedidos: document.querySelector("#orders-badge"),
-  atualizarPedidos: document.querySelector("#refresh-orders"), dialogoExclusao: document.querySelector("#delete-dialog"),
-  tituloExclusao: document.querySelector("#delete-title"), mensagemExclusao: document.querySelector("#delete-message"),
+  telaLogin: document.querySelector("#tela-login"), aplicativo: document.querySelector("#aplicativo-administrativo"),
+  formularioLogin: document.querySelector("#formulario-login"), usuario: document.querySelector("#usuario-login"),
+  senha: document.querySelector("#senha-login"), mensagemLogin: document.querySelector("#mensagem-login"),
+  botaoSair: document.querySelector("#botao-sair"), abas: document.querySelectorAll(".aba-administrativa"),
+  visualizacoes: document.querySelectorAll(".visualizacao-aba"), aviso: document.querySelector("#aviso"),
+  totalProdutos: document.querySelector("#estatistica-produtos"), totalCombos: document.querySelector("#estatistica-combos"),
+  totalPedidos: document.querySelector("#estatistica-pedidos"), formularioProduto: document.querySelector("#formulario-produto"),
+  idProduto: document.querySelector("#id-produto"), nomeProduto: document.querySelector("#nome-produto"),
+  categoriaProduto: document.querySelector("#categoria-produto"), precoProduto: document.querySelector("#preco-produto"),
+  descricaoProduto: document.querySelector("#descricao-produto"), imagemProduto: document.querySelector("#imagem-produto"),
+  disponivelProduto: document.querySelector("#produto-disponivel"), previaProduto: document.querySelector("#previa-produto"),
+  adicionaisProduto: document.querySelector("#adicionais-produto"), tituloProduto: document.querySelector("#titulo-formulario-produto"),
+  rotuloProduto: document.querySelector("#rotulo-formulario-produto"), enviarProduto: document.querySelector("#enviar-produto"),
+  cancelarProduto: document.querySelector("#cancelar-produto"), buscaProduto: document.querySelector("#busca-produto"),
+  listaProdutos: document.querySelector("#lista-produtos-admin"), formularioCombo: document.querySelector("#formulario-combo"),
+  idCombo: document.querySelector("#id-combo"), nomeCombo: document.querySelector("#nome-combo"),
+  precoCombo: document.querySelector("#preco-combo"), descricaoCombo: document.querySelector("#descricao-combo"),
+  imagemCombo: document.querySelector("#imagem-combo"), disponivelCombo: document.querySelector("#combo-disponivel"),
+  previaCombo: document.querySelector("#previa-combo"), produtosCombo: document.querySelector("#produtos-combo"),
+  tituloCombo: document.querySelector("#titulo-formulario-combo"), rotuloCombo: document.querySelector("#rotulo-formulario-combo"),
+  enviarCombo: document.querySelector("#enviar-combo"), cancelarCombo: document.querySelector("#cancelar-combo"),
+  listaCombos: document.querySelector("#lista-combos-admin"), listaPedidos: document.querySelector("#lista-pedidos-admin"),
+  listaPedidosConcluidos: document.querySelector("#lista-pedidos-concluidos"), avisoPedidos: document.querySelector("#aviso-pedidos"),
+  atualizarPedidos: document.querySelector("#atualizar-pedidos"), dialogoExclusao: document.querySelector("#dialogo-exclusao"),
+  tituloExclusao: document.querySelector("#titulo-exclusao"), mensagemExclusao: document.querySelector("#mensagem-exclusao"),
 };
 
 let produtos = [];
@@ -61,20 +61,20 @@ function criarElemento(nomeTag, classe, texto) {
 function mostrarAviso(mensagem, tipo = "sucesso") {
   window.clearTimeout(temporizadorAviso);
   elementos.aviso.textContent = mensagem;
-  elementos.aviso.classList.toggle("error", tipo === "erro");
-  elementos.aviso.classList.add("show");
-  temporizadorAviso = window.setTimeout(() => elementos.aviso.classList.remove("show"), 3200);
+  elementos.aviso.classList.toggle("erro", tipo === "erro");
+  elementos.aviso.classList.add("visivel");
+  temporizadorAviso = window.setTimeout(() => elementos.aviso.classList.remove("visivel"), 3200);
 }
 
 // ETAPA 3: Login, sessão e saída do painel.
 function exibirLogin() {
-  elementos.telaLogin.classList.remove("hidden");
-  elementos.aplicativo.classList.add("hidden");
+  elementos.telaLogin.classList.remove("oculto");
+  elementos.aplicativo.classList.add("oculto");
 }
 
 async function exibirPainel() {
-  elementos.telaLogin.classList.add("hidden");
-  elementos.aplicativo.classList.remove("hidden");
+  elementos.telaLogin.classList.add("oculto");
+  elementos.aplicativo.classList.remove("oculto");
   await carregarTudo();
 }
 
@@ -111,9 +111,9 @@ elementos.botaoSair.addEventListener("click", async () => {
 // ETAPA 4: Navegação entre produtos, combos e pedidos.
 elementos.abas.forEach((aba) => {
   aba.addEventListener("click", () => {
-    elementos.abas.forEach((item) => item.classList.toggle("active", item === aba));
+    elementos.abas.forEach((item) => item.classList.toggle("ativo", item === aba));
     elementos.visualizacoes.forEach((visualizacao) => {
-      visualizacao.classList.toggle("hidden", visualizacao.id !== `${aba.dataset.tab}-view`);
+      visualizacao.classList.toggle("oculto", visualizacao.id !== `visualizacao-${aba.dataset.aba}`);
     });
   });
 });
@@ -124,7 +124,7 @@ function atualizarIndicadores() {
   elementos.totalCombos.textContent = combos.length;
   elementos.totalPedidos.textContent = pedidos.length;
   elementos.avisoPedidos.textContent = quantidadeNovos;
-  elementos.avisoPedidos.classList.toggle("hidden", quantidadeNovos === 0);
+  elementos.avisoPedidos.classList.toggle("oculto", quantidadeNovos === 0);
 }
 
 // ETAPA 5: Renderização dos vínculos de adicionais e composição de combos.
@@ -132,7 +132,7 @@ function renderizarAdicionaisProduto(idsSelecionados = []) {
   const selecionados = new Set(idsSelecionados.map(Number));
   elementos.adicionaisProduto.replaceChildren();
   adicionais.forEach((adicional) => {
-    const rotulo = criarElemento("label", "relation-option");
+    const rotulo = criarElemento("label", "opcao-relacao");
     const caixa = document.createElement("input");
     caixa.type = "checkbox"; caixa.value = adicional.id; caixa.checked = selecionados.has(adicional.id);
     const texto = document.createElement("span");
@@ -147,7 +147,7 @@ function renderizarProdutosCombo(itensSelecionados = []) {
   const quantidades = new Map(itensSelecionados.map((item) => [Number(item.id || item.productId), Number(item.quantity || 1)]));
   elementos.produtosCombo.replaceChildren();
   produtos.forEach((produto) => {
-    const rotulo = criarElemento("label", "relation-option");
+    const rotulo = criarElemento("label", "opcao-relacao");
     const caixa = document.createElement("input"); caixa.type = "checkbox"; caixa.value = produto.id; caixa.checked = quantidades.has(produto.id);
     const texto = document.createElement("span"); texto.append(criarElemento("strong", "", produto.name)); texto.append(criarElemento("small", "", formatadorMoeda.format(produto.price)));
     const quantidade = document.createElement("input"); quantidade.type = "number"; quantidade.min = "1"; quantidade.value = quantidades.get(produto.id) || 1; quantidade.disabled = !caixa.checked;
@@ -159,17 +159,17 @@ function renderizarProdutosCombo(itensSelecionados = []) {
 
 // ETAPA 6: Listas administrativas.
 function criarLinhaAdministrativa(item, recurso) {
-  const linha = criarElemento("article", "admin-product-row");
+  const linha = criarElemento("article", "linha-produto-admin");
   const imagem = document.createElement("img"); imagem.src = item.image; imagem.alt = `Foto de ${item.name}`;
-  const conteudo = criarElemento("div", "product-main"); conteudo.append(criarElemento("h3", "", item.name)); conteudo.append(criarElemento("p", "", item.description));
-  const metadados = criarElemento("div", "product-meta"); metadados.append(criarElemento("strong", "", formatadorMoeda.format(item.price)));
-  if (recurso === "product") metadados.append(criarElemento("span", "", `${item.extras.length} adicionais vinculados`));
+  const conteudo = criarElemento("div", "produto-principal"); conteudo.append(criarElemento("h3", "", item.name)); conteudo.append(criarElemento("p", "", item.description));
+  const metadados = criarElemento("div", "dados-produto"); metadados.append(criarElemento("strong", "", formatadorMoeda.format(item.price)));
+  if (recurso === "produto") metadados.append(criarElemento("span", "", `${item.extras.length} adicionais vinculados`));
   else metadados.append(criarElemento("span", "", `${item.items.length} produtos no combo`));
-  metadados.append(criarElemento("span", `status-badge${item.available ? "" : " off"}`, item.available ? "Disponível" : "Indisponível")); conteudo.append(metadados);
-  const acoes = criarElemento("div", "row-actions");
+  metadados.append(criarElemento("span", `etiqueta-status${item.available ? "" : " inativo"}`, item.available ? "Disponível" : "Indisponível")); conteudo.append(metadados);
+  const acoes = criarElemento("div", "acoes-linha");
   [
-    ["Editar", "edit", "row-action"], ["Excluir", "delete", "row-action danger"],
-  ].forEach(([texto, acao, classe]) => { const botao = criarElemento("button", classe, texto); botao.type = "button"; botao.dataset.action = acao; botao.dataset.resource = recurso; botao.dataset.id = item.id; acoes.append(botao); });
+    ["Editar", "editar", "acao-linha"], ["Excluir", "excluir", "acao-linha perigo"],
+  ].forEach(([texto, acao, classe]) => { const botao = criarElemento("button", classe, texto); botao.type = "button"; botao.dataset.acao = acao; botao.dataset.recurso = recurso; botao.dataset.id = item.id; acoes.append(botao); });
   linha.append(imagem, conteudo, acoes); return linha;
 }
 
@@ -177,13 +177,13 @@ function renderizarProdutos() {
   const termo = elementos.buscaProduto.value.trim().toLocaleLowerCase("pt-BR");
   const filtrados = produtos.filter((produto) => `${produto.name} ${produto.category}`.toLocaleLowerCase("pt-BR").includes(termo));
   elementos.listaProdutos.replaceChildren();
-  if (!filtrados.length) elementos.listaProdutos.append(criarElemento("p", "empty-state", "Nenhum produto encontrado."));
-  else filtrados.forEach((produto) => elementos.listaProdutos.append(criarLinhaAdministrativa(produto, "product")));
+  if (!filtrados.length) elementos.listaProdutos.append(criarElemento("p", "estado-vazio", "Nenhum produto encontrado."));
+  else filtrados.forEach((produto) => elementos.listaProdutos.append(criarLinhaAdministrativa(produto, "produto")));
 }
 
 function renderizarCombos() {
   elementos.listaCombos.replaceChildren();
-  if (!combos.length) elementos.listaCombos.append(criarElemento("p", "empty-state", "Nenhum combo cadastrado."));
+  if (!combos.length) elementos.listaCombos.append(criarElemento("p", "estado-vazio", "Nenhum combo cadastrado."));
   else combos.forEach((combo) => elementos.listaCombos.append(criarLinhaAdministrativa(combo, "combo")));
 }
 
@@ -193,22 +193,22 @@ function renderizarPedidos() {
   elementos.listaPedidos.replaceChildren(); elementos.listaPedidosConcluidos.replaceChildren();
 
   function criarLinhaPedido(pedido, concluido) {
-    const linha = criarElemento("article", "order-row");
-    const cliente = criarElemento("div", "order-customer"); cliente.append(criarElemento("strong", "", pedido.customer_name)); cliente.append(criarElemento("span", "", pedido.phone)); cliente.append(criarElemento("span", "", pedido.fulfillment === "delivery" ? pedido.address : "Retirada no local"));
-    const itens = criarElemento("div", "order-items"); itens.append(criarElemento("strong", "", `Pedido #${pedido.id}`)); pedido.items.forEach((item) => { const extrasTexto = item.extras.length ? ` + ${item.extras.map((extra) => extra.name).join(", ")}` : ""; itens.append(criarElemento("span", "", `${item.quantity}x ${item.name}${extrasTexto}`)); });
-    const total = criarElemento("div", "order-total"); total.append(criarElemento("strong", "", formatadorMoeda.format(pedido.total))); total.append(criarElemento("span", "", new Date(`${pedido.created_at}Z`).toLocaleString("pt-BR")));
+    const linha = criarElemento("article", "linha-pedido");
+    const cliente = criarElemento("div", "cliente-pedido"); cliente.append(criarElemento("strong", "", pedido.customer_name)); cliente.append(criarElemento("span", "", pedido.phone)); cliente.append(criarElemento("span", "", pedido.fulfillment === "delivery" ? pedido.address : "Retirada no local"));
+    const itens = criarElemento("div", "itens-pedido"); itens.append(criarElemento("strong", "", `Pedido #${pedido.id}`)); pedido.items.forEach((item) => { const extrasTexto = item.extras.length ? ` + ${item.extras.map((extra) => extra.name).join(", ")}` : ""; itens.append(criarElemento("span", "", `${item.quantity}x ${item.name}${extrasTexto}`)); });
+    const total = criarElemento("div", "total-pedido"); total.append(criarElemento("strong", "", formatadorMoeda.format(pedido.total))); total.append(criarElemento("span", "", new Date(`${pedido.created_at}Z`).toLocaleString("pt-BR")));
     if (concluido) {
-      total.append(criarElemento("span", "completed-label", "Concluído"));
+      total.append(criarElemento("span", "rotulo-concluido", "Concluído"));
     } else {
-      const botaoConcluir = criarElemento("button", "complete-order-button", "Marcar como concluído");
-      botaoConcluir.type = "button"; botaoConcluir.dataset.action = "complete-order"; botaoConcluir.dataset.id = pedido.id; total.append(botaoConcluir);
+      const botaoConcluir = criarElemento("button", "botao-concluir-pedido", "Marcar como concluído");
+      botaoConcluir.type = "button"; botaoConcluir.dataset.acao = "concluir-pedido"; botaoConcluir.dataset.id = pedido.id; total.append(botaoConcluir);
     }
     linha.append(cliente, itens, total); return linha;
   }
 
-  if (!pedidosNovos.length) elementos.listaPedidos.append(criarElemento("p", "empty-state", "Nenhum pedido novo."));
+  if (!pedidosNovos.length) elementos.listaPedidos.append(criarElemento("p", "estado-vazio", "Nenhum pedido novo."));
   else pedidosNovos.forEach((pedido) => elementos.listaPedidos.append(criarLinhaPedido(pedido, false)));
-  if (!pedidosConcluidos.length) elementos.listaPedidosConcluidos.append(criarElemento("p", "empty-state", "Nenhum pedido concluído."));
+  if (!pedidosConcluidos.length) elementos.listaPedidosConcluidos.append(criarElemento("p", "estado-vazio", "Nenhum pedido concluído."));
   else pedidosConcluidos.forEach((pedido) => elementos.listaPedidosConcluidos.append(criarLinhaPedido(pedido, true)));
 }
 
@@ -280,7 +280,7 @@ function editarCombo(idCombo) {
 
 elementos.formularioCombo.addEventListener("submit", async (evento) => {
   evento.preventDefault(); const idCombo = Number(elementos.idCombo.value); const editando = Boolean(idCombo);
-  const items = [...elementos.produtosCombo.querySelectorAll(".relation-option")].filter((rotulo) => rotulo.querySelector('input[type="checkbox"]').checked).map((rotulo) => ({ productId: Number(rotulo.querySelector('input[type="checkbox"]').value), quantity: Number(rotulo.querySelector('input[type="number"]').value) }));
+  const items = [...elementos.produtosCombo.querySelectorAll(".opcao-relacao")].filter((rotulo) => rotulo.querySelector('input[type="checkbox"]').checked).map((rotulo) => ({ productId: Number(rotulo.querySelector('input[type="checkbox"]').value), quantity: Number(rotulo.querySelector('input[type="number"]').value) }));
   const combo = { name: elementos.nomeCombo.value, price: Number(elementos.precoCombo.value), description: elementos.descricaoCombo.value, image: elementos.imagemCombo.value, available: elementos.disponivelCombo.checked, items };
   try { await requisitarApi(editando ? `${URL_API}/combos/${idCombo}` : `${URL_API}/combos`, { method: editando ? "PUT" : "POST", body: JSON.stringify(combo) }); mostrarAviso(editando ? "Combo atualizado." : "Combo cadastrado."); limparCombo(); await carregarTudo(); }
   catch (erro) { mostrarAviso(erro.message, "erro"); }
@@ -288,20 +288,20 @@ elementos.formularioCombo.addEventListener("submit", async (evento) => {
 
 // ETAPA 10: Edição e exclusão pela listagem.
 document.addEventListener("click", (evento) => {
-  const botao = evento.target.closest("button[data-action]"); if (!botao) return;
-  if (botao.dataset.action === "complete-order") { concluirPedido(Number(botao.dataset.id)); return; }
-  const id = Number(botao.dataset.id); const recurso = botao.dataset.resource;
-  if (botao.dataset.action === "edit") recurso === "product" ? editarProduto(id) : editarCombo(id);
-  if (botao.dataset.action === "delete") {
-    const item = recurso === "product" ? produtos.find((produto) => produto.id === id) : combos.find((combo) => combo.id === id);
-    exclusaoPendente = { recurso, id }; elementos.tituloExclusao.textContent = `Excluir ${recurso === "product" ? "produto" : "combo"}?`; elementos.mensagemExclusao.textContent = `“${item.name}” será removido definitivamente.`; elementos.dialogoExclusao.showModal();
+  const botao = evento.target.closest("button[data-acao]"); if (!botao) return;
+  if (botao.dataset.acao === "concluir-pedido") { concluirPedido(Number(botao.dataset.id)); return; }
+  const id = Number(botao.dataset.id); const recurso = botao.dataset.recurso;
+  if (botao.dataset.acao === "editar") recurso === "produto" ? editarProduto(id) : editarCombo(id);
+  if (botao.dataset.acao === "excluir") {
+    const item = recurso === "produto" ? produtos.find((produto) => produto.id === id) : combos.find((combo) => combo.id === id);
+    exclusaoPendente = { recurso, id }; elementos.tituloExclusao.textContent = `Excluir ${recurso}?`; elementos.mensagemExclusao.textContent = `“${item.name}” será removido definitivamente.`; elementos.dialogoExclusao.showModal();
   }
 });
 
 elementos.dialogoExclusao.addEventListener("close", async () => {
-  if (elementos.dialogoExclusao.returnValue !== "confirm" || !exclusaoPendente) { exclusaoPendente = null; return; }
+  if (elementos.dialogoExclusao.returnValue !== "confirmar" || !exclusaoPendente) { exclusaoPendente = null; return; }
   const { recurso, id } = exclusaoPendente; exclusaoPendente = null;
-  try { await requisitarApi(`${URL_API}/${recurso === "product" ? "products" : "combos"}/${id}`, { method: "DELETE" }); mostrarAviso("Item excluído."); await carregarTudo(); }
+  try { await requisitarApi(`${URL_API}/${recurso === "produto" ? "products" : "combos"}/${id}`, { method: "DELETE" }); mostrarAviso("Item excluído."); await carregarTudo(); }
   catch (erro) { mostrarAviso(erro.message, "erro"); }
 });
 

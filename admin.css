@@ -25,18 +25,18 @@ body {
   background: var(--background);
 }
 
-.hidden {
+.oculto {
   display: none !important;
 }
 
-.login-screen {
+.tela-login {
   min-height: 100vh;
   display: grid;
   place-items: center;
   padding: 24px;
 }
 
-.login-box {
+.caixa-login {
   width: min(430px, 100%);
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -44,45 +44,45 @@ body {
   background: var(--surface);
 }
 
-.login-box h1 {
+.caixa-login h1 {
   margin: 14px 0 10px;
   font-family: "Trebuchet MS", Arial, sans-serif;
   font-size: 2.1rem;
 }
 
-.login-box > p:not(.panel-kicker) {
+.caixa-login > p:not(.rotulo-painel) {
   color: var(--muted);
   line-height: 1.6;
 }
 
-.login-mark {
+.simbolo-login {
   width: 52px;
   height: 52px;
 }
 
-#login-form {
+#formulario-login {
   display: grid;
   gap: 10px;
   margin-top: 24px;
 }
 
-#login-form label {
+#formulario-login label {
   margin-top: 6px;
   font-weight: 800;
 }
 
-#login-form button {
+#formulario-login button {
   margin-top: 12px;
 }
 
-.login-message {
+.mensagem-login {
   min-height: 22px;
   margin: 0;
   color: var(--danger);
   font-weight: 700;
 }
 
-.back-store {
+.voltar-loja {
   display: inline-block;
   margin-top: 18px;
   color: var(--muted);
@@ -105,7 +105,7 @@ a {
 }
 
 /* ETAPA 3: Cabeçalho e marca do painel. */
-.admin-header {
+.cabecalho-administrativo {
   min-height: 72px;
   display: flex;
   align-items: center;
@@ -116,7 +116,7 @@ a {
   background: #06110d;
 }
 
-.admin-brand {
+.marca-administrativa {
   display: inline-flex;
   align-items: center;
   gap: 12px;
@@ -124,11 +124,11 @@ a {
   font-weight: 800;
 }
 
-.admin-brand strong {
+.marca-administrativa strong {
   color: var(--green);
 }
 
-.brand-mark {
+.simbolo-marca {
   width: 42px;
   height: 42px;
   display: grid;
@@ -138,7 +138,7 @@ a {
   color: #03120a;
 }
 
-.brand-mark svg {
+.simbolo-marca svg {
   width: 29px;
   height: 29px;
   fill: none;
@@ -148,61 +148,61 @@ a {
   stroke-width: 4;
 }
 
-.brand-mark circle {
+.simbolo-marca circle {
   fill: currentColor;
   stroke: none;
 }
 
-.view-store {
+.ver-loja {
   color: var(--muted);
   font-weight: 700;
 }
 
-.view-store:hover {
+.ver-loja:hover {
   color: var(--green);
 }
 
-.header-actions {
+.acoes-cabecalho {
   display: flex;
   align-items: center;
   gap: 12px;
 }
 
 /* ETAPA 4: Estrutura principal, título e botões. */
-.admin-shell {
+.conteudo-administrativo {
   width: min(1220px, calc(100% - 40px));
   margin: 0 auto;
   padding: 44px 0 70px;
 }
 
-.page-heading,
-.panel-heading,
-.list-toolbar {
+.cabecalho-pagina,
+.cabecalho-painel,
+.barra-lista {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 24px;
 }
 
-.page-heading h1,
-.form-panel h2,
-.list-panel h2,
-.confirm-dialog h2 {
+.cabecalho-pagina h1,
+.painel-formulario h2,
+.painel-lista h2,
+.dialogo-confirmacao h2 {
   margin: 0;
   font-family: "Trebuchet MS", Arial, sans-serif;
 }
 
-.page-heading h1 {
+.cabecalho-pagina h1 {
   font-size: clamp(2rem, 5vw, 3.4rem);
 }
 
-.page-heading p:not(.eyebrow) {
+.cabecalho-pagina p:not(.rotulo-secao) {
   margin-bottom: 0;
   color: var(--muted);
 }
 
-.eyebrow,
-.panel-kicker {
+.rotulo-secao,
+.rotulo-painel {
   margin: 0 0 8px;
   color: var(--blue);
   font-size: 0.78rem;
@@ -210,14 +210,14 @@ a {
   text-transform: uppercase;
 }
 
-.admin-tabs {
+.abas-administrativas {
   display: flex;
   gap: 8px;
   margin-top: 32px;
   border-bottom: 1px solid var(--border);
 }
 
-.admin-tab {
+.aba-administrativa {
   min-height: 46px;
   border: 0;
   border-bottom: 3px solid transparent;
@@ -228,12 +228,12 @@ a {
   cursor: pointer;
 }
 
-.admin-tab.active {
+.aba-administrativa.ativo {
   border-color: var(--green);
   color: var(--text);
 }
 
-.notification-badge {
+.aviso-notificacao {
   min-width: 22px;
   height: 22px;
   display: inline-grid;
@@ -247,11 +247,11 @@ a {
   line-height: 1;
 }
 
-.primary-button,
-.secondary-button,
-.danger-button,
-.row-action,
-.icon-button {
+.botao-principal,
+.botao-secundario,
+.botao-perigo,
+.acao-linha,
+.botao-icone {
   min-height: 42px;
   border: 0;
   border-radius: 7px;
@@ -260,86 +260,86 @@ a {
   cursor: pointer;
 }
 
-.primary-button {
+.botao-principal {
   background: var(--green);
   color: #03120a;
 }
 
-.primary-button:hover {
+.botao-principal:hover {
   background: var(--green-dark);
 }
 
-.secondary-button,
-.row-action {
+.botao-secundario,
+.acao-linha {
   border: 1px solid var(--border);
   background: var(--surface-strong);
   color: var(--text);
 }
 
-.danger-button,
-.row-action.danger {
+.botao-perigo,
+.acao-linha.perigo {
   border: 1px solid rgba(255, 111, 125, 0.35);
   background: rgba(255, 111, 125, 0.1);
   color: var(--danger);
 }
 
 /* ETAPA 5: Indicadores do cardápio. */
-.stats-grid {
+.grade-estatisticas {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   margin: 34px 0 24px;
 }
 
-.stat-item {
+.item-estatistica {
   border-left: 4px solid var(--green);
   padding: 18px 20px;
   background: var(--surface);
 }
 
-.stat-item:nth-child(2) {
+.item-estatistica:nth-child(2) {
   border-color: var(--blue);
 }
 
-.stat-item:nth-child(3) {
+.item-estatistica:nth-child(3) {
   border-color: var(--danger);
 }
 
-.stat-item span {
+.item-estatistica span {
   display: block;
   color: var(--muted);
   font-size: 0.86rem;
 }
 
-.stat-item strong {
+.item-estatistica strong {
   display: block;
   margin-top: 6px;
   font-size: 1.8rem;
 }
 
 /* ETAPA 6: Formulário de cadastro e edição. */
-.workspace-grid {
+.grade-trabalho {
   display: grid;
   grid-template-columns: minmax(300px, 0.78fr) minmax(0, 1.5fr);
   gap: 22px;
   align-items: start;
 }
 
-.form-panel,
+.painel-formulario,
 /* ETAPA 7: Lista de produtos e comandos do CRUD. */
-.list-panel {
+.painel-lista {
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--surface);
 }
 
-.form-panel {
+.painel-formulario {
   position: sticky;
   top: 20px;
   padding: 26px;
 }
 
-.icon-button {
+.botao-icone {
   width: 38px;
   min-height: 38px;
   padding: 0;
@@ -348,39 +348,39 @@ a {
   font-size: 1.5rem;
 }
 
-#product-form,
-#combo-form {
+#formulario-produto,
+#formulario-combo {
   display: grid;
   gap: 10px;
   margin-top: 24px;
 }
 
-#product-form label:not(.availability-control):not(.relation-option),
-#combo-form label:not(.availability-control):not(.relation-option) {
+#formulario-produto label:not(.controle-disponibilidade):not(.opcao-relacao),
+#formulario-combo label:not(.controle-disponibilidade):not(.opcao-relacao) {
   margin-top: 6px;
   font-size: 0.88rem;
   font-weight: 800;
 }
 
-.relations-fieldset {
+.grupo-relacoes {
   margin: 10px 0 4px;
   border: 1px solid var(--border);
   border-radius: 7px;
   padding: 15px;
 }
 
-.relations-fieldset legend {
+.grupo-relacoes legend {
   padding: 0 7px;
   font-size: 0.85rem;
   font-weight: 800;
 }
 
-.relations-grid {
+.grade-relacoes {
   display: grid;
   gap: 8px;
 }
 
-.relation-option {
+.opcao-relacao {
   display: grid;
   grid-template-columns: 18px minmax(0, 1fr) 58px;
   align-items: center;
@@ -389,22 +389,22 @@ a {
   padding: 9px 0;
 }
 
-.relation-option:last-child {
+.opcao-relacao:last-child {
   border-bottom: 0;
 }
 
-.relation-option input[type="checkbox"] {
+.opcao-relacao input[type="checkbox"] {
   width: 18px;
   height: 18px;
   accent-color: var(--green);
 }
 
-.relation-option input[type="number"] {
+.opcao-relacao input[type="number"] {
   padding: 8px;
   text-align: center;
 }
 
-.relation-option small {
+.opcao-relacao small {
   display: block;
   margin-top: 3px;
   color: var(--muted);
@@ -430,7 +430,7 @@ textarea {
   resize: vertical;
 }
 
-.price-input {
+.campo-preco {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;
@@ -439,31 +439,31 @@ textarea {
   background: #06110d;
 }
 
-.price-input:focus-within {
+.campo-preco:focus-within {
   border-color: var(--blue);
 }
 
-.price-input span {
+.campo-preco span {
   padding-left: 14px;
   color: var(--green);
   font-weight: 900;
 }
 
-.price-input input {
+.campo-preco input {
   border: 0;
 }
 
-.field-hint {
+.dica-campo {
   margin: -3px 0 4px;
   color: var(--muted);
   font-size: 0.76rem;
 }
 
-.image-preview {
+.previa-imagem {
   min-height: 150px;
   display: grid;
   place-items: center;
-  overflow: hidden;
+  overflow: oculto;
   border: 1px dashed rgba(0, 217, 255, 0.35);
   border-radius: 7px;
   background: #06110d;
@@ -471,13 +471,13 @@ textarea {
   text-align: center;
 }
 
-.image-preview img {
+.previa-imagem img {
   width: 100%;
   height: 180px;
   object-fit: cover;
 }
 
-.availability-control {
+.controle-disponibilidade {
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -485,54 +485,54 @@ textarea {
   cursor: pointer;
 }
 
-.availability-control input {
+.controle-disponibilidade input {
   width: 18px;
   height: 18px;
   margin-top: 2px;
   accent-color: var(--green);
 }
 
-.availability-control span,
-.availability-control small {
+.controle-disponibilidade span,
+.controle-disponibilidade small {
   display: block;
 }
 
-.availability-control small {
+.controle-disponibilidade small {
   margin-top: 3px;
   color: var(--muted);
 }
 
-.submit-button {
+.botao-enviar {
   width: 100%;
   margin-top: 4px;
 }
 
-.list-panel {
-  overflow: hidden;
+.painel-lista {
+  overflow: oculto;
 }
 
-.list-toolbar {
+.barra-lista {
   border-bottom: 1px solid var(--border);
   padding: 24px;
 }
 
-.search-field {
+.campo-busca {
   width: min(270px, 100%);
 }
 
-.search-field span {
+.campo-busca span {
   position: absolute;
   width: 1px;
   height: 1px;
-  overflow: hidden;
+  overflow: oculto;
   clip: rect(0, 0, 0, 0);
 }
 
-.product-list {
+.lista-produtos {
   display: grid;
 }
 
-.admin-product-row {
+.linha-produto-admin {
   display: grid;
   grid-template-columns: 80px minmax(0, 1fr) auto;
   align-items: center;
@@ -541,11 +541,11 @@ textarea {
   padding: 18px 24px;
 }
 
-.admin-product-row:last-child {
+.linha-produto-admin:last-child {
   border-bottom: 0;
 }
 
-.admin-product-row img {
+.linha-produto-admin img {
   width: 80px;
   height: 80px;
   border-radius: 7px;
@@ -553,19 +553,19 @@ textarea {
   background: var(--surface-strong);
 }
 
-.product-main h3 {
+.produto-principal h3 {
   margin: 0;
   font-size: 1.05rem;
 }
 
-.product-main p {
+.produto-principal p {
   margin: 5px 0 9px;
   color: var(--muted);
   font-size: 0.86rem;
   line-height: 1.45;
 }
 
-.product-meta {
+.dados-produto {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -574,12 +574,12 @@ textarea {
   font-size: 0.8rem;
 }
 
-.product-meta strong {
+.dados-produto strong {
   color: var(--blue);
   font-size: 1rem;
 }
 
-.status-badge {
+.etiqueta-status {
   border-radius: 999px;
   padding: 4px 9px;
   background: rgba(57, 255, 136, 0.1);
@@ -587,28 +587,28 @@ textarea {
   font-weight: 800;
 }
 
-.status-badge.off {
+.etiqueta-status.inativo {
   background: rgba(255, 111, 125, 0.1);
   color: var(--danger);
 }
 
-.row-actions {
+.acoes-linha {
   display: grid;
   gap: 8px;
 }
 
-.empty-state {
+.estado-vazio {
   margin: 0;
   padding: 50px 24px;
   color: var(--muted);
   text-align: center;
 }
 
-.orders-panel {
+.painel-pedidos {
   min-height: 300px;
 }
 
-.orders-toolbar {
+.barra-pedidos {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -616,22 +616,22 @@ textarea {
   margin-bottom: 18px;
 }
 
-.orders-toolbar h2 {
+.barra-pedidos h2 {
   margin: 0;
   font-family: "Trebuchet MS", Arial, sans-serif;
 }
 
-.completed-orders-panel {
+.painel-pedidos-concluidos {
   min-height: 220px;
   margin-top: 22px;
   border-color: rgba(168, 200, 179, 0.14);
 }
 
-.orders-list {
+.lista-pedidos {
   display: grid;
 }
 
-.order-row {
+.linha-pedido {
   display: grid;
   grid-template-columns: minmax(190px, 0.65fr) minmax(0, 1.35fr) auto;
   gap: 24px;
@@ -639,42 +639,42 @@ textarea {
   padding: 22px 24px;
 }
 
-.order-row:last-child {
+.linha-pedido:last-child {
   border-bottom: 0;
 }
 
-.order-customer strong,
-.order-items strong {
+.cliente-pedido strong,
+.itens-pedido strong {
   display: block;
   margin-bottom: 5px;
 }
 
-.order-customer span,
-.order-items span {
+.cliente-pedido span,
+.itens-pedido span {
   display: block;
   margin-top: 4px;
   color: var(--muted);
   font-size: 0.86rem;
 }
 
-.order-total {
+.total-pedido {
   text-align: right;
 }
 
-.order-total strong {
+.total-pedido strong {
   display: block;
   color: var(--blue);
   font-size: 1.35rem;
 }
 
-.order-total span {
+.total-pedido span {
   display: block;
   margin-top: 6px;
   color: var(--muted);
   font-size: 0.82rem;
 }
 
-.complete-order-button {
+.botao-concluir-pedido {
   min-height: 38px;
   margin-top: 12px;
   border: 0;
@@ -686,7 +686,7 @@ textarea {
   cursor: pointer;
 }
 
-.completed-label {
+.rotulo-concluido {
   display: inline-block !important;
   margin-top: 10px !important;
   border-radius: 999px;
@@ -697,7 +697,7 @@ textarea {
 }
 
 /* ETAPA 8: Mensagens de retorno e confirmação de exclusão. */
-.toast {
+.aviso {
   position: fixed;
   right: 24px;
   bottom: 24px;
@@ -715,16 +715,16 @@ textarea {
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.toast.show {
+.aviso.visivel {
   opacity: 1;
   transform: translateY(0);
 }
 
-.toast.error {
+.aviso.erro {
   border-color: var(--danger);
 }
 
-.confirm-dialog {
+.dialogo-confirmacao {
   width: min(470px, calc(100% - 32px));
   border: 1px solid rgba(255, 111, 125, 0.35);
   border-radius: 8px;
@@ -733,16 +733,16 @@ textarea {
   color: var(--text);
 }
 
-.confirm-dialog::backdrop {
+.dialogo-confirmacao::backdrop {
   background: rgba(0, 0, 0, 0.72);
 }
 
-.confirm-dialog p:not(.panel-kicker) {
+.dialogo-confirmacao p:not(.rotulo-painel) {
   color: var(--muted);
   line-height: 1.6;
 }
 
-.dialog-actions {
+.acoes-dialogo {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
@@ -751,72 +751,72 @@ textarea {
 
 /* ETAPA 9: Responsividade para tablets. */
 @media (max-width: 900px) {
-  .workspace-grid {
+  .grade-trabalho {
     grid-template-columns: 1fr;
   }
 
-  .form-panel {
+  .painel-formulario {
     position: static;
   }
 }
 
 /* ETAPA 10: Responsividade para celulares. */
 @media (max-width: 650px) {
-  .admin-header,
-  .page-heading,
-  .list-toolbar {
+  .cabecalho-administrativo,
+  .cabecalho-pagina,
+  .barra-lista {
     align-items: flex-start;
     flex-direction: column;
   }
 
-  .header-actions {
+  .acoes-cabecalho {
     width: 100%;
     justify-content: space-between;
   }
 
-  .orders-toolbar {
+  .barra-pedidos {
     align-items: stretch;
     flex-direction: column;
   }
 
-  .admin-header {
+  .cabecalho-administrativo {
     padding: 14px 18px;
   }
 
-  .admin-shell {
+  .conteudo-administrativo {
     width: min(100% - 24px, 1220px);
     padding-top: 30px;
   }
 
-  .page-heading .primary-button,
-  .search-field {
+  .cabecalho-pagina .botao-principal,
+  .campo-busca {
     width: 100%;
   }
 
-  .stats-grid {
+  .grade-estatisticas {
     grid-template-columns: 1fr;
   }
 
-  .admin-product-row {
+  .linha-produto-admin {
     grid-template-columns: 68px 1fr;
     padding: 16px;
   }
 
-  .admin-product-row img {
+  .linha-produto-admin img {
     width: 68px;
     height: 68px;
   }
 
-  .row-actions {
+  .acoes-linha {
     grid-column: 1 / -1;
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .order-row {
+  .linha-pedido {
     grid-template-columns: 1fr;
   }
 
-  .order-total {
+  .total-pedido {
     text-align: left;
   }
 }
