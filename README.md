@@ -74,7 +74,6 @@ na landing page e no montador de pedido.
 - `admin.html`, `admin.css`, `admin.js`: painel administrativo;
 - `index.html`, `style.css`, `script.js`: landing page e montador de pedido;
 - `sobre.html`: página separada com a história da marca;
-- `ROTEIRO-VIDEO.md`: roteiro de apresentação e demonstração do CRUD;
 - `img/`: imagens dos produtos e da identidade visual;
 - `package.json`: comandos do projeto.
 
